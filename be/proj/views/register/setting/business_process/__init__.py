@@ -3,7 +3,7 @@ from argon2 import PasswordHasher
 from proj.models import db
 from proj.models.model import *
 from proj.views import func
-from proj.views.register.record.record import business_rules
+from proj.views.register.setting import business_rules
 
 
 def list_(params) -> dict:
