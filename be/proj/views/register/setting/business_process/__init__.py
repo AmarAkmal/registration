@@ -40,15 +40,10 @@ def list_(params) -> dict:
 
 def add_new(params) -> dict:
     status = func.define_status()
-
     try:
-
-        print(params)
         up = Department()
-
         up.name = params['name']
         db.session.add(up)
-
         status['message'] = "Record added succesfully"
 
     except:

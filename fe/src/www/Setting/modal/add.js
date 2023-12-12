@@ -22,18 +22,14 @@ export default class ModalAdd extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            kod: '',
-            name:'' ,
-            quantity:'' ,
+
+            name: '',
             invalid: {
-                kod: false,
                 name: false,
-                quantity: false,
+
 
             },
             submitLoading: false,
-
-
             notChanged: true
         }
 
@@ -57,7 +53,7 @@ export default class ModalAdd extends React.Component {
 
     validateSubmit = () => {
         let valid = true
-        if (!this.state.kod || !this.state.name || !this.state.quantity) {
+        if (!this.state.name) {
 
             valid = false
         }
@@ -66,9 +62,9 @@ export default class ModalAdd extends React.Component {
         if (valid === false) {
             this.setState({
                 invalid: {
-                    kod: this.state.kod === '' ? true : false,
+
                     name: this.state.name === '' ? true : false,
-                    quantity: this.state.quantity === '' ? true : false,
+
 
                 }
             });
@@ -86,7 +82,7 @@ export default class ModalAdd extends React.Component {
         let valid = this.validateSubmit()
 
         // let valid = Object.values(this.state.invalid).every((i) => i === true)
-        if (valid && !this.state.confSamePass && !this.state.invalidEmail && !this.state.lengthPassValid) {
+        if (valid) {
             this.setState({submitLoading: true})
             let params = {
                 "kod": this.state.kod,
@@ -110,7 +106,7 @@ export default class ModalAdd extends React.Component {
             })
         } else {
             {
-                (!valid ) &&
+                (!valid) &&
                 toastFunc("Please Fill in the required field", 'warning')
             }
 
@@ -122,26 +118,10 @@ export default class ModalAdd extends React.Component {
         return (<>
 
             <Modal centered={true} isOpen={true} size='x' backdrop={true}>
-                <ModalHeader>Register Record</ModalHeader>
+                <ModalHeader>Register Department</ModalHeader>
                 <ModalBody>
                     <Form onSubmit={this.submit}>
 
-                        <Row style={{padding: "10px 20px 10px 20px"}}>
-                            <Col md={2}>
-                                <Label style={{marginTop: "5px", width: "100%"}}>Kod</Label>
-                            </Col>
-                            <Col md={10}>
-                                <FormGroup>
-                                    <Input invalid={this.state.invalid.kod}
-                                           required={true} type="text" name="kod"
-                                           id="kod" placeholder="Type here" value={this.state.kod}
-                                           onChange={this.handleChange}/>
-                                    <FormFeedback>Fill in the required field</FormFeedback>
-                                </FormGroup>
-                            </Col>
-
-
-                        </Row>
                         <Row style={{padding: "10px 20px 10px 20px"}}>
                             <Col md={2}>
                                 <Label style={{marginTop: "5px", width: "100%"}}>Name</Label>
@@ -151,22 +131,6 @@ export default class ModalAdd extends React.Component {
                                     <Input invalid={this.state.invalid.name}
                                            required={true} type="text" name="name"
                                            id="name" placeholder="Type here" value={this.state.name}
-                                           onChange={this.handleChange}/>
-                                    <FormFeedback>Fill in the required field</FormFeedback>
-                                </FormGroup>
-                            </Col>
-
-
-                        </Row>
-                        <Row style={{padding: "10px 20px 10px 20px"}}>
-                            <Col md={2}>
-                                <Label style={{marginTop: "5px", width: "100%"}}>Quantity</Label>
-                            </Col>
-                            <Col md={10}>
-                                <FormGroup>
-                                    <Input invalid={this.state.invalid.quantity}
-                                           required={true} type="number" name="quantity"
-                                           id="quantity" placeholder="Type here" value={this.state.quantity}
                                            onChange={this.handleChange}/>
                                     <FormFeedback>Fill in the required field</FormFeedback>
                                 </FormGroup>

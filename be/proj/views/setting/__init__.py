@@ -35,8 +35,8 @@ def get_list():
     return jsonify(result)
 
 
-@bp_setting.route('/add', methods=['POST'])
-def add():
+@bp_setting.route('/add_department', methods=['POST'])
+def add_department():
     result = func.define_status()
     try:
         params = request.form['ref']
@@ -46,7 +46,7 @@ def add():
         params = json.loads(params)
         params["created_by"] = request.args['user_staff_name']
 
-        up = record.add_new(params)
+        up = setting.add_new_department(params)
 
         result['data'] = []
         result['code'] = 'OK'

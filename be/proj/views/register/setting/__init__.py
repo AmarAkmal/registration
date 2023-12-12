@@ -7,7 +7,7 @@ def get_list(params) -> dict:
     return status
 
 
-def add_new_user_profile(params) -> dict:
+def add_new_department(params) -> dict:
     status = business_process.add_new(params)
     return status
 
