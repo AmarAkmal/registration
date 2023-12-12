@@ -7,12 +7,13 @@ from proj.views.register.setting import business_rules
 
 
 def list_(params) -> dict:
+
     status = func.define_status()
     # print(params)
     try:
         page = int(params['page']) + 1
         pageSize = int(params['pageSize'])
-        query = Record.query
+        query = Department.query
 
         if params['filtered']:
             query = business_rules.filterList(params, query)

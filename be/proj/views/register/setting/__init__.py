@@ -2,6 +2,7 @@ from proj.views.register.setting import business_process
 
 
 def get_list(params) -> dict:
+
     status = business_process.list_(params)
     return status
 

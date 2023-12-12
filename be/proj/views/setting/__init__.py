@@ -6,7 +6,7 @@ from flask import Blueprint, request, jsonify
 from proj.models.model import *
 from proj.views import func
 from proj.views.process_before import token_required
-from proj.views.register import record
+from proj.views.register import setting
 
 bp_setting = Blueprint('bp_setting', __name__)
 
@@ -26,7 +26,7 @@ def get_list():
         params = params.decode('ascii')
         params = json.loads(params)
 
-        result = record.get_list(params)
+        result = setting.get_list(params)
     except Exception as e:
         msg = func.error_log()
         result['code'] = 'Error'
