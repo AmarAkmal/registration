@@ -225,14 +225,7 @@ export default class ModalUpdate extends React.Component {
                 this.props.handleUpdate(err)
             })
 
-            if (this.state.userid === base64_decode(localStorage.getItem('mk2lu5b2gf'))) {
-                if (this.state.accountType !== this.props.dataUser['accountType']) {
-                    localStorage.removeItem('opex0hidhs');
-                    localStorage.removeItem('aazwo7n331');
-                    localStorage.removeItem('mk2lu5b2gf');
-                    localStorage.removeItem('3leeb6bnmn');
-                }
-            }
+
         } else {
             {
                 (!valid || (!this.state.confSamePass && !this.state.invalidEmail && !this.state.userNameSame )) &&

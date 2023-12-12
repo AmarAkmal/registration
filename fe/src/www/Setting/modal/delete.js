@@ -28,14 +28,31 @@ export default class ModalDelete extends React.Component {
         }
     }
 
-
+    toastView(msg, typeToast) {
+        toast(msg, {
+            transition: Bounce,
+            closeButton: true,
+            autoClose: 5000,
+            position: 'top-right',
+            type: typeToast
+        });
+    }
     deleteUser = () => {
         let params = {
             'id': this.props.userId,
         }
         params = JSON.stringify(params)
         params = window.btoa(params)
-        api.delete_(params).then(() => this.props.handleDelete()).catch((err) => {
+        api.delete_(params).then(res =>{
+            console.log(res.data.message)
+            if (res.data.message == 'Failed to delete, Record in use'){
+                this.toastView( res.data.message, 'warning')
+            }else {
+                this.props.handleDelete()
+            }
+
+
+        }).catch((err) => {
             this.props.handleDelete(err);
         });
     }

@@ -153,7 +153,6 @@ export default class UserManagementList extends React.Component {
     }
 
     confUpdateModal = (val) => {
-        console.log(val)
         this.setState({
             dataUser: {
                 'id': val['id'],

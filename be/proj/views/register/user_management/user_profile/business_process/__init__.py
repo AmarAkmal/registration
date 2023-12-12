@@ -79,7 +79,7 @@ def update_existing_user_profile(params) -> dict():
 
             up = User.query.filter(User.id == params['id']).first()
             up.name = params['user_name']
-
+            print(params)
             if params['password']:
                 up.password = params['password']
             up.department_id = params['department_id']

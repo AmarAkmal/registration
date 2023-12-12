@@ -56,7 +56,7 @@ class UserBox extends React.Component {
                 'user_id': base64_decode(localStorage.getItem("mk2lu5b2gf")),
                 'name': base64_decode(localStorage.getItem("aazwo7n331")),
                 'email': base64_decode(localStorage.getItem("dftyo7n331")),
-                'accountType': base64_decode(localStorage.getItem("aazwo7n331")),
+                'accountType': base64_decode(localStorage.getItem("3leeb6bnmn")),
                 'department': base64_decode(localStorage.getItem("fghwo7n3rh")),
                 'department_id': base64_decode(localStorage.getItem("fghwo7n3rh")),
                 'phoneNo': base64_decode(localStorage.getItem("3lwevwermn")),
@@ -129,7 +129,7 @@ class UserBox extends React.Component {
                                 <div id="profile-header"
                                      className="widget-heading">{base64_decode(localStorage.getItem('aazwo7n331'))}</div>
                                 <div id="profile-text"
-                                     className="widget-subheading">Agency: {base64_decode(localStorage.getItem('opex0hidhs'))} |
+                                     className="widget-subheading">Dept: {base64_decode(localStorage.getItem('opex0hidhs'))} |
                                     Role: {base64_decode(localStorage.getItem('3leeb6bnmn'))}</div>
                             </div>
                         </div>

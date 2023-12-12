@@ -85,8 +85,8 @@ def update_department():
     return jsonify(result)
 
 
-@bp_setting.route('/delete_', methods=['POST'])
-def delete_():
+@bp_setting.route('/delete_department', methods=['POST'])
+def delete_department():
     result = func.define_status()
     try:
         params = request.form['ref']
@@ -97,9 +97,9 @@ def delete_():
         user_id = request.args['user_id']
         staff_name = request.args['user_staff_name']
 
-        up = record.delete_(params)
+        up = setting.delete_existing_department(params)
 
-        result['data'] = [up]
+        result['data'] = up
         result['code'] = 'OK'
         result['message'] = "Everything works perfectly"
     except:
