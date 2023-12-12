@@ -12,8 +12,8 @@ def add_new_user_profile(params) -> dict:
     return status
 
 
-def update_existing_user_profile(params) -> dict:
-    status = business_process.add_new(params)
+def update_(params) -> dict:
+    status = business_process.update_existing(params)
     return status
 
 

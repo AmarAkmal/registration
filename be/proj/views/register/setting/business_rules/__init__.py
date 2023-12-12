@@ -4,9 +4,9 @@ from proj.models.model import *
 from proj.views import func
 
 
-def delete_exist(uuid) -> bool:
+def check_exist(uuid) -> bool:
     try:
-        up = Record.query.get(uuid)
+        up = Department.query.get(uuid)
 
         if up:
             return True

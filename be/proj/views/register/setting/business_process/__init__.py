@@ -7,7 +7,6 @@ from proj.views.register.setting import business_rules
 
 
 def list_(params) -> dict:
-
     status = func.define_status()
     # print(params)
     try:
@@ -45,15 +44,12 @@ def add_new(params) -> dict:
     try:
 
         print(params)
-        up = Record()
+        up = Department()
 
-        up.kod = params['kod']
         up.name = params['name']
-        up.quantity = params['quantity']
-        up.created_by = params['created_by']
         db.session.add(up)
 
-        status['message'] = "User Profile added succesfully"
+        status['message'] = "Record added succesfully"
 
     except:
         db.session.rollback()
@@ -67,13 +63,14 @@ def add_new(params) -> dict:
 def update_existing(params) -> dict():
     status = func.define_status()
     try:
-        record = business_rules.delete_exist(params['id'])
+
+        record = business_rules.check_exist(params['id'])
+
         if record:
-            ## condition check
-            up = Record.query.get(params['id'])
-            up.kod = params['kod']
+            up = Department.query.get(params['id'])
+
             up.name = params['name']
-            up.quantity = params['quantity']
+
             db.session.commit()
             status['message'] = f"Record updated Successfully"
         else:
@@ -93,7 +90,7 @@ def delete_(params) -> dict():
     status = func.define_status()
 
     try:
-        record = business_rules.delete_exist(params['id'])
+        record = business_rules.check_exist(params['id'])
 
         if record:
 

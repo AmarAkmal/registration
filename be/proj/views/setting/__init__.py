@@ -72,7 +72,7 @@ def update_department():
         user_id = request.args['user_id']
         staff_name = request.args['user_staff_name']
 
-        up = record.update_(params)
+        up = setting.update_(params)
 
         result['data'] = [up]
         result['code'] = 'OK'
