@@ -6,21 +6,16 @@ def get_list(params) -> dict:
     return status
 
 
-def add_new(params) -> dict:
+def add_new_user_profile(params) -> dict:
     status = business_process.add_new(params)
     return status
 
 
-def update_(params) -> dict:
-    status = business_process.update_existing(params)
+def update_existing_user_profile(params) -> dict:
+    status = business_process.add_new(params)
     return status
 
 
-def delete_(params) -> dict:
+def delete_existing_user_profile(params) -> dict:
     status = business_process.delete_(params)
-    return status
-
-
-def change_password_user(params):
-    status = business_process.change_password(params)
     return status

@@ -1,11 +1,10 @@
-
-
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-import os
-from proj import config
 from flask_cors import CORS
-db=SQLAlchemy()
+from flask_sqlalchemy import SQLAlchemy
+
+from proj import config
+
+db = SQLAlchemy()
 
 app = Flask(__name__, instance_relative_config=True)
 
@@ -26,8 +25,12 @@ def intial_app(config_name='development'):
 
     from proj.views.user_management import bp_user_management
     app.register_blueprint(bp_user_management, url_prefix='/user')
+
     from proj.views.record import bp_record
     app.register_blueprint(bp_record, url_prefix='/record')
+
+    from proj.views.setting import bp_setting
+    app.register_blueprint(bp_setting, url_prefix='/setting')
 
     with app.app_context():
         # db.drop_all()

@@ -11,6 +11,7 @@ const Login = lazy(() => import('../../www/auth'));
 
 const UserManagementPages = lazy(() => import('../../www/UserManagement'));
 const RecordPages = lazy(() => import('../../www/Record'));
+const SettingPage = lazy(() => import('../../www/Setting'));
 
 const URL = window.location.href.includes("300") || window.location.origin.includes("asus")
 
@@ -129,6 +130,19 @@ const AppMain = () => {
                 </div>
             }>
                 <PrivateRoute path="/record" component={RecordPages}/>
+            </Suspense>
+            {/* Setting */}
+            <Suspense fallback={
+                <div className="loader-container">
+                    <div className="loader-container-inner">
+                        <div className="text-center">
+                            <Loader type="ball-clip-rotate-multiple"/>
+                        </div>
+                        <h6 className="mt-5">Please wait while we load all the Components</h6>
+                    </div>
+                </div>
+            }>
+                <PrivateRoute path="/setting" component={SettingPage}/>
             </Suspense>
 
 

@@ -8,15 +8,15 @@ from proj.views import func
 from proj.views.process_before import token_required
 from proj.views.register import record
 
-bp_record = Blueprint('bp_record', __name__)
+bp_setting = Blueprint('bp_setting', __name__)
 
 
-@bp_record.before_request
+@bp_setting.before_request
 def before_request():
     token_required()
 
 
-@bp_record.route('/list', methods=['POST'])
+@bp_setting.route('/list-department', methods=['POST'])
 def get_list():
     result = func.define_status()
     try:
@@ -25,7 +25,6 @@ def get_list():
         params = base64.b64decode(params)
         params = params.decode('ascii')
         params = json.loads(params)
-
 
         result = record.get_list(params)
     except Exception as e:
@@ -36,7 +35,7 @@ def get_list():
     return jsonify(result)
 
 
-@bp_record.route('/add', methods=['POST'])
+@bp_setting.route('/add', methods=['POST'])
 def add():
     result = func.define_status()
     try:
@@ -61,7 +60,7 @@ def add():
     return jsonify(result)
 
 
-@bp_record.route('/update_', methods=['POST'])
+@bp_setting.route('/update_', methods=['POST'])
 def update_():
     result = func.define_status()
     try:
@@ -86,7 +85,7 @@ def update_():
     return jsonify(result)
 
 
-@bp_record.route('/delete_', methods=['POST'])
+@bp_setting.route('/delete_', methods=['POST'])
 def delete_():
     result = func.define_status()
     try:
@@ -111,7 +110,7 @@ def delete_():
     return jsonify(result)
 
 
-@bp_record.route('/username', methods=['POST'])
+@bp_setting.route('/username', methods=['POST'])
 def get_username():
     result = func.define_status()
     try:
@@ -129,7 +128,7 @@ def get_username():
     return jsonify(result)
 
 
-@bp_record.route('/email', methods=['POST'])
+@bp_setting.route('/email', methods=['POST'])
 def get_email():
     result = func.define_status()
     try:
@@ -146,7 +145,7 @@ def get_email():
     return jsonify(result)
 
 
-@bp_record.route('/userId', methods=['POST'])
+@bp_setting.route('/userId', methods=['POST'])
 def get_userId():
     result = func.define_status()
     try:
@@ -163,7 +162,7 @@ def get_userId():
     return jsonify(result)
 
 
-@bp_record.route('/department', methods=['POST'])
+@bp_setting.route('/department', methods=['POST'])
 def get_department():
     result = func.define_status()
     try:
@@ -182,7 +181,7 @@ def get_department():
     return jsonify(result)
 
 
-@bp_record.route('/change_pass', methods=['POST'])
+@bp_setting.route('/change_pass', methods=['POST'])
 def change_password():
     result = func.define_status()
     try:

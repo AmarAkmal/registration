@@ -16,7 +16,6 @@ def is_user_profile_exist(uuid) -> bool:
 
 
 def filterUserProfile(params, query):
-    print(params)
     for i in params['filtered']:
 
         if i['id'] == 'name':
