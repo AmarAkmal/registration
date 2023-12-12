@@ -26,30 +26,15 @@ export default class ModalUpdate extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            // departmentDropdown: [
-            //     { id: 'UGAT', value: 'UGAT' },
-            //     { id: 'BPK', value: 'BPK' },
-            //     { id: 'CONTRACTOR', value: 'CONTRACTOR' },
-            // ],
-            // accountTypeDropdown: [
-            //     { id: 'Normal', value: 'Normal' },
-            //     { id: 'Admin', value: 'Admin' },
-            // ],
-            departmentDropdown: [],
-            accountTypeDropdown: ['Normal', 'Admin'],
             existingData: this.props.data,
-            kod: this.props.data.kod,
             name: this.props.data.name,
-            quantity: this.props.data.quantity,
             invalid: {
-                kod: false,
+
                 name: false,
-                quantity: false,
+
 
             },
             updateLoading: false,
-            invalidEmail: false,
-            listUsername: [],
 
         }
 
@@ -75,7 +60,7 @@ export default class ModalUpdate extends React.Component {
 
         let valid = true
 
-        if (!this.state.kod || !this.state.name || !this.state.quantity ) {
+        if ( !this.state.name  ) {
 
             valid = false
         }
@@ -84,34 +69,15 @@ export default class ModalUpdate extends React.Component {
         if (valid === false) {
             this.setState({
                 invalid: {
-                    kod: this.state.kod === '' ? true : false,
+
                     name: this.state.name === '' ? true : false,
-                    quantity: this.state.quantity === '' ? true : false,
+
 
                 }
             });
         }
 
 
-        if (this.state.password) {
-            let lengthPass = this.state.password.length < 8
-            this.setState({lengthPassValid: lengthPass ? true : false})
-        }
-        if (this.state.confPass) {
-
-            let matchPass = this.state.confPass === this.state.password
-            if (!matchPass) {
-                this.setState({confSamePass: true})
-                // valid = false
-            }
-        }
-        if (this.state.email) {
-            let emailValid = validate(this.state.email)
-            if (!emailValid) {
-                this.setState({invalidEmail: true})
-                // valid = false
-            }
-        }
 
         console.log(valid)
 
@@ -129,9 +95,8 @@ export default class ModalUpdate extends React.Component {
             let params = {
 
                 'id': this.state.existingData['id'],
-                "kod": this.state.kod ? this.state.kod : this.state.existingData['kod'],
                 "name": this.state.name ? this.state.name : this.state.existingData['name'],
-                "quantity": this.state.quantity ? this.state.quantity : this.state.existingData['quantity'],
+
 
             }
             params = JSON.stringify(params)
@@ -153,24 +118,10 @@ export default class ModalUpdate extends React.Component {
     render() {
         return (<>
             <Modal centered={true} size='lg' isOpen={true} backdrop={true}>
-                <ModalHeader>Update Record</ModalHeader>
+                <ModalHeader>Update Department</ModalHeader>
                 <ModalBody>
                     <Form onSubmit={this.submit}>
-                        <Row style={{padding: "10px 20px 10px 20px"}}>
-                            <Col md={2}>
-                                <Label style={{marginTop: "5px", width: "100%"}}>Kod</Label>
-                            </Col>
-                            <Col md={10}>
-                                <FormGroup>
-                                    <Input invalid={this.state.invalid.kod}
-                                           required={true} type="text" name="kod" id="kod"
-                                            defaultValue={this.state.kod}
-                                           onChange={this.handleChange}/>
-                                    <FormFeedback>Fill in the required field</FormFeedback>
-                                </FormGroup>
-                            </Col>
 
-                        </Row>
                         <Row style={{padding: "10px 20px 10px 20px"}}>
                             <Col md={2}>
                                 <Label style={{marginTop: "5px", width: "100%"}}>Name</Label>
@@ -186,22 +137,6 @@ export default class ModalUpdate extends React.Component {
                             </Col>
 
                         </Row>
-                        <Row style={{padding: "10px 20px 10px 20px"}}>
-                            <Col md={2}>
-                                <Label style={{marginTop: "5px", width: "100%"}}>Quantity</Label>
-                            </Col>
-                            <Col md={10}>
-                                <FormGroup>
-                                    <Input invalid={this.state.invalid.quantity }
-                                           required={true} type="number" name="quantity" id="quantity"
-                                            defaultValue={this.state.quantity}
-                                           onChange={this.handleChange}/>
-                                    <FormFeedback>Fill in the required field</FormFeedback>
-                                </FormGroup>
-                            </Col>
-
-                        </Row>
-
 
                     </Form>
                 </ModalBody>

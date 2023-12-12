@@ -28,8 +28,6 @@ export default class ModalDelete extends React.Component {
         }
     }
 
-    componentDidMount() {
-    }
 
     deleteUser = () => {
         let params = {

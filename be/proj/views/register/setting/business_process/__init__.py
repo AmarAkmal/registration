@@ -8,11 +8,11 @@ from proj.views.register.record.record import business_rules
 
 def list_(params) -> dict:
     status = func.define_status()
-
+    # print(params)
     try:
         page = int(params['page']) + 1
         pageSize = int(params['pageSize'])
-        query = Department.query
+        query = Record.query
 
         if params['filtered']:
             query = business_rules.filterList(params, query)
@@ -42,6 +42,8 @@ def add_new(params) -> dict:
     status = func.define_status()
 
     try:
+
+        print(params)
         up = Record()
 
         up.kod = params['kod']

@@ -278,7 +278,7 @@ export default class RecordList extends React.Component {
                             <div>
                                 <PageTitle
                                     heading="User Management"
-                                    breadcrumbTitle="Record / List of Record"
+                                    breadcrumbTitle="Setting / List of Department"
                                     subheading="User Management List"
                                     icon="pe-7s-medal icon-gradient bg-tempting-azure"
                                 />
@@ -308,7 +308,7 @@ export default class RecordList extends React.Component {
                                                             >
                                                                 <FontAwesomeIcon className={'fa-lg'}
                                                                                  icon={faPlus}/> &nbsp;&nbsp;Register
-                                                                New Record
+                                                                New Department
 
                                                             </Button>
                                                         </div>

@@ -64,7 +64,7 @@ export default {
         formData.append('ref', JSON.stringify(params))
 
         return new Promise((resolve, reject) => {
-            fetch(`${global.ipServer}record/delete_`, {
+            fetch(`${global.ipServer}setting/delete_department`, {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -88,7 +88,7 @@ export default {
         formData.append('ref', JSON.stringify(params))
 
         return new Promise((resolve, reject) => {
-            fetch(`${global.ipServer}record/update_`, {
+            fetch(`${global.ipServer}setting/update_department`, {
                 method: 'POST',
                 body: formData,
                 headers: {

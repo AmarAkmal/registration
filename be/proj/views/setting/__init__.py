@@ -60,8 +60,8 @@ def add():
     return jsonify(result)
 
 
-@bp_setting.route('/update_', methods=['POST'])
-def update_():
+@bp_setting.route('/update_department', methods=['POST'])
+def update_department():
     result = func.define_status()
     try:
         params = request.form['ref']
@@ -102,104 +102,6 @@ def delete_():
         result['data'] = [up]
         result['code'] = 'OK'
         result['message'] = "Everything works perfectly"
-    except:
-        msg = func.error_log()
-        result['code'] = 'Error'
-        result['message'] = msg
-
-    return jsonify(result)
-
-
-@bp_setting.route('/username', methods=['POST'])
-def get_username():
-    result = func.define_status()
-    try:
-        user = User.query.filter(User.is_deleted == False).all()
-        for i in user:
-            result['data'].append(i.name)
-        # print(result['data'])
-        result['code'] = 'OK'
-        result['message'] = "Everything works perfectly"
-    except:
-        msg = func.error_log()
-        result['code'] = 'Error'
-        result['message'] = msg
-
-    return jsonify(result)
-
-
-@bp_setting.route('/email', methods=['POST'])
-def get_email():
-    result = func.define_status()
-    try:
-        user = User.query.filter(User.is_deleted == False).all()
-        for i in user:
-            result['data'].append(i.email)
-        # print(result['data'])
-        result['code'] = 'OK'
-        result['message'] = "Everything works perfectly"
-    except:
-        msg = func.error_log()
-        result['code'] = 'Error'
-        result['message'] = msg
-    return jsonify(result)
-
-
-@bp_setting.route('/userId', methods=['POST'])
-def get_userId():
-    result = func.define_status()
-    try:
-        user = User.query.filter(User.is_deleted == False).all()
-        for i in user:
-            result['data'].append(i.user_id)
-        # print(result['data'])
-        result['code'] = 'OK'
-        result['message'] = "Everything works perfectly"
-    except:
-        msg = func.error_log()
-        result['code'] = 'Error'
-        result['message'] = msg
-    return jsonify(result)
-
-
-@bp_setting.route('/department', methods=['POST'])
-def get_department():
-    result = func.define_status()
-    try:
-        department = Department.query.all()
-        for i in department:
-            result['data'].append({
-                'id': i.id,
-                'name': i.name
-            })
-        result['code'] = 'OK'
-        result['message'] = "Everything works perfectly"
-    except:
-        msg = func.error_log()
-        result['code'] = 'Error'
-        result['message'] = msg
-    return jsonify(result)
-
-
-@bp_setting.route('/change_pass', methods=['POST'])
-def change_password():
-    result = func.define_status()
-    try:
-        params = request.form['ref']
-        params = params.encode('ascii')
-        params = base64.b64decode(params)
-        params = params.decode('ascii')
-        params = json.loads(params)
-        # user_id = request.args['user_id']
-
-        # isAdmin = model_user.SystemUser.query.filter(model_user.SystemUser.user_profile_id==user_id).first()
-
-        # if isAdmin and not isAdmin.is_admin:
-        #     raise Exception("Not Authorized")
-        status = record.change_pass(params)
-
-        result['code'] = status['code']
-        result['message'] = status['message']
     except:
         msg = func.error_log()
         result['code'] = 'Error'
