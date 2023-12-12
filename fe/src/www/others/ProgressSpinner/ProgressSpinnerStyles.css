@@ -1,0 +1,11 @@
+.modal-content{
+    border:none !important;
+}
+.react-sweet-progress-symbol{
+    font-weight:400;
+    color: white;
+}
+.react-sweet-progress-circle{
+    /*background: white;*/
+    /*border-radius: 60px;*/
+}

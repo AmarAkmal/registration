@@ -1,0 +1,7 @@
+.idea
+proj/static/uploads/*
+*/.iml
+be/.idea
+be/.git
+.git
+
