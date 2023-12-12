@@ -208,7 +208,6 @@ export default class ModalUpdate extends React.Component {
 
         if (valid && !this.state.confSamePass) {
             this.setState({updateLoading: true})
-            alert(this.state.department)
             let params = {
 
                 'id': this.state.existingData['id'],

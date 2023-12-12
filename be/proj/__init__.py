@@ -26,6 +26,8 @@ def intial_app(config_name='development'):
 
     from proj.views.user_management import bp_user_management
     app.register_blueprint(bp_user_management, url_prefix='/user')
+    from proj.views.record import bp_record
+    app.register_blueprint(bp_record, url_prefix='/record')
 
     with app.app_context():
         # db.drop_all()
