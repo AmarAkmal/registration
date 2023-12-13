@@ -109,13 +109,12 @@ export default class RecordList extends React.Component {
     };
 
     handelAdd = (err = null) => {
-        this.setState({isAdd: false});
-        this.loadData()
+
         if (err === null) {
-            this.state.isAdmin ?
-                toastView("User added succesfully", 'success')
-                :
-                toastView("Not Authorized", 'error')
+            this.setState({isAdd: false});
+            this.loadData()
+            toastView("Data added succesfully", 'success')
+
         }
     }
 
@@ -133,10 +132,7 @@ export default class RecordList extends React.Component {
         this.setState({deleteConfirmation: false});
         this.loadData()
         if (err === null) {
-            this.state.isAdmin ?
-                toastView("User deleted succesfully", 'success')
-                :
-                toastView("Not Authorized", 'error')
+            toastView("Data deleted succesfully", 'success')
         }
     }
 
@@ -260,8 +256,7 @@ export default class RecordList extends React.Component {
                                 Edit
                             </UncontrolledTooltip>
                         </span>
-                        {base64_decode(localStorage.getItem('3leeb6bnmn')) == "Admin" && base64_decode(localStorage.getItem('lkmlu5b2gf')) != row.original.id &&
-                            <span>
+                        <span>
                             <Button outline id={"delete-button-" + row.index}
                                     className="mb-2 mr-2 border-0 btn-outline-2x" color="danger"
                                     onClick={() => this.setState({userId: row.original.id, deleteConfirmation: true})}>
@@ -271,7 +266,7 @@ export default class RecordList extends React.Component {
                                                  target={"delete-button-" + row.index} trigger="hover">
                                 Delete
                             </UncontrolledTooltip>
-                        </span>}
+                        </span>
 
                     </div>
                 ),
