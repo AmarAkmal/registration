@@ -25,6 +25,8 @@ def get_list():
         params = base64.b64decode(params)
         params = params.decode('ascii')
         params = json.loads(params)
+        params["department_id"] = request.args['user_department_id']
+        params["user_role"] = request.args['user_role']
 
 
         result = program.get_list(params)
@@ -45,7 +47,8 @@ def add():
         params = base64.b64decode(params)
         params = params.decode('ascii')
         params = json.loads(params)
-        params["created_by"] = request.args['user_staff_name']
+
+        params["department_id"] = request.args['user_department_id']
 
         up = program.add_new(params)
 
@@ -89,14 +92,13 @@ def update_():
 @bp_program.route('/delete_', methods=['POST'])
 def delete_():
     result = func.define_status()
+    print(11111111111111)
     try:
         params = request.form['ref']
         params = params.encode('ascii')
         params = base64.b64decode(params)
         params = params.decode('ascii')
         params = json.loads(params)
-        user_id = request.args['user_id']
-        staff_name = request.args['user_staff_name']
 
         up = program.delete_(params)
 

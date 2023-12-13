@@ -9,6 +9,10 @@ export default {
                 icon: "pe-7s-note2",
                 label: "Program",
                 to: "#/program",
+            },{
+                icon: "pe-7s-glasses",
+                label: "Course",
+                to: "#/course",
             },
         ]
 

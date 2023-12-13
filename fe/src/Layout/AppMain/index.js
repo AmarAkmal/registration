@@ -11,6 +11,7 @@ const Login = lazy(() => import('../../www/auth'));
 
 const RecordPages = lazy(() => import('../../www/Record'));
 const ProgramPages = lazy(() => import('../../www/Program'));
+const CoursePages = lazy(() => import('../../www/Course'));
 const UserManagementPages = lazy(() => import('../../www/UserManagement'));
 const SettingPage = lazy(() => import('../../www/Setting'));
 
@@ -115,6 +116,21 @@ const AppMain = () => {
             }>
                 <PrivateRoute path="/program" component={ProgramPages}/>
             </Suspense>
+
+            {/* Course */}
+            <Suspense fallback={
+                <div className="loader-container">
+                    <div className="loader-container-inner">
+                        <div className="text-center">
+                            <Loader type="ball-clip-rotate-multiple"/>
+                        </div>
+                        <h6 className="mt-5">Please wait while we load all the Components</h6>
+                    </div>
+                </div>
+            }>
+                <PrivateRoute path="/course" component={CoursePages}/>
+            </Suspense>
+
             {/* User Management */}
             <Suspense fallback={
                 <div className="loader-container">

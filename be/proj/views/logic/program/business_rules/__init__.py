@@ -6,7 +6,7 @@ from proj.views import func
 
 def check_exist(uuid) -> bool:
     try:
-        up = Department.query.get(uuid)
+        up = Program.query.get(uuid)
 
         if up:
             return True
@@ -17,10 +17,15 @@ def check_exist(uuid) -> bool:
 
 def filterList(params, query):
     for i in params['filtered']:
-        if i['id'] == 'name':
+        print(i)
+        if i['id'] == 'faculty':
+            query = query.join(Department,Department.id == Program.department_id)
             query = query.filter(Department.name.like('%' + i['value'] + '%'))
         if i['id'] == 'code':
-            query = query.filter(Department.code.like('%' + i['value'] + '%'))
+            query = query.filter(Program.code.like('%' + i['value'] + '%'))
+        if i['id'] == 'name':
+            query = query.filter(Program.name.like('%' + i['value'] + '%'))
+
 
     return query
 
@@ -29,9 +34,9 @@ def sortList(params, query):
     for x in params['sorted']:
 
         if x['desc']:
-            query = query.order_by(Department.name.desc())
+            query = query.order_by(Program.name.desc())
         else:
-            query = query.order_by(Department.name.asc())
+            query = query.order_by(Program.name.asc())
 
     return query
 
@@ -41,8 +46,7 @@ def determine_admin(query) -> list:
     for i in query.items:
         tmpV = func.convert(i)
 
-        tmpV['id'] = i.id
-        tmpV['name'] = i.name
+        tmpV['faculty'] = i.department.name
         tmp.append(tmpV)
 
     return tmp

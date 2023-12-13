@@ -17,6 +17,6 @@ def update_(params) -> dict:
     return status
 
 
-def delete_existing_department(params) -> dict:
+def delete_(params) -> dict:
     status = business_process.delete_(params)
     return status

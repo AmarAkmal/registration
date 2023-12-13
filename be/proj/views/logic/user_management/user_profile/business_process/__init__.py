@@ -1,7 +1,7 @@
 from argon2 import PasswordHasher
 
 from proj.models import db
-from proj.models.model import *
+from proj.models.model import User
 from proj.views import func
 from proj.views.logic.user_management.user_profile import business_rules
 

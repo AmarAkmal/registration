@@ -68,12 +68,10 @@ def update_existing(params) -> dict():
         record = business_rules.check_exist(params['id'])
 
         if record:
-            up = Department.query.get(params['id'])
-            print(params)
-            up.name = params['name']
-            up.code = params['code']
+            up = Program.query.get(params['id'])
 
-            db.session.commit()
+            up.code = params['code']
+            up.name = params['name']
             status['message'] = f"Record updated Successfully"
         else:
             status['code'] = 'Error'
@@ -90,19 +88,12 @@ def update_existing(params) -> dict():
 
 def delete_(params) -> dict():
     status = func.define_status()
-
     try:
         record = business_rules.check_exist(params['id'])
-        print(record)
+        print(params)
         if record:
-            get = Department.query.get(params['id'])
-            if get and get.user_department:
-                status['message'] = f"Failed to delete, Record in use"
-            else:
-                Department.query.filter_by(id=params['id']).delete()
-                status['message'] = f"Record deleted succesfully"
-            # Record.query.filter(Record.id == params['id']).delete()
-
+            status['message'] = f"Record deleted succesfully"
+            Program.query.filter_by(id=params['id']).delete()
 
         else:
             status['code'] = 'Error'
@@ -113,6 +104,7 @@ def delete_(params) -> dict():
         status['message'] = func.error_log()
         status['code'] = 'Error'
     finally:
+
         db.session.commit()
         return status
 

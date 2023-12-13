@@ -16,7 +16,9 @@ def token_required():
 
                 payload = request.args.copy()
                 payload["user_id"] = token_payload["user_id"]
+                payload["user_role"] = token_payload["user_role"]
                 payload["user_department"] = token_payload["user_department"]
+                payload["user_department_id"] = token_payload["user_department_id"]
                 payload["user_staff_name"] = token_payload["user_staff_name"]
                 payload["user_email"] = token_payload["user_email"]
 
