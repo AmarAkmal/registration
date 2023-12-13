@@ -102,8 +102,7 @@ def delete_user():
         staff_name = request.args['user_staff_name']
 
         up = user_management.delete_user_profile(params)
-        sys = user_management.delete_system_user(params, user_id, staff_name)
-        result['data'] = [up, sys]
+        result['data'] = [up]
         result['code'] = 'OK'
         result['message'] = "Everything works perfectly"
     except:

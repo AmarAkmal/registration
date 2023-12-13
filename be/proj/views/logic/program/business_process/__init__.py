@@ -90,10 +90,11 @@ def delete_(params) -> dict():
     status = func.define_status()
     try:
         record = business_rules.check_exist(params['id'])
-        print(params)
         if record:
             status['message'] = f"Record deleted succesfully"
             Program.query.filter_by(id=params['id']).delete()
+            db.session.query()
+            print(333333333333333)
 
         else:
             status['code'] = 'Error'

@@ -92,7 +92,6 @@ def update_():
 @bp_program.route('/delete_', methods=['POST'])
 def delete_():
     result = func.define_status()
-    print(11111111111111)
     try:
         params = request.form['ref']
         params = params.encode('ascii')

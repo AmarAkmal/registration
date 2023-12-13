@@ -50,8 +50,8 @@ class Department(db.Model):
     id = db.Column(db.String(32), primary_key=True)
     code = db.Column(db.String(50))
     name = db.Column(db.String(200))
-    user_department = db.relationship("User", backref="department",cascade="all,delete", uselist=False)
-    program_department = db.relationship("Program", backref="department",cascade="all,delete", uselist=False)
+    user_department = db.relationship("User", backref="department",cascade="all,delete")
+    program_department = db.relationship("Program", backref="department",cascade="all,delete")
 
     def __init__(self):
         self.id = uuid.uuid4().hex

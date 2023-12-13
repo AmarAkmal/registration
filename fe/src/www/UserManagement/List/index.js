@@ -308,7 +308,7 @@ export default class UserManagementList extends React.Component {
                                 Edit User
                             </UncontrolledTooltip>
                         </span>
-                        {base64_decode(localStorage.getItem('3leeb6bnmn')) == "Admin" && base64_decode(localStorage.getItem('lkmlu5b2gf')) != row.original.id &&
+                        {base64_decode(localStorage.getItem('3leeb6bnmn')) == "Super Admin" && base64_decode(localStorage.getItem('lkmlu5b2gf')) != row.original.id &&
                             <span>
                             <Button outline id={"delete-button-" + row.index}
                                     className="mb-2 mr-2 border-0 btn-outline-2x" color="danger"

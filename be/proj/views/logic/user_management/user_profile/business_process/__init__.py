@@ -107,9 +107,7 @@ def delete_existing_user_profile(params) -> dict():
     try:
         userProfileExist = business_rules.is_user_profile_exist(params['user_id'])
         if userProfileExist:
-            up = User.query \
-                .filter(User.id == params['user_id']).delete()
-
+            db.session.query(User).filter_by(id=params['user_id']).delete()
 
             status['message'] = f"User {params['user_id']} deleted succesfully"
         else:
