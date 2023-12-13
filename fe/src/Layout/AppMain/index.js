@@ -50,25 +50,6 @@ export const setAuth = {
         // this.isAuthenticated = null
         // redirectLogout()
         localStorage.clear()
-        let formData = new FormData();
-        formData.append('data', "Logout");
-        return new Promise((resolve, reject) => {
-            fetch(`${global.ipServer}logout/logout_audit_trail`, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'x-access-token': localStorage.getItem("n29pa87zfm"),
-
-                }
-            }).then((response) => response.json())
-                .then((result) => {
-                    return resolve(result)
-
-                }).catch((err) => {
-                console.log(err)
-                return resolve("Error")
-            })
-        });
     }
 }
 
