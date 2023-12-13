@@ -37,7 +37,7 @@ export default {
 
 
     },
-    add_student_profile : (params) => {
+    add_ : (params) => {
 
         const formData = new FormData()
         formData.append('ref', JSON.stringify(params))
@@ -83,7 +83,7 @@ export default {
 
 
     },
-    update_student_profile : (params) => {
+    update_ : (params) => {
 
         const formData = new FormData()
         formData.append('ref', JSON.stringify(params))
@@ -167,6 +167,25 @@ export default {
 
         return new Promise((resolve, reject) => {
             fetch(`${global.ipServer}student/department`, {
+                method: 'POST',
+                headers: {
+                    'x-access-token': localStorage.getItem("n29pa87zfm"),
+                }
+            })
+            .then((response) => {
+                return resolve(response.json())
+            })
+            .catch((err) => {
+                reject(err);
+                console.log(err);
+            })
+        })
+
+    },
+    get_program : () => {
+
+        return new Promise((resolve, reject) => {
+            fetch(`${global.ipServer}student/program`, {
                 method: 'POST',
                 headers: {
                     'x-access-token': localStorage.getItem("n29pa87zfm"),

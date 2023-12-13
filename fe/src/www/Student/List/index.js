@@ -4,7 +4,6 @@ import {CSSTransition, TransitionGroup} from 'react-transition-group';
 import {Button, Card, CardBody, CardHeader, CardTitle, Col, Row, UncontrolledTooltip} from "reactstrap";
 
 import PageTitle from "../../../Layout/AppMain/PageTitle";
-import {DropdownList} from "react-widgets";
 
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEraser, faPencil, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons";
@@ -114,13 +113,11 @@ export default class StudentList extends React.Component {
     };
 
     handelAdd = (err = null) => {
-        this.setState({isAdd: false});
-        this.loadData()
+
         if (err === null) {
-            this.state.isAdmin ?
-                toastView("User added succesfully", 'success')
-                :
-                toastView("Not Authorized", 'error')
+            this.setState({isAdd: false});
+            this.loadData()
+            toastView("User added succesfully", 'success')
         }
     }
 
@@ -133,30 +130,29 @@ export default class StudentList extends React.Component {
     }
 
     handleDelete = (err = null) => {
-        this.setState({deleteConfirmation: false});
-        this.loadData()
+
         if (err === null) {
-            this.state.isAdmin ?
-                toastView("User deleted succesfully", 'success')
-                :
-                toastView("Not Authorized", 'error')
+            this.setState({deleteConfirmation: false});
+            this.loadData()
+            toastView("User deleted succesfully", 'success')
         }
     }
 
     confUpdateModal = (val) => {
         this.setState({
             dataUser: {
-                'id': val['id'],
-                'user_id': val['user_id'],
-                'username': val["name"],
-                'phoneNo': val["phone"],
-                'department': val["department_id"],
-                // 'password': "XxXxXxXxX",
-                'staffName': val['staff_name'],
-                'departmentId': val['department_id'],
-                'email': val['email'],
-                'accountType': val['user_type'],
-                'agency': val['agency'],
+                id: val['id'],
+                name: val['name'],
+                icNo: val['ic_no'],
+                matrixNo: val['matrix_no'],
+                entrySessionMonth: val['entrySessionMonth'],
+                entrySessionYear: val['entrySessionYear'],
+                faculty: val['faculty_id'],
+                program: val['program_id'],
+                status: val['status'],
+                yearOfGrade: val['year_of_graduate'],
+
+
             }, isUpdate: true
         });
     }
@@ -204,7 +200,7 @@ export default class StudentList extends React.Component {
             },
             {
                 Header: "IC. No",
-                accessor: 'icNo',
+                accessor: 'ic_no',
                 Cell: (row) => (
                     <span
                         style={{
@@ -216,7 +212,7 @@ export default class StudentList extends React.Component {
             },
             {
                 Header: "Matrix No.",
-                accessor: 'matrixNo',
+                accessor: 'matrix_no',
                 Cell: (row) => (
                     <span
                         style={{
@@ -228,7 +224,7 @@ export default class StudentList extends React.Component {
             },
             {
                 Header: "Entry Session",
-                accessor: 'entrySession',
+                accessor: 'entry_session',
                 Cell: (row) => (
                     <span
                         style={{
@@ -240,7 +236,7 @@ export default class StudentList extends React.Component {
             },
             {
                 Header: "Faculty",
-                accessor: 'department',
+                accessor: 'faculty',
                 Cell: (row) => (
                     <span
                         style={{
@@ -327,7 +323,7 @@ export default class StudentList extends React.Component {
             },
             {
                 Header: "Year of Graduation",
-                accessor: 'graduation',
+                accessor: 'year_of_graduate',
                 Cell: (row) => (
                     <span
                         style={{
@@ -420,7 +416,7 @@ export default class StudentList extends React.Component {
 
                 {this.state.isUpdate &&
                     <ModalUpdate onToggle={() => this.toggleUpdate()} onRefresh={() => this.loadDataRefresh()}
-                                 dataUser={this.state.dataUser}
+                                 data={this.state.dataUser}
                                  handleUpdate={this.handleUpdate}/>
                 }
                 {
@@ -436,8 +432,8 @@ export default class StudentList extends React.Component {
                             <div>
                                 <PageTitle
                                     heading="User Management"
-                                    breadcrumbTitle="List of Coruse"
-                                    subheading="User Management List"
+                                    breadcrumbTitle="List of Student"
+                                    subheading="Student List"
                                     icon="pe-7s-medal icon-gradient bg-tempting-azure"
                                 />
                                 <Row>
@@ -447,7 +443,7 @@ export default class StudentList extends React.Component {
                                             <CardHeader className={'mt-3'} style={{display: "unset"}}>
                                                 <Row>
                                                     <Col sm={6} md={6} lg={6}>
-                                                        <CardTitle className='mt-2'>List of Course</CardTitle>
+                                                        <CardTitle className='mt-2'>List of Student</CardTitle>
                                                     </Col>
                                                     <Col sm={1} md={1}
                                                          lg={(window.innerWidth >= 994 && window.innerWidth <= 1355) ? 2 : 3}

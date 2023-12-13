@@ -26,175 +26,102 @@ export default class ModalUpdate extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            // departmentDropdown: [
-            //     { id: 'UGAT', value: 'UGAT' },
-            //     { id: 'BPK', value: 'BPK' },
-            //     { id: 'CONTRACTOR', value: 'CONTRACTOR' },
-            // ],
-            // accountTypeDropdown: [
-            //     { id: 'Normal', value: 'Normal' },
-            //     { id: 'Admin', value: 'Admin' },
-            // ],
-            departmentDropdown: [],
-            accountTypeDropdown: ['Super User','Admin','Normal'],
-            existingData: this.props.dataUser,
-            userid: this.props.dataUser['user_id'],
-            username: this.props.dataUser['username'],
-            phoneNo: this.props.dataUser['phoneNo'],
-            password: "",
-            confPass: "",
-            email: this.props.dataUser['email'],
-            accountType: this.props.dataUser['accountType'],
-            department: this.props.dataUser['department'],
-            notChanged: true,
-            confSamePass: false,
-            userNameSame: false,
+            entrySessionDropdown: ["July", "Dec"],
+            entrySessionYearDropdown: [1, 2, 3, 4, 5, 6],
+            facultyDropdown: [],
+            programDropdown: [],
+            yearOfGradeDropdown: [],
+            existingData: this.props.data,
+            name: this.props.data['name'],
+            icNo: this.props.data['icNo'],
+            matrixNo: this.props.data['matrixNo'],
+            entrySessionMonth: this.props.data['entrySessionMonth'],
+            entrySessionYear: this.props.data['entrySessionYear'],
+            faculty:this.props.data['faculty'],
+            program: this.props.data['program'],
+            status: this.props.data['status'],
+            yearOfGrade: this.props.data['yearOfGrade'],
+
             invalid: {
-                username: false,
-                password: false,
-                confPass: false,
-                email: false,
-                accountType: false,
-                department: false
+                name: false,
+                icNo: false,
+                matrixNo: false,
+                entrySessionMonth: false,
+                entrySessionYear: false,
+                program: false,
+                faculty: false,
+                status: false,
+                yearOfGrade: false,
             },
             updateLoading: false,
-            invalidEmail: false,
-            listUsername: [],
+
 
         }
 
         this.handleChange = this.handleChange.bind(this);
 
     }
-
     componentDidMount() {
-
-
-        api.get_email().then((response) => {
-            this.setState({
-                listEmail: response['data']
-            })
-        })
-        api.get_userId().then((response) => {
-            this.setState({
-                listUserId: response['data']
-            })
-        })
         api.get_department().then((response) => {
             this.setState({
-                departmentDropdown: response['data']
+                facultyDropdown: response['data']
             })
         })
+        api.get_program().then((response) => {
+            this.setState({
+                programDropdown: response['data']
+            })
+        })
+        let yearList = []
+        for (let year = 2018; year <= 2050; year++) {
+            yearList.push(year)
+
+        }
+        this.setState({yearOfGradeDropdown: yearList})
     }
 
     handleChange(event) {
         const target = event.target;
         const name = target.name;
 
+        this.setState(
+            {
+                [name]: event.target.value,
+                invalid: {...this.state.invalid, [name]: false},
+            }
+        );
 
-        if (name == 'email') {
-
-            let emailValid = validate(event.target.value)
-            this.setState({
-                invalidEmail: emailValid ? false : true,
-                userEmailSame: this.state.listEmail.some((un) => {
-                    if (this.props.dataUser.email.toUpperCase() != event.target.value.toUpperCase()) {
-                        return un.toUpperCase() === event.target.value.toUpperCase()
-                    } else {
-                        return false
-                    }
-
-                })
-            })
-
-        }
-        if (name == 'userId') {
-            console.log(this.state.listUserId)
-            let userIdValid = validate(event.target.value)
-            this.setState({
-                invalidUserId: userIdValid ? false : true,
-                userIdSame: this.state.listUserId.some((un) => {
-                    return un.toUpperCase() === event.target.value.toUpperCase()
-                })
-            })
-
-        }
-        if (name === 'password') {
-            let matchPass = this.state.password === event.target.value
-            this.setState({confSamePass: matchPass ? false : true})
-            // let lengthPass = event.target.value.length < 8
-            // this.setState({lengthPassValid: lengthPass ? true : false})
-
-
-        }
-        if (name === 'confPass') {
-
-
-            let matchPass = event.target.value === this.state.password
-            this.setState({confSamePass: matchPass ? false : true})
-
-
-        }
-
-
-        this.setState({
-            [name]: event.target.value,
-            invalid: {...this.state.invalid, [name]: false},
-            notChanged: false,
-            updateLoading: false
-        });
     }
+
 
     validateUpdate = () => {
 
         let valid = true
-        if (!this.state.username || !this.state.phoneNo || !this.state.email || !this.state.accountType || !this.state.department) {
+        if (!this.state.name || !this.state.icNo || !this.state.matrixNo || !this.state.entrySessionMonth || !this.state.entrySessionYear || !this.state.faculty || !this.state.program || !this.state.status || !this.state.yearOfGrade) {
 
             valid = false
         }
 
 
+
         if (valid === false) {
             this.setState({
                 invalid: {
-                    username: this.state.username === '' ? true : false,
-                    // password: this.state.password === '' ? true : false,
-                    phoneNo: this.state.phoneNo === '' ? true : false,
-                    email: this.state.email === '' ? true : false,
-                    userId: this.state.userId === '' ? true : false,
-                    accountType: this.state.accountType === '' ? true : false,
-                    department: this.state.department === '' ? true : false,
-                    // confPass: this.state.confPass === '' ? true : false
+                    name: this.state.name === '',
+                    icNo: this.state.icNo === '',
+                    matrixNo: this.state.matrixNo === '',
+                    entrySessionMonth: this.state.entrySessionMonth === '',
+                    entrySessionYear: this.state.entrySessionYear === '',
+                    faculty: this.state.faculty === '',
+                    program: this.state.program === '',
+                    status: this.state.status === '',
+                    yearOfGrade: this.state.yearOfGrade === '',
+
                 }
             });
         }
-
-
-        if (this.state.password) {
-            let lengthPass = this.state.password.length < 8
-            this.setState({lengthPassValid: lengthPass ? true : false})
-        }
-        if (this.state.confPass) {
-
-            let matchPass = this.state.confPass === this.state.password
-            if (!matchPass) {
-                this.setState({confSamePass: true})
-                // valid = false
-            }
-        }
-        if (this.state.email) {
-            let emailValid = validate(this.state.email)
-            if (!emailValid) {
-                this.setState({invalidEmail: true})
-                // valid = false
-            }
-        }
-
-        console.log(valid)
-
         return valid
     }
-
     updateUser() {
 
         let valid = this.validateUpdate()
@@ -203,49 +130,35 @@ export default class ModalUpdate extends React.Component {
 
         if (valid && !this.state.confSamePass) {
             this.setState({updateLoading: true})
+
             let params = {
 
+
                 'id': this.state.existingData['id'],
-                'user_id': this.state.existingData['user_id'],
-                "user_name": this.state.username ? this.state.username : this.state.existingData['username'],
-                "phoneNo": this.state.phoneNo ? this.state.phoneNo : this.state.existingData['phoneNo'],
-                'password': this.state.password,
-                'department_id': this.state.department ? this.state.department : this.state.existingData['department'],
-                'email': this.state.email ? this.state.email : this.state.existingData['email'],
-                'account_type': this.state.accountType ? this.state.accountType : this.state.existingData['accountType'],
+                "name": this.state.name ? this.state.name : this.state.existingData['name'],
+                "icNo":  this.state.name ? this.state.name : this.state.existingData['icNo'],
+                'matrixNo':  this.state.matrixNo ? this.state.matrixNo : this.state.existingData['matrixNo'],
+                'entrySessionMonth': this.state.entrySessionMonth ? this.state.entrySessionMonth : this.state.existingData['entrySessionMonth'],
+                'entrySessionYear': this.state.entrySessionYear ? this.state.entrySessionYear : this.state.existingData['entrySessionYear'],
+                'faculty_id': this.state.faculty ? this.state.faculty : this.state.existingData['faculty_id'],
+                'program_id':  this.state.program ? this.state.program : this.state.existingData['program_id'],
+                'status':  this.state.status ? this.state.status : this.state.existingData['status'],
+                'yearOfGrade': this.state.yearOfGrade ? this.state.yearOfGrade : this.state.existingData['yearOfGrade'],
             }
             params = JSON.stringify(params)
             params = window.btoa(params)
-            api.update_user_profile(params).then(() => this.props.handleUpdate()).catch((err) => {
+            api.update_(params).then(() => this.props.handleUpdate()).catch((err) => {
                 this.props.handleUpdate(err)
             })
 
 
         } else {
             {
-                (!valid || (!this.state.confSamePass && !this.state.invalidEmail && !this.state.userNameSame )) &&
+                (!valid ) &&
                 toastFunc("Please Fill in the required field", 'warning')
             }
 
-            // {
-            //     (this.state.lengthPassValid && valid) &&
-            //     toastFunc("Password not valid", 'warning')
-            // }
 
-            {
-                (this.state.userNameSame && valid) &&
-                toastFunc("Username already taken.", 'warning')
-            }
-
-            {
-                (this.state.invalidEmail && valid) &&
-                toastFunc("Enter a valid email", 'warning')
-            }
-
-            {
-                (this.state.confSamePass && valid) &&
-                toastFunc("Password does not match", 'warning')
-            }
         }
     }
 
@@ -253,161 +166,172 @@ export default class ModalUpdate extends React.Component {
     render() {
         return (<>
             <Modal centered={true} size='lg' isOpen={true} backdrop={true}>
-                <ModalHeader>Update User</ModalHeader>
+                <ModalHeader>Update Course</ModalHeader>
                 <ModalBody>
                     <Form onSubmit={this.submit}>
+
+
                         <Row style={{padding: "10px 20px 10px 20px"}}>
                             <Col md={2}>
                                 <Label style={{marginTop: "5px", width: "100%"}}>Name</Label>
                             </Col>
                             <Col md={10}>
                                 <FormGroup>
-                                    <Input invalid={this.state.invalid.username || this.state.userNameSame}
-                                           required={true} type="text" name="username" id="username"
-                                            defaultValue={this.state.username}
-                                           onChange={this.handleChange}/>
-                                    {this.state.userNameSame ?
-                                        <FormFeedback>Username already taken. Please enter a different
-                                            username</FormFeedback>
-                                        :
-                                        <FormFeedback>Fill in the required field</FormFeedback>
-                                    }
-                                </FormGroup>
-                            </Col>
-                            <Col md={6}>
-                            </Col>
-                        </Row>
-
-                        <Row style={{padding: "10px 20px 10px 20px"}}>
-                            <Col md={2}>
-                                <Label for="userid" style={{marginTop: "5px", width: "100%"}}>ID</Label>
-                            </Col>
-                            <Col md={4}>
-                                <FormGroup>
-                                    <Input disabled
-                                           type="text"
-                                           name="userId" id="userId"
-                                           placeholder="Type here" defaultValue={this.state.userid}
-                                           onChange={this.handleChange}/>
-
-                                </FormGroup>
-                            </Col>
-                            <Col md={2}>
-                                <Label for="Phone no." style={{marginTop: "5px", width: "100%"}}>Phone No.</Label>
-                            </Col>
-                            <Col md={4}>
-                                <FormGroup>
-                                    <Input invalid={this.state.invalid.phoneNo} required={true} type="text"
-                                           name="phoneNo" id="phoneNo"
-                                           placeholder="Type here" defaultValue={this.state.phoneNo}
+                                    <Input invalid={this.state.invalid.name}
+                                           required={true} type="text" name="name"
+                                           id="name" placeholder="Type here" value={this.state.name}
                                            onChange={this.handleChange}/>
                                     <FormFeedback>Fill in the required field</FormFeedback>
                                 </FormGroup>
                             </Col>
 
+
                         </Row>
 
                         <Row style={{padding: "10px 20px 10px 20px"}}>
                             <Col md={2}>
-                                <Label for="email" style={{marginTop: "5px", width: "100%"}}>Email</Label>
-                            </Col>
-
-                            <Col md={10}>
-                                <FormGroup>
-                                    <Input
-                                        invalid={this.state.invalid.email || this.state.invalidEmail || this.state.userEmailSame}
-                                        required={true} type="email" name="email" id="email"
-                                        placeholder="Type here" value={this.state.email} onChange={this.handleChange}/>
-                                    {this.state.invalidEmail ?
-                                        <FormFeedback>Enter a valid Email</FormFeedback>
-                                        :
-                                        <FormFeedback>Fill in the required field</FormFeedback>}
-                                </FormGroup>
-                            </Col>
-                        </Row>
-                        <Row style={{padding: "10px 20px 10px 20px"}}>
-                            <Col md={2}>
-                                <Label style={{marginTop: "5px", width: "100%"}}>New Password</Label>
+                                <Label style={{marginTop: "5px", width: "100%"}}>IC No.</Label>
                             </Col>
                             <Col md={4}>
                                 <FormGroup>
-                                    <Input invalid={this.state.invalid.password } autoComplete="no-password"
-                                           type="password" name="password" id="password"
-                                           placeholder="Type here" value={this.state.password}
-                                           onChange={this.handleChange} minLength={8}/>
+                                    <Input invalid={this.state.invalid.icNo}
+                                           required={true} type="text" name="icNo"
+                                           id="name" placeholder="Type here" value={this.state.icNo}
+                                           onChange={this.handleChange}/>
                                     <FormFeedback>Fill in the required field</FormFeedback>
                                 </FormGroup>
                             </Col>
                             <Col md={2}>
-                                <Label style={{marginTop: "5px", width: "100%"}}>Confirm Password</Label>
+                                <Label style={{marginTop: "5px", width: "100%"}}>Matrix No</Label>
                             </Col>
                             <Col md={4}>
                                 <FormGroup>
-                                    <Input invalid={ this.state.confSamePass}
-                                           type="password" name="confPass" id="confPass"
-                                           placeholder="Type here" value={this.state.confPass}
+                                    <Input invalid={this.state.invalid.matrixNo}
+                                           required={true} type="text" name="matrixNo"
+                                           id="matrixNo" placeholder="Type here" value={this.state.matrixNo}
                                            onChange={this.handleChange}/>
-                                    {this.state.confSamePass ?
-                                        <FormFeedback>Password does not match</FormFeedback>
-                                        :
-                                        <FormFeedback>Fill in the required field</FormFeedback>
-                                    }
-
+                                    <FormFeedback>Fill in the required field</FormFeedback>
                                 </FormGroup>
                             </Col>
                         </Row>
 
                         <Row style={{padding: "10px 20px 10px 20px"}}>
                             <Col md={2}>
-                                <Label for="department" style={{marginTop: "5px", width: "100%"}}>Faculty</Label>
+                                <Label for="section" style={{marginTop: "5px", width: "100%"}}>Entry Session</Label>
                             </Col>
-                            <Col md={4}>
+                            <Col md={5}>
                                 <FormGroup>
-                                    <Input invalid={this.state.invalid.department} type={'select'} name="department" disabled={this.props.dataUser.isUserBox}
-                                           value={this.state.department} onChange={this.handleChange}>
-                                        <option key={'department'} value={''} disabled>Please select</option>
+                                    <Input invalid={this.state.invalid.entrySessionMonth} type={'select'}
+                                           name="entrySessionMonth"
+                                           value={this.state.entrySessionMonth} onChange={this.handleChange}>
+                                        <option key={'entrySessionMonth'} value={''} disabled>Please select</option>
                                         {
 
-                                            this.state.departmentDropdown.map((v, i) => {
+                                            this.state.entrySessionDropdown.map((v, i) => {
+                                                return <option key={v} value={v}>{v}</option>
+                                            })
+                                        }
+                                    </Input>
+
+                                    <FormFeedback>Fill in the required field</FormFeedback>
+                                </FormGroup>
+                            </Col>
+
+                            <Col md={5}>
+                                <FormGroup>
+                                    <Input invalid={this.state.invalid.entrySessionYear} type={'select'} name="entrySessionYear"
+                                           value={this.state.entrySessionYear} onChange={this.handleChange}>
+                                        <option key={'section'} value={''} disabled>Please select</option>
+                                        {
+
+                                            this.state.yearOfGradeDropdown.map((v, i) => {
+                                                return <option key={v} value={v}>{v}</option>
+                                            })
+                                        }
+                                    </Input>
+
+                                    <FormFeedback>Fill in the required field</FormFeedback>
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                        <Row style={{padding: "10px 20px 10px 20px"}}>
+
+                            <Col md={2}>
+                                <Label for="faculty" style={{marginTop: "5px", width: "100%"}}>Faculty</Label>
+                            </Col>
+                            <Col md={4}>
+                                <FormGroup>
+                                    <Input invalid={this.state.invalid.faculty} type={'select'} name="faculty"
+                                           value={this.state.faculty} onChange={this.handleChange}>
+                                        <option key={'faculty'} value={''} disabled>Please select</option>
+                                        {
+
+                                            this.state.facultyDropdown.map((v, i) => {
                                                 return <option key={v.id} value={v.id}>{v.name}</option>
                                             })
                                         }
                                     </Input>
-                                    {/* <DropdownList
-                                        
-                                        name={'department'}
-                                        placeholder="Select department"
 
-                                        dataKey="id"
-                                        textField="value"
-                                        data={this.state.departmentDropdown
-                                            .sort()}
-                                        onChange={e => {
-                                            this.setState({
-                                                department: e.id
-                                            })
-                                        }}
-
-                                        value={this.state.department}
-                                    /> */}
                                     <FormFeedback>Fill in the required field</FormFeedback>
                                 </FormGroup>
                             </Col>
                             <Col md={2}>
-                                <Label for="accountType" style={{marginTop: "5px", width: "100%"}}>Account Type</Label>
+                                <Label for="faculty" style={{marginTop: "5px", width: "100%"}}>Program </Label>
                             </Col>
                             <Col md={4}>
                                 <FormGroup>
-                                    <Input invalid={this.state.invalid.accountType} type={'select'} name="accountType" disabled={this.props.dataUser.isUserBox}
-                                           value={this.state.accountType} onChange={this.handleChange}>
-                                        <option key={'accounttype'} value={''} disabled>Please select</option>
+                                    <Input invalid={this.state.invalid.program} type={'select'} name="program"
+                                           value={this.state.program} onChange={this.handleChange}>
+                                        <option key={'program'} value={''} disabled>Please select</option>
                                         {
 
-                                            this.state.accountTypeDropdown.map((v, i) => {
-                                                return <option key={i} value={v}>{v}</option>
+                                            this.state.programDropdown.map((v, i) => {
+                                                return <option key={v.id} value={v.id}>{v.name}</option>
                                             })
                                         }
                                     </Input>
+
+                                    <FormFeedback>Fill in the required field</FormFeedback>
+                                </FormGroup>
+                            </Col>
+                        </Row>
+                        <Row style={{padding: "10px 20px 10px 20px"}}>
+
+                            <Col md={2}>
+                                <Label for="faculty" style={{marginTop: "5px", width: "100%"}}>Status</Label>
+                            </Col>
+                            <Col md={4}>
+                                <FormGroup>
+                                    <Input invalid={this.state.invalid.status} type={'select'} name="status"
+                                           value={this.state.status} onChange={this.handleChange}>
+                                        <option key={'status'} value={''} disabled>Please select</option>
+                                        {
+
+                                            ["Berhenti", "Dalam Pengajian", "Gagal Berhenti", "Tamat",].map((v, i) => {
+                                                return <option key={v} value={v}>{v}</option>
+                                            })
+                                        }
+                                    </Input>
+
+                                    <FormFeedback>Fill in the required field</FormFeedback>
+                                </FormGroup>
+                            </Col>
+                            <Col md={2}>
+                                <Label for="faculty" style={{marginTop: "5px", width: "100%"}}>Year Of Grade</Label>
+                            </Col>
+                            <Col md={4}>
+                                <FormGroup>
+                                    <Input invalid={this.state.invalid.yearOfGrade} type={'select'} name="yearOfGrade"
+                                           value={this.state.yearOfGrade} onChange={this.handleChange}>
+                                        <option key={'yearOfGrade'} value={''} disabled>Please select</option>
+                                        {
+
+                                            this.state.yearOfGradeDropdown.map((v, i) => {
+                                                return <option key={v} value={v}>{v}</option>
+                                            })
+                                        }
+                                    </Input>
+
                                     <FormFeedback>Fill in the required field</FormFeedback>
                                 </FormGroup>
                             </Col>

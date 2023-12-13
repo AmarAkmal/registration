@@ -32,6 +32,9 @@ def intial_app(config_name='development'):
     from proj.views.course import bp_course
     app.register_blueprint(bp_course, url_prefix='/course')
 
+    from proj.views.student import bp_student
+    app.register_blueprint(bp_student, url_prefix='/student')
+
     from proj.views.user_management import bp_user_management
     app.register_blueprint(bp_user_management, url_prefix='/user')
 
