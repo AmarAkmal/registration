@@ -3,8 +3,8 @@ import json
 from flask import Blueprint, request, jsonify
 
 from proj.views import func
-from proj.views.register.auth.login import bp_login
-from proj.views.register.others.return_format import return_status
+from proj.views.logic.auth.login import bp_login
+from proj.views.logic.others.return_format import return_status
 
 bp_auth = Blueprint('bp_auth', __name__)
 

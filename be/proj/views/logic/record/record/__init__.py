@@ -1,4 +1,4 @@
-from proj.views.register.record.record import business_process
+from proj.views.logic.record.record import business_process
 
 
 def get_list(params) -> dict:

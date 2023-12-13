@@ -6,7 +6,7 @@ from flask import Blueprint, request, jsonify
 from proj.models.model import *
 from proj.views import func
 from proj.views.process_before import token_required
-from proj.views.register import user_management
+from proj.views.logic import user_management
 
 bp_user_management = Blueprint('bp_user_management', __name__)
 

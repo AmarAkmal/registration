@@ -2,9 +2,9 @@ from flask import Blueprint, render_template, request, make_response, jsonify
 from proj.models.model_user import *
 from proj.views import func
 from proj.views.audit_trail import add_audit_trail
-from proj.views.register.auth.login import bp_login
-from proj.views.register.others.global_variable_settings import prod_upload_path
-from proj.views.register.others.return_format import return_status
+from proj.views.logic.auth.login import bp_login
+from proj.views.logic.others.global_variable_settings import prod_upload_path
+from proj.views.logic.others.return_format import return_status
 from proj import app
 from proj.views.process_before import token_required
 

@@ -1,4 +1,4 @@
-from proj.views.register.user_management import user_profile
+from proj.views.logic.user_management import user_profile
 
 
 def get_list_user_profile(params) -> dict:

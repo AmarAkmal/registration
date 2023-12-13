@@ -1,4 +1,4 @@
-from proj.views.register.user_management.user_profile import business_process
+from proj.views.logic.user_management.user_profile import business_process
 
 
 def list_all_user(params) -> dict:

@@ -6,7 +6,7 @@ from flask import Blueprint, request, jsonify
 from proj.models.model import *
 from proj.views import func
 from proj.views.process_before import token_required
-from proj.views.register import record
+from proj.views.logic import record
 
 bp_record = Blueprint('bp_record', __name__)
 

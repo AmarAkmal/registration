@@ -1,4 +1,4 @@
-from proj.views.register.auth.login.login_bp import login
+from proj.views.logic.auth.login.login_bp import login
 
 
 def bp_login(param):

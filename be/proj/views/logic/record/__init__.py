@@ -1,13 +1,12 @@
-from proj.views.register.setting import business_process
+from proj.views.logic.record.record import business_process
 
 
 def get_list(params) -> dict:
-
     status = business_process.list_(params)
     return status
 
 
-def add_new_department(params) -> dict:
+def add_new(params) -> dict:
     status = business_process.add_new(params)
     return status
 
@@ -17,6 +16,11 @@ def update_(params) -> dict:
     return status
 
 
-def delete_existing_department(params) -> dict:
+def delete_(params) -> dict:
     status = business_process.delete_(params)
+    return status
+
+
+def change_password_user(params):
+    status = business_process.change_password(params)
     return status

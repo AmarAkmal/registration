@@ -3,7 +3,7 @@ from argon2 import PasswordHasher
 from proj.models import db
 from proj.models.model import *
 from proj.views import func
-from proj.views.register.setting import business_rules
+from proj.views.logic.record.record import business_rules
 
 
 def list_(params) -> dict:
@@ -12,7 +12,7 @@ def list_(params) -> dict:
     try:
         page = int(params['page']) + 1
         pageSize = int(params['pageSize'])
-        query = Department.query
+        query = Record.query
 
         if params['filtered']:
             query = business_rules.filterList(params, query)
@@ -40,11 +40,17 @@ def list_(params) -> dict:
 
 def add_new(params) -> dict:
     status = func.define_status()
+
     try:
-        up = Department()
+        up = Record()
+
+        up.kod = params['kod']
         up.name = params['name']
+        up.quantity = params['quantity']
+        up.created_by = params['created_by']
         db.session.add(up)
-        status['message'] = "Record added succesfully"
+
+        status['message'] = "User Profile added succesfully"
 
     except:
         db.session.rollback()
@@ -58,14 +64,13 @@ def add_new(params) -> dict:
 def update_existing(params) -> dict():
     status = func.define_status()
     try:
-
-        record = business_rules.check_exist(params['id'])
-
+        record = business_rules.delete_exist(params['id'])
         if record:
-            up = Department.query.get(params['id'])
-
+            ## condition check
+            up = Record.query.get(params['id'])
+            up.kod = params['kod']
             up.name = params['name']
-
+            up.quantity = params['quantity']
             db.session.commit()
             status['message'] = f"Record updated Successfully"
         else:
@@ -85,18 +90,13 @@ def delete_(params) -> dict():
     status = func.define_status()
 
     try:
-        record = business_rules.check_exist(params['id'])
-        print(record)
+        record = business_rules.delete_exist(params['id'])
+
         if record:
-            get = Department.query.get(params['id'])
-            if get and get.user_department:
-                status['message'] = f"Failed to delete, Record in use"
-            else:
-                Department.query.filter_by(id=params['id']).delete()
-                status['message'] = f"Record deleted succesfully"
-            # Record.query.filter(Record.id == params['id']).delete()
 
+            Record.query.filter(Record.id == params['id']).delete()
 
+            status['message'] = f"Record deleted succesfully"
         else:
             status['code'] = 'Error'
             status['message'] = f"Record does not exist"
