@@ -151,8 +151,6 @@ export default class StudentList extends React.Component {
                 program: val['program_id'],
                 status: val['status'],
                 yearOfGrade: val['year_of_graduate'],
-
-
             }, isUpdate: true
         });
     }

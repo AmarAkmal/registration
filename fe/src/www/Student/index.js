@@ -13,7 +13,7 @@ const StudentPages = ({match}) => (
             <AppSidebar />
             <div className="app-main__outer">
                 <div className="app-main__inner">
-                    <Route path={`/student`} component={StudentList}/>
+                    <Route exact path={`${match.url}/list`} component={StudentList}/>
 
                 </div>
                 {/*<AppFooter />*/}
