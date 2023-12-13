@@ -467,7 +467,7 @@ export default class StudentList extends React.Component {
                                                                 >
                                                                     <FontAwesomeIcon className={'fa-lg'}
                                                                                      icon={faPlus}/> &nbsp;&nbsp;Register
-                                                                    New User
+                                                                    New Student
 
                                                                 </Button>
                                                             </div>

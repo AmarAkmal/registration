@@ -188,7 +188,7 @@ export default class ModalUpdate extends React.Component {
     render() {
         return (<>
             <Modal centered={true} size='lg' isOpen={true} backdrop={true}>
-                <ModalHeader>Update User</ModalHeader>
+                <ModalHeader>Update Course</ModalHeader>
                 <ModalBody>
                     <Form onSubmit={this.submit}>
 
