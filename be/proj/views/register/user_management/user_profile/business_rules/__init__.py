@@ -46,28 +46,6 @@ def sortUserProfile(params, query):
     return query
 
 
-def get_username() -> list:
-    tmp = []
-    user = model_user.UserProfile.query.filter(model_user.UserProfile.isDeleted == False).all()
-    for i in user:
-        tmp.append(i.user_name)
-
-    return tmp
-
-
-def username_duplicate(params) -> bool:
-    userNameList = get_username()
-
-    if 'user_id' in params.keys():  ## for update user
-        user = model_user.UserProfile.query.filter(model_user.UserProfile.user_id == params['user_id']).first()
-        if user and params['user_name'] == user.user_name:
-            return True
-
-    for un in userNameList:
-        if un == params['user_name']:
-            return False
-
-    return True
 
 
 def user_duplicate(params) -> bool:
