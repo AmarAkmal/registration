@@ -14,9 +14,9 @@ const userManagementPages = ({match}) => (
             <div className="app-main__outer">
                 <div className="app-main__inner">
                     <Route path={`/user-management`} component={UserManagementList}/>
-                    {/*<Route path={`${match.url}/register`} component={UserManagementRegister}/>*/}
+
                 </div>
-                <AppFooter />
+                {/*<AppFooter />*/}
             </div>
         </div>
     </Fragment>

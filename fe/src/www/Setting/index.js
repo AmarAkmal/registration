@@ -14,9 +14,8 @@ const RecordPages = ({match}) => (
             <div className="app-main__outer">
                 <div className="app-main__inner">
                     <Route exact path={`${match.url}/department`} component={RecordList}/>
-
                 </div>
-                <AppFooter />
+                {/*<AppFooter />*/}
             </div>
         </div>
     </Fragment>

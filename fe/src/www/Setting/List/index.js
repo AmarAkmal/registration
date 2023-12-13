@@ -120,13 +120,11 @@ export default class RecordList extends React.Component {
     }
 
     handleUpdate = (err = null) => {
-        this.setState({isUpdate: false});
-        this.loadData()
+
         if (err === null) {
-            this.state.isAdmin && localStorage.getItem('3leeb6bnmn') ?
-                toastView("User updated succesfully", 'success')
-                :
-                toastView("Not Authorized", 'error');
+            this.setState({isUpdate: false});
+            this.loadData()
+            toastView("Data updated succesfully", 'success')
         }
     }
 
@@ -201,7 +199,6 @@ export default class RecordList extends React.Component {
                 accessor: '',
                 sortable: false,
                 width: 140,
-                show: this.state.isAdmin,
                 Cell: (row) => (
                     <div style={{textAlign: 'center', width: '100%',}}>
                         <span>
@@ -212,7 +209,7 @@ export default class RecordList extends React.Component {
                             </Button>
                             <UncontrolledTooltip placement={"top"}
                                                  target={"edit-button" + row.index} trigger="hover">
-                                Edit User
+                                Edit
                             </UncontrolledTooltip>
                         </span>
                         {base64_decode(localStorage.getItem('3leeb6bnmn')) == "Admin" && base64_decode(localStorage.getItem('lkmlu5b2gf')) != row.original.id &&
@@ -224,7 +221,7 @@ export default class RecordList extends React.Component {
                             </Button>
                             <UncontrolledTooltip placement={"top"}
                                                  target={"delete-button-" + row.index} trigger="hover">
-                                Delete User
+                                Delete
                             </UncontrolledTooltip>
                         </span>}
 

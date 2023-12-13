@@ -19,8 +19,3 @@ def update_existing_user_profile(params) -> dict:
 def delete_existing_user_profile(params) -> dict:
     status = business_process.delete_existing_user_profile(params)
     return status
-
-
-def change_password_user(params):
-    status = business_process.change_password(params)
-    return status

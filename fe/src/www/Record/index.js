@@ -14,9 +14,8 @@ const RecordPages = ({match}) => (
             <div className="app-main__outer">
                 <div className="app-main__inner">
                     <Route path={`/record`} component={RecordList}/>
-                    {/*<Route path={`${match.url}/register`} component={UserManagementRegister}/>*/}
                 </div>
-                <AppFooter />
+                {/*<AppFooter />*/}
             </div>
         </div>
     </Fragment>

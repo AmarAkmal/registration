@@ -81,7 +81,7 @@ def update_department():
         msg = func.error_log()
         result['code'] = 'Error'
         result['message'] = msg
-
+    print(result)
     return jsonify(result)
 
 
