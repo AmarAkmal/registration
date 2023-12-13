@@ -1,24 +1,21 @@
 export default {
     MainNaviExport: (user_role) => {
-        let MainNavi = []
-        if (user_role == 'Admin'){
+        let MainNavi = [{
+            icon: "pe-7s-note2",
+            label: "Record",
+            to: "#/record",
+        },]
+
+        if (user_role == 'Admin') {
             MainNavi.push(
                 {
                     icon: "pe-7s-users",
                     label: "User Management",
                     to: "#/user-management",
                 },
-
             )
         }
-
         MainNavi.push(
-
-            {
-                icon: "pe-7s-note2",
-                label: "Record",
-                to: "#/record",
-            },
             {
                 icon: 'pe-7s-settings',
                 label: 'Setting',
@@ -30,6 +27,7 @@ export default {
                 ],
             }
         )
+
 
         // if(user_role == "Admin"){
         //
