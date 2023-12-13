@@ -89,11 +89,14 @@ def delete_(params) -> dict():
     try:
         record = business_rules.check_exist(params['id'])
         if record:
-            status['message'] = f"Record deleted succesfully"
-            # Program.query.filter(Program.id==params['id']).delete()
-            db.session.query(Program).filter_by(id=params['id']).delete()
+            get = Program.query.get(params['id'])
 
-            db.session.query()
+            if (get and get.student_program):
+                status['message'] = f"Failed to delete, Record in use"
+            else:
+                db.session.query(Program).filter_by(id=params['id']).delete()
+                status['message'] = f"Record deleted succesfully"
+
 
         else:
             status['code'] = 'Error'

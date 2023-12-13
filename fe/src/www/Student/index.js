@@ -5,6 +5,7 @@ import UserManagementList from "./List/index";
 import AppHeader from "../../Layout/AppHeader";
 import AppSidebar from "../../Layout/AppSidebar";
 import StudentList from "./List/index";
+import StudentCourseList from "../StudentCourse/List";
 
 const StudentPages = ({match}) => (
     <Fragment>
@@ -14,6 +15,7 @@ const StudentPages = ({match}) => (
             <div className="app-main__outer">
                 <div className="app-main__inner">
                     <Route exact path={`${match.url}/list`} component={StudentList}/>
+                    <Route exact path={`${match.url}/course`} component={StudentCourseList}/>
 
                 </div>
                 {/*<AppFooter />*/}

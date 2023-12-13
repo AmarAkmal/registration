@@ -15,7 +15,7 @@ def list_(params) -> dict:
         if params["user_role"] == 'Super Admin':
             pass
         else:
-            query = query.filter_by(department_id=params['department_id'])
+            query = query.filter_by(faculty_id=params['department_id'])
 
         if params['filtered']:
             query = business_rules.filterList(params, query)

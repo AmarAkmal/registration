@@ -13,12 +13,11 @@ function toastView(msg, typeToast) {
 
 export default {
     list_ : (params) => {
-
         const formData = new FormData()
         formData.append('ref', JSON.stringify(params))
 
         return new Promise((resolve, reject) => {
-            fetch(`${global.ipServer}student/list`, {
+            fetch(`${global.ipServer}student/listStudentCourse`, {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -37,13 +36,13 @@ export default {
 
 
     },
-    add_ : (params) => {
+    add : (params) => {
 
         const formData = new FormData()
         formData.append('ref', JSON.stringify(params))
 
         return new Promise((resolve, reject) => {
-            fetch(`${global.ipServer}student/add_`, {
+            fetch(`${global.ipServer}student/addStudentCourse`, {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -65,7 +64,7 @@ export default {
         formData.append('ref', JSON.stringify(params))
 
         return new Promise((resolve, reject) => {
-            fetch(`${global.ipServer}student/delete_`, {
+            fetch(`${global.ipServer}student/deleteStudentCourse`, {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -89,7 +88,7 @@ export default {
         formData.append('ref', JSON.stringify(params))
 
         return new Promise((resolve, reject) => {
-            fetch(`${global.ipServer}student/update_`, {
+            fetch(`${global.ipServer}student/updateStudentCourse`, {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -106,121 +105,42 @@ export default {
         })
 
     },
-    get_studentname : () => {
+    get_course : () => {
 
         return new Promise((resolve, reject) => {
-            fetch(`${global.ipServer}student/studentname`, {
+            fetch(`${global.ipServer}student/get_course`, {
                 method: 'POST',
                 headers: {
                     'x-access-token': localStorage.getItem("n29pa87zfm"),
                 }
             })
-            .then((response) => {
-                return resolve(response.json())
-            })
-            .catch((err) => {
-                reject(err);
-                console.log(err);
-            })
+                .then((response) => {
+                    return resolve(response.json())
+                })
+                .catch((err) => {
+                    reject(err);
+                    console.log(err);
+                })
         })
 
     },
-    get_email : () => {
+    get_student : () => {
 
         return new Promise((resolve, reject) => {
-            fetch(`${global.ipServer}student/email`, {
+            fetch(`${global.ipServer}student/get_student`, {
                 method: 'POST',
                 headers: {
                     'x-access-token': localStorage.getItem("n29pa87zfm"),
                 }
             })
-            .then((response) => {
-                return resolve(response.json())
-            })
-            .catch((err) => {
-                reject(err);
-                console.log(err);
-            })
+                .then((response) => {
+                    return resolve(response.json())
+                })
+                .catch((err) => {
+                    reject(err);
+                    console.log(err);
+                })
         })
 
     },
-    get_studentId : () => {
-
-        return new Promise((resolve, reject) => {
-            fetch(`${global.ipServer}student/studentId`, {
-                method: 'POST',
-                headers: {
-                    'x-access-token': localStorage.getItem("n29pa87zfm"),
-                }
-            })
-            .then((response) => {
-                return resolve(response.json())
-            })
-            .catch((err) => {
-                reject(err);
-                console.log(err);
-            })
-        })
-
-    },
-    get_department : () => {
-
-        return new Promise((resolve, reject) => {
-            fetch(`${global.ipServer}student/department`, {
-                method: 'POST',
-                headers: {
-                    'x-access-token': localStorage.getItem("n29pa87zfm"),
-                }
-            })
-            .then((response) => {
-                return resolve(response.json())
-            })
-            .catch((err) => {
-                reject(err);
-                console.log(err);
-            })
-        })
-
-    },
-    get_program : () => {
-
-        return new Promise((resolve, reject) => {
-            fetch(`${global.ipServer}student/program`, {
-                method: 'POST',
-                headers: {
-                    'x-access-token': localStorage.getItem("n29pa87zfm"),
-                }
-            })
-            .then((response) => {
-                return resolve(response.json())
-            })
-            .catch((err) => {
-                reject(err);
-                console.log(err);
-            })
-        })
-
-    },
-    change_password : (params) => {
-        const formData = new FormData()
-        formData.append('ref', JSON.stringify(params))
-
-        return new Promise((resolve, reject) => {
-            fetch(`${global.ipServer}student/change_pass`, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'x-access-token': localStorage.getItem("n29pa87zfm"),
-                }
-            })
-            .then((response) => {
-                return resolve(response.json())
-            })
-            .catch((err) => {
-                toastView("Update Failed. Server Error. Please Try Again", 'error')
-                return reject(err)
-            })
-        })
-    }
-
 }

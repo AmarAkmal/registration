@@ -101,7 +101,7 @@ def delete_():
 
         up = program.delete_(params)
 
-        result['data'] = [up]
+        result['data'] = up
         result['code'] = 'OK'
         result['message'] = "Everything works perfectly"
     except:

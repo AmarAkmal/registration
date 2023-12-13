@@ -4,7 +4,6 @@ import {CSSTransition, TransitionGroup} from 'react-transition-group';
 import {Button, Card, CardBody, CardHeader, CardTitle, Col, Row, UncontrolledTooltip} from "reactstrap";
 
 import PageTitle from "../../../Layout/AppMain/PageTitle";
-import {DropdownList} from "react-widgets";
 
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEraser, faPencil, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons";
@@ -28,7 +27,7 @@ function toastView(msg, typeToast) {
     });
 }
 
-export default class ProgramList extends React.Component {
+export default class StudentCourseList extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -44,7 +43,7 @@ export default class ProgramList extends React.Component {
             deleteConfirmation: false,
             userId: null,
             pending: true,
-            isAdmin: ['Super Admin','Admin'].includes(base64_decode(localStorage.getItem('3leeb6bnmn'))),
+            isAdmin: ['Super Admin', 'Admin'].includes(base64_decode(localStorage.getItem('3leeb6bnmn'))),
             searching: false,
             page: 0,
             pageSize: 10,
@@ -134,12 +133,13 @@ export default class ProgramList extends React.Component {
     }
 
     confUpdateModal = (val) => {
-
+        console.log(val)
         this.setState({
             dataDetails: {
                 'id': val['id'],
-                'code': val['code'],
-                'name': val["name"],
+                'course': val['course_id'],
+                'matrixNo': val["student_id"],
+                'grade': val["grade"],
 
             }, isUpdate: true
         });
@@ -175,21 +175,8 @@ export default class ProgramList extends React.Component {
                 ),
             },
             {
-                Header: "Faculty",
-                accessor: 'faculty',
-                Cell: (row) => (
-                    <span
-                        style={{
-                            textAlign: 'center',
-                            width: '100%'
-                        }}>{row.value}</span>
-                ),
-                filterable: ['Super Admin'].includes(base64_decode(localStorage.getItem('3leeb6bnmn'))),
-                width:200
-            },
-            {
-                Header: "Code",
-                accessor: 'code',
+                Header: "Code Course",
+                accessor: 'course',
                 Cell: (row) => (
                     <span
                         style={{
@@ -198,11 +185,11 @@ export default class ProgramList extends React.Component {
                         }}>{row.value}</span>
                 ),
                 filterable: true,
-                width:200
+                width: 200
             },
             {
-                Header: "Program",
-                accessor: 'name',
+                Header: "Matrix No.",
+                accessor: 'matrixNo',
                 Cell: (row) => (
                     <span
                         style={{
@@ -210,14 +197,51 @@ export default class ProgramList extends React.Component {
                             width: '100%'
                         }}>{row.value}</span>
                 ),
-                filterable:  true,
+                filterable: true,
+                width: 200
+            },
+            {
+                Header: "Student Name",
+                accessor: 'studentName',
+                Cell: (row) => (
+                    <span
+                        style={{
+                            textAlign: 'center',
+                            width: '100%'
+                        }}>{row.value}</span>
+                ),
+                filterable: true,
+            },
+            {
+                Header: "Program Name",
+                accessor: 'programName',
+                Cell: (row) => (
+                    <span
+                        style={{
+                            textAlign: 'center',
+                            width: '100%'
+                        }}>{row.value}</span>
+                ),
+                filterable: true,
+            },
+            {
+                Header: "Grade",
+                accessor: 'grade',
+                Cell: (row) => (
+                    <span
+                        style={{
+                            textAlign: 'center',
+                            width: '100%'
+                        }}>{row.value}</span>
+                ),
+                filterable: true,
             },
 
             {
                 Header: "Action",
                 accessor: '',
                 sortable: false,
-                show: this.state.isAdmin ||  this.state.isAdmin,
+                show: this.state.isAdmin || this.state.isAdmin,
                 width: 140,
                 Cell: (row) => (
                     <div style={{textAlign: 'center', width: '100%',}}>
@@ -293,9 +317,9 @@ export default class ProgramList extends React.Component {
                                        timeout={1500} enter={false} exit={false}>
                             <div>
                                 <PageTitle
-                                    heading="User Management"
-                                    breadcrumbTitle="Setting / List of Program"
-                                    subheading="Program List"
+                                    heading="Student Course"
+                                    breadcrumbTitle="Student / List of Student Course"
+                                    subheading="Student List"
                                     icon="pe-7s-medal icon-gradient bg-tempting-azure"
                                 />
                                 <Row>
@@ -305,7 +329,7 @@ export default class ProgramList extends React.Component {
                                             <CardHeader className={'mt-3'} style={{display: "unset"}}>
                                                 <Row>
                                                     <Col sm={6} md={6} lg={6}>
-                                                        <CardTitle className='mt-2'>List of Program</CardTitle>
+                                                        <CardTitle className='mt-2'>List of Student Course</CardTitle>
                                                     </Col>
                                                     <Col sm={1} md={1}
                                                          lg={(window.innerWidth >= 994 && window.innerWidth <= 1355) ? 2 : 3}
@@ -315,19 +339,21 @@ export default class ProgramList extends React.Component {
                                                     <Col sm={4} md={4}
                                                          lg={(window.innerWidth >= 994 && window.innerWidth <= 1355) ? 3 : 2}
                                                          style={{padding: '0px', paddingRight: '10px'}}>
-                                                        <div style={{width: '100%', textAlign: 'right'}}>
-                                                            <Button outline className="mb-2 mr-2 btn-outline-2x"
-                                                                    style={{width: '100%'}} color="primary"
-                                                                    onClick={() => {
-                                                                        this.setState({isAdd: true});
-                                                                    }}
-                                                            >
-                                                                <FontAwesomeIcon className={'fa-lg'}
-                                                                                 icon={faPlus}/> &nbsp;&nbsp;Register
-                                                                New Program
+                                                        {this.state.isAdmin &&
+                                                            <div style={{width: '100%', textAlign: 'right'}}>
+                                                                <Button outline className="mb-2 mr-2 btn-outline-2x"
+                                                                        style={{width: '100%'}} color="primary"
+                                                                        onClick={() => {
+                                                                            this.setState({isAdd: true});
+                                                                        }}
+                                                                >
+                                                                    <FontAwesomeIcon className={'fa-lg'}
+                                                                                     icon={faPlus}/> &nbsp;&nbsp;Register
+                                                                    Course of Student
 
-                                                            </Button>
-                                                        </div>
+                                                                </Button>
+                                                            </div>
+                                                        }
                                                     </Col>
                                                 </Row>
                                             </CardHeader>

@@ -89,7 +89,7 @@ class Course(db.Model):  ## Kursus
 
 class Grade(db.Model):  ## Grade
     id = db.Column(db.String(32), primary_key=True)
-    grade_id = db.Column(db.String(32), db.ForeignKey('course.id', ondelete="CASCADE", onupdate="CASCADE"))
+    course_id = db.Column(db.String(32), db.ForeignKey('course.id', ondelete="CASCADE", onupdate="CASCADE"))
     student_id = db.Column(db.String(32), db.ForeignKey('student.id', ondelete="CASCADE", onupdate="CASCADE"))
     grade = db.Column(db.String(200))
 

@@ -46,7 +46,7 @@ export default class StudentList extends React.Component {
             deleteConfirmation: false,
             userId: null,
             pending: true,
-            isAdmin: ['Super Admin'].includes(base64_decode(localStorage.getItem('3leeb6bnmn'))),
+            isAdmin: ['Super Admin','Admin'].includes(base64_decode(localStorage.getItem('3leeb6bnmn'))),
             searching: false,
             page: 0,
             pageSize: 10,
@@ -243,23 +243,7 @@ export default class StudentList extends React.Component {
                         }}>{row.value}</span>
                 ),
                 filterable: true,
-                // Filter: ({filter, onChange}) =>
-                //     <DropdownList
-                //         name={'agency'}
-                //         // placeholder="Account Type"
-                //         value={this.state.filterAgency}
-                //         filter={false}
-                //         busy={this.state.searching}
-                //         dataKey="id"
-                //         textField="value"
-                //         data={this.state.agencyDropdown.sort()}
-                //         onChange={(e) => {
-                //             this.setState({filterAgency: e.value})
-                //             onChange(e.value)
-                //         }}
-                //         placeholder={'Please select'}
-                //         className={"text-start fw-normal"}
-                //     />
+
             },
             {
                 Header: "Program",
@@ -272,23 +256,7 @@ export default class StudentList extends React.Component {
                         }}>{row.value}</span>
                 ),
                 filterable: true,
-                // Filter: ({filter, onChange}) =>
-                //     <DropdownList
-                //         name={'agency'}
-                //         // placeholder="Account Type"
-                //         value={this.state.filterAgency}
-                //         filter={false}
-                //         busy={this.state.searching}
-                //         dataKey="id"
-                //         textField="value"
-                //         data={this.state.agencyDropdown.sort()}
-                //         onChange={(e) => {
-                //             this.setState({filterAgency: e.value})
-                //             onChange(e.value)
-                //         }}
-                //         placeholder={'Please select'}
-                //         className={"text-start fw-normal"}
-                //     />
+
             },
             {
                 Header: "Status",
@@ -301,23 +269,7 @@ export default class StudentList extends React.Component {
                         }}>{row.value}</span>
                 ),
                 filterable: true,
-                // Filter: ({filter, onChange}) =>
-                //     <DropdownList
-                //         name={'agency'}
-                //         // placeholder="Account Type"
-                //         value={this.state.filterAgency}
-                //         filter={false}
-                //         busy={this.state.searching}
-                //         dataKey="id"
-                //         textField="value"
-                //         data={this.state.agencyDropdown.sort()}
-                //         onChange={(e) => {
-                //             this.setState({filterAgency: e.value})
-                //             onChange(e.value)
-                //         }}
-                //         placeholder={'Please select'}
-                //         className={"text-start fw-normal"}
-                //     />
+
             },
             {
                 Header: "Year of Graduation",
@@ -330,23 +282,7 @@ export default class StudentList extends React.Component {
                         }}>{row.value}</span>
                 ),
                 filterable: true,
-                // Filter: ({filter, onChange}) =>
-                //     <DropdownList
-                //         name={'agency'}
-                //         // placeholder="Account Type"
-                //         value={this.state.filterAgency}
-                //         filter={false}
-                //         busy={this.state.searching}
-                //         dataKey="id"
-                //         textField="value"
-                //         data={this.state.agencyDropdown.sort()}
-                //         onChange={(e) => {
-                //             this.setState({filterAgency: e.value})
-                //             onChange(e.value)
-                //         }}
-                //         placeholder={'Please select'}
-                //         className={"text-start fw-normal"}
-                //     />
+
             },
             {
                 Header: "Action",
@@ -364,19 +300,19 @@ export default class StudentList extends React.Component {
                             </Button>
                             <UncontrolledTooltip placement={"top"}
                                                  target={"edit-button" + row.index} trigger="hover">
-                                Edit User
+                                Edit
                             </UncontrolledTooltip>
                         </span>
-                        {base64_decode(localStorage.getItem('3leeb6bnmn')) == "Admin" && base64_decode(localStorage.getItem('lkmlu5b2gf')) != row.original.id &&
+                        {['Super Admin','Admin'].includes(base64_decode(localStorage.getItem('3leeb6bnmn')))&&
                             <span>
                             <Button outline id={"delete-button-" + row.index}
                                     className="mb-2 mr-2 border-0 btn-outline-2x" color="danger"
-                                    onClick={() => this.setState({userId: row.original.id, deleteConfirmation: true})}>
+                                    onClick={() => this.setState({id: row.original.id, deleteConfirmation: true})}>
                                 <FontAwesomeIcon className={'fa-lg'} icon={faTrash}/>
                             </Button>
                             <UncontrolledTooltip placement={"top"}
                                                  target={"delete-button-" + row.index} trigger="hover">
-                                Delete User
+                                Delete
                             </UncontrolledTooltip>
                         </span>}
 
@@ -421,7 +357,7 @@ export default class StudentList extends React.Component {
                     this.state.deleteConfirmation &&
                     <ModalDelete onToggleDelete={() => this.toggleDelete()} onRefresh={() => this.loadData()}
                                  handleDelete={this.handleDelete}
-                                 userId={this.state.userId}/>
+                                 id={this.state.id}/>
                 }
                 <Fragment>
                     <TransitionGroup>
@@ -430,7 +366,7 @@ export default class StudentList extends React.Component {
                             <div>
                                 <PageTitle
                                     heading="User Management"
-                                    breadcrumbTitle="List of Student"
+                                    breadcrumbTitle="Student / List of Student"
                                     subheading="Student List"
                                     icon="pe-7s-medal icon-gradient bg-tempting-azure"
                                 />

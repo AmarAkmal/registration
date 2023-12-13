@@ -1,10 +1,21 @@
-from proj.models.model import Student ,Department,Program
+from proj.models.model import Student, Department, Program, Course, Grade
 from proj.views import func
 
 
 def check_exist(uuid) -> bool:
     try:
         up = Student.query.get(uuid)
+
+        if up:
+            return True
+    except:
+        func.error_log()
+        return False
+
+
+def check_existdeleteStudentCourse(uuid) -> bool:
+    try:
+        up = Grade.query.get(uuid)
 
         if up:
             return True
@@ -40,7 +51,36 @@ def filterList(params, query):
     return query
 
 
+def filterListStudentCourse(params, query):
+    for i in params['filtered']:
+        if i['id'] == 'course':
+            query = query.join(Course, Course.id == Grade.course_id)
+            query = query.filter(Course.code.like('%' + i['value'] + '%'))
+        if i['id'] == 'grade':
+            query = query.filter(Grade.grade.like('%' + i['value'] + '%'))
+        if i['id'] == 'matrixNo':
+            query = query.filter(Student.matrix_no.like('%' + i['value'] + '%'))
+        if i['id'] == 'studentName':
+            query = query.filter(Student.name.like('%' + i['value'] + '%'))
+        if i['id'] == 'programName':
+            query = query.join(Program, Program.id == Student.program_id)
+            query = query.filter(Program.name.like('%' + i['value'] + '%'))
+
+    return query
+
+
 def sortList(params, query):
+    for x in params['sorted']:
+
+        if x['desc']:
+            query = query.order_by(Student.date_created.desc())
+        else:
+            query = query.order_by(Student.date_created.asc())
+
+    return query
+
+
+def sortListStudentCourse(params, query):
     for x in params['sorted']:
 
         if x['desc']:
@@ -68,6 +108,30 @@ def determine_admin(query) -> list:
             year = split[1]
         tmpV['entrySessionMonth'] = month
         tmpV['entrySessionYear'] = year
+        tmp.append(tmpV)
+
+    return tmp
+
+
+def determine_student_course(query) -> list:
+    tmp = []
+    for i in query.items:
+        tmpV = func.convert(i)
+        tmpV['matrixNo'] = i.student.matrix_no
+        tmpV['studentName'] = i.student.name
+        tmpV['programName'] = i.student.program.name
+        tmpV['course'] = i.course.code
+        # tmpV['faculty_id'] = i.department.id
+        # tmpV['program'] = i.program.name
+        # tmpV['program_id'] = i.program.id
+        # month = ''
+        # year = ''
+        # if '/' in i.entry_session:
+        #     split = i.entry_session.split('/')
+        #     month = split[0]
+        #     year = split[1]
+        # tmpV['entrySessionMonth'] = month
+        # tmpV['entrySessionYear'] = year
         tmp.append(tmpV)
 
     return tmp

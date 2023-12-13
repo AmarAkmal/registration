@@ -341,9 +341,9 @@ export default class CourseList extends React.Component {
                                        timeout={1500} enter={false} exit={false}>
                             <div>
                                 <PageTitle
-                                    heading="User Management"
-                                    breadcrumbTitle="List of Coruse"
-                                    subheading="User Management List"
+                                    heading="List of Coruse"
+                                    breadcrumbTitle="Setting / List of Coruse"
+                                    subheading="List of Coruse"
                                     icon="pe-7s-medal icon-gradient bg-tempting-azure"
                                 />
                                 <Row>
