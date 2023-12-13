@@ -76,8 +76,8 @@ def update_existing_user_profile(params) -> dict():
 
         if userProfileExist:
             ## condition check
-
-            up = User.query.filter(User.id == params['id']).first()
+            up = db.session.query(User).filter(User.id == params['id']).first()
+            # up = User.query.filter(User.id == params['id']).first()
             up.name = params['user_name']
             print(params)
             if params['password']:

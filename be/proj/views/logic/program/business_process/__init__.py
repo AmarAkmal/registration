@@ -1,5 +1,3 @@
-from argon2 import PasswordHasher
-
 from proj.models import db
 from proj.models.model import Program
 from proj.views import func
@@ -8,7 +6,7 @@ from proj.views.logic.program import business_rules
 
 def list_(params) -> dict:
     status = func.define_status()
-    print(params)
+
     try:
         page = int(params['page']) + 1
         pageSize = int(params['pageSize'])
@@ -68,7 +66,7 @@ def update_existing(params) -> dict():
         record = business_rules.check_exist(params['id'])
 
         if record:
-            up = Program.query.get(params['id'])
+            up = db.session.query(Program).get(params['id'])
 
             up.code = params['code']
             up.name = params['name']

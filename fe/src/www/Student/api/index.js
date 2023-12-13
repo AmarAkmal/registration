@@ -12,13 +12,13 @@ function toastView(msg, typeToast) {
 
 
 export default {
-    list_user_profile : (params) => {
+    list_ : (params) => {
 
         const formData = new FormData()
         formData.append('ref', JSON.stringify(params))
 
         return new Promise((resolve, reject) => {
-            fetch(`${global.ipServer}course/list`, {
+            fetch(`${global.ipServer}student/list`, {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -37,13 +37,13 @@ export default {
 
 
     },
-    add_user_profile : (params) => {
+    add_student_profile : (params) => {
 
         const formData = new FormData()
         formData.append('ref', JSON.stringify(params))
 
         return new Promise((resolve, reject) => {
-            fetch(`${global.ipServer}course/add_`, {
+            fetch(`${global.ipServer}student/add_`, {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -59,13 +59,13 @@ export default {
             })
         })
     },
-    delete_ : (params) => {
+    delete_student_profile : (params) => {
 
         const formData = new FormData()
         formData.append('ref', JSON.stringify(params))
 
         return new Promise((resolve, reject) => {
-            fetch(`${global.ipServer}course/delete_`, {
+            fetch(`${global.ipServer}student/delete_`, {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -83,13 +83,13 @@ export default {
 
 
     },
-    update_user_profile : (params) => {
+    update_student_profile : (params) => {
 
         const formData = new FormData()
         formData.append('ref', JSON.stringify(params))
 
         return new Promise((resolve, reject) => {
-            fetch(`${global.ipServer}course/update_`, {
+            fetch(`${global.ipServer}student/update_`, {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -106,11 +106,48 @@ export default {
         })
 
     },
-
-    get_userId : () => {
+    get_studentname : () => {
 
         return new Promise((resolve, reject) => {
-            fetch(`${global.ipServer}user/userId`, {
+            fetch(`${global.ipServer}student/studentname`, {
+                method: 'POST',
+                headers: {
+                    'x-access-token': localStorage.getItem("n29pa87zfm"),
+                }
+            })
+            .then((response) => {
+                return resolve(response.json())
+            })
+            .catch((err) => {
+                reject(err);
+                console.log(err);
+            })
+        })
+
+    },
+    get_email : () => {
+
+        return new Promise((resolve, reject) => {
+            fetch(`${global.ipServer}student/email`, {
+                method: 'POST',
+                headers: {
+                    'x-access-token': localStorage.getItem("n29pa87zfm"),
+                }
+            })
+            .then((response) => {
+                return resolve(response.json())
+            })
+            .catch((err) => {
+                reject(err);
+                console.log(err);
+            })
+        })
+
+    },
+    get_studentId : () => {
+
+        return new Promise((resolve, reject) => {
+            fetch(`${global.ipServer}student/studentId`, {
                 method: 'POST',
                 headers: {
                     'x-access-token': localStorage.getItem("n29pa87zfm"),
@@ -129,7 +166,7 @@ export default {
     get_department : () => {
 
         return new Promise((resolve, reject) => {
-            fetch(`${global.ipServer}user/department`, {
+            fetch(`${global.ipServer}student/department`, {
                 method: 'POST',
                 headers: {
                     'x-access-token': localStorage.getItem("n29pa87zfm"),
@@ -150,7 +187,7 @@ export default {
         formData.append('ref', JSON.stringify(params))
 
         return new Promise((resolve, reject) => {
-            fetch(`${global.ipServer}user/change_pass`, {
+            fetch(`${global.ipServer}student/change_pass`, {
                 method: 'POST',
                 body: formData,
                 headers: {

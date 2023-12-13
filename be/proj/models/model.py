@@ -46,12 +46,13 @@ class Record(db.Model):
         self.id = uuid.uuid4().hex
 
 
-class Department(db.Model):
+class Department(db.Model):  ## Faculty
     id = db.Column(db.String(32), primary_key=True)
     code = db.Column(db.String(50))
     name = db.Column(db.String(200))
-    user_department = db.relationship("User", backref="department",cascade="all,delete")
-    program_department = db.relationship("Program", backref="department",cascade="all,delete")
+    user_faculty = db.relationship("User", backref="department", cascade="all,delete")
+    program_faculty = db.relationship("Program", backref="department", cascade="all,delete")
+    course_faculty = db.relationship("Course", backref="department", cascade="all,delete")
 
     def __init__(self):
         self.id = uuid.uuid4().hex
@@ -62,6 +63,52 @@ class Program(db.Model):
     code = db.Column(db.String(50))
     name = db.Column(db.String(200))
     department_id = db.Column(db.String(32), db.ForeignKey('department.id', ondelete="CASCADE", onupdate="CASCADE"))
+    date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
+
+    # student_program = db.relationship("Student", backref="program", cascade="all,delete")
+
+    def __init__(self):
+        self.id = uuid.uuid4().hex
+
+
+class Course(db.Model):  ## Kursus
+    id = db.Column(db.String(32), primary_key=True)
+    code = db.Column(db.String(50))
+    name = db.Column(db.String(200))
+    section = db.Column(db.String(200))
+    credit_hours = db.Column(db.String(200))
+    result = db.Column(db.String(200))
+    faculty_id = db.Column(db.String(32), db.ForeignKey('department.id', ondelete="CASCADE", onupdate="CASCADE"))
+    grade_program = db.relationship("Grade", backref="course", cascade="all,delete")
+
+    def __init__(self):
+        self.id = uuid.uuid4().hex
+
+
+class Grade(db.Model):  ## Grade
+    id = db.Column(db.String(32), primary_key=True)
+    code = db.Column(db.String(50))
+    name = db.Column(db.String(200))
+    section = db.Column(db.String(200))
+    credit_hours = db.Column(db.String(200))
+    result = db.Column(db.String(200))
+    grade_id = db.Column(db.String(32), db.ForeignKey('course.id', ondelete="CASCADE", onupdate="CASCADE"))
+    student_grade = db.relationship("Student", backref="grade", cascade="all,delete")
+
+    def __init__(self):
+        self.id = uuid.uuid4().hex
+
+
+class Student(db.Model):
+    id = db.Column(db.String(32), primary_key=True)
+    ic_no = db.Column(db.String(50))
+    matrix_no = db.Column(db.String(100))
+    name = db.Column(db.String(200))
+    entry_session = db.Column(db.String(100))
+    year_of_graduate = db.Column(db.String(100))
+    status = db.Column(db.String(100))
+    program_id = db.Column(db.String(32), db.ForeignKey('program.id', ondelete="CASCADE", onupdate="CASCADE"))
+    grade_id = db.Column(db.String(32), db.ForeignKey('grade.id', ondelete="CASCADE", onupdate="CASCADE"))
     date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
 
     def __init__(self):

@@ -29,6 +29,9 @@ def intial_app(config_name='development'):
     from proj.views.program import bp_program
     app.register_blueprint(bp_program, url_prefix='/program')
 
+    from proj.views.course import bp_course
+    app.register_blueprint(bp_course, url_prefix='/course')
+
     from proj.views.user_management import bp_user_management
     app.register_blueprint(bp_user_management, url_prefix='/user')
 
@@ -36,7 +39,7 @@ def intial_app(config_name='development'):
     app.register_blueprint(bp_setting, url_prefix='/setting')
 
     with app.app_context():
-        # db.drop_all()
+
         db.create_all()
 
     return app

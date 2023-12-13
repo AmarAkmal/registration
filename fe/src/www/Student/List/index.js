@@ -4,6 +4,7 @@ import {CSSTransition, TransitionGroup} from 'react-transition-group';
 import {Button, Card, CardBody, CardHeader, CardTitle, Col, Row, UncontrolledTooltip} from "reactstrap";
 
 import PageTitle from "../../../Layout/AppMain/PageTitle";
+import {DropdownList} from "react-widgets";
 
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEraser, faPencil, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons";
@@ -27,7 +28,7 @@ function toastView(msg, typeToast) {
     });
 }
 
-export default class CourseList extends React.Component {
+export default class StudentList extends React.Component {
     constructor() {
         super();
         this.state = {
@@ -35,24 +36,28 @@ export default class CourseList extends React.Component {
             isAdd: false,
             isUpdate: false,
             dataUser: {
-                code: '',
-                name: '',
-                section: '',
-                creditHour: '',
-                result: '',
-                faculty: '',
+                'username': "",
+                'password': "",
+                'staffName': "",
+                'email': "",
+                'accountType': "",
+                'agency': "",
             },
             history: [],
             deleteConfirmation: false,
             userId: null,
             pending: true,
-            isAdmin: ['Super Admin', 'Admin'].includes(base64_decode(localStorage.getItem('3leeb6bnmn'))),
+            isAdmin: ['Super Admin'].includes(base64_decode(localStorage.getItem('3leeb6bnmn'))),
             searching: false,
             page: 0,
             pageSize: 10,
             totalpagenum: 1,
             filtered: [],
             filterAccount: "",
+            accountTypeDropdown: [
+                {id: 'Normal', value: 'Normal'},
+                {id: 'Admin', value: 'Admin'},
+            ],
             sorting: [{id: "staff_name", desc: false}]
         };
     }
@@ -95,7 +100,7 @@ export default class CourseList extends React.Component {
         logger_id = JSON.stringify(logger_id)
         logger_id = window.btoa(logger_id)
 
-        api.list_user_profile(logger_id).then((response) => {
+        api.list_(logger_id).then((response) => {
             this.setState({
                 data: response['data'],
                 pending: false,
@@ -141,14 +146,17 @@ export default class CourseList extends React.Component {
     confUpdateModal = (val) => {
         this.setState({
             dataUser: {
-                id: val['id'],
-                code: val['code'],
-                name: val['name'],
-                section: val['section'],
-                creditHour: val['credit_hours'],
-                result: val['result'],
-                faculty: val['faculty'],
-                faculty_id: val['faculty_id'],
+                'id': val['id'],
+                'user_id': val['user_id'],
+                'username': val["name"],
+                'phoneNo': val["phone"],
+                'department': val["department_id"],
+                // 'password': "XxXxXxXxX",
+                'staffName': val['staff_name'],
+                'departmentId': val['department_id'],
+                'email': val['email'],
+                'accountType': val['user_type'],
+                'agency': val['agency'],
             }, isUpdate: true
         });
     }
@@ -183,18 +191,6 @@ export default class CourseList extends React.Component {
                 ),
             },
             {
-                Header: "Code",
-                accessor: 'code',
-                Cell: (row) => (
-                    <span
-                        style={{
-                            textAlign: 'center',
-                            width: '100%'
-                        }}>{row.value}</span>
-                ),
-                filterable: true,
-            },
-            {
                 Header: "Name",
                 accessor: 'name',
                 Cell: (row) => (
@@ -207,8 +203,8 @@ export default class CourseList extends React.Component {
                 filterable: true,
             },
             {
-                Header: "Section",
-                accessor: 'section',
+                Header: "IC. No",
+                accessor: 'icNo',
                 Cell: (row) => (
                     <span
                         style={{
@@ -219,8 +215,8 @@ export default class CourseList extends React.Component {
                 filterable: true,
             },
             {
-                Header: "Credit Hour",
-                accessor: 'credit_hours',
+                Header: "Matrix No.",
+                accessor: 'matrixNo',
                 Cell: (row) => (
                     <span
                         style={{
@@ -229,12 +225,10 @@ export default class CourseList extends React.Component {
                         }}>{row.value}</span>
                 ),
                 filterable: true,
-
             },
-
             {
-                Header: "Type of Result",
-                accessor: 'result',
+                Header: "Entry Session",
+                accessor: 'entrySession',
                 Cell: (row) => (
                     <span
                         style={{
@@ -243,12 +237,10 @@ export default class CourseList extends React.Component {
                         }}>{row.value}</span>
                 ),
                 filterable: true,
-
             },
-
             {
                 Header: "Faculty",
-                accessor: 'faculty',
+                accessor: 'department',
                 Cell: (row) => (
                     <span
                         style={{
@@ -257,9 +249,111 @@ export default class CourseList extends React.Component {
                         }}>{row.value}</span>
                 ),
                 filterable: true,
-
+                // Filter: ({filter, onChange}) =>
+                //     <DropdownList
+                //         name={'agency'}
+                //         // placeholder="Account Type"
+                //         value={this.state.filterAgency}
+                //         filter={false}
+                //         busy={this.state.searching}
+                //         dataKey="id"
+                //         textField="value"
+                //         data={this.state.agencyDropdown.sort()}
+                //         onChange={(e) => {
+                //             this.setState({filterAgency: e.value})
+                //             onChange(e.value)
+                //         }}
+                //         placeholder={'Please select'}
+                //         className={"text-start fw-normal"}
+                //     />
             },
-
+            {
+                Header: "Program",
+                accessor: 'program',
+                Cell: (row) => (
+                    <span
+                        style={{
+                            textAlign: 'center',
+                            width: '100%'
+                        }}>{row.value}</span>
+                ),
+                filterable: true,
+                // Filter: ({filter, onChange}) =>
+                //     <DropdownList
+                //         name={'agency'}
+                //         // placeholder="Account Type"
+                //         value={this.state.filterAgency}
+                //         filter={false}
+                //         busy={this.state.searching}
+                //         dataKey="id"
+                //         textField="value"
+                //         data={this.state.agencyDropdown.sort()}
+                //         onChange={(e) => {
+                //             this.setState({filterAgency: e.value})
+                //             onChange(e.value)
+                //         }}
+                //         placeholder={'Please select'}
+                //         className={"text-start fw-normal"}
+                //     />
+            },
+            {
+                Header: "Status",
+                accessor: 'status',
+                Cell: (row) => (
+                    <span
+                        style={{
+                            textAlign: 'center',
+                            width: '100%'
+                        }}>{row.value}</span>
+                ),
+                filterable: true,
+                // Filter: ({filter, onChange}) =>
+                //     <DropdownList
+                //         name={'agency'}
+                //         // placeholder="Account Type"
+                //         value={this.state.filterAgency}
+                //         filter={false}
+                //         busy={this.state.searching}
+                //         dataKey="id"
+                //         textField="value"
+                //         data={this.state.agencyDropdown.sort()}
+                //         onChange={(e) => {
+                //             this.setState({filterAgency: e.value})
+                //             onChange(e.value)
+                //         }}
+                //         placeholder={'Please select'}
+                //         className={"text-start fw-normal"}
+                //     />
+            },
+            {
+                Header: "Year of Graduation",
+                accessor: 'graduation',
+                Cell: (row) => (
+                    <span
+                        style={{
+                            textAlign: 'center',
+                            width: '100%'
+                        }}>{row.value}</span>
+                ),
+                filterable: true,
+                // Filter: ({filter, onChange}) =>
+                //     <DropdownList
+                //         name={'agency'}
+                //         // placeholder="Account Type"
+                //         value={this.state.filterAgency}
+                //         filter={false}
+                //         busy={this.state.searching}
+                //         dataKey="id"
+                //         textField="value"
+                //         data={this.state.agencyDropdown.sort()}
+                //         onChange={(e) => {
+                //             this.setState({filterAgency: e.value})
+                //             onChange(e.value)
+                //         }}
+                //         placeholder={'Please select'}
+                //         className={"text-start fw-normal"}
+                //     />
+            },
             {
                 Header: "Action",
                 accessor: '',
@@ -276,14 +370,14 @@ export default class CourseList extends React.Component {
                             </Button>
                             <UncontrolledTooltip placement={"top"}
                                                  target={"edit-button" + row.index} trigger="hover">
-                                Edit
+                                Edit User
                             </UncontrolledTooltip>
                         </span>
-                        {['Super Admin', 'Admin'].includes(base64_decode(localStorage.getItem('3leeb6bnmn'))) &&
+                        {base64_decode(localStorage.getItem('3leeb6bnmn')) == "Admin" && base64_decode(localStorage.getItem('lkmlu5b2gf')) != row.original.id &&
                             <span>
                             <Button outline id={"delete-button-" + row.index}
                                     className="mb-2 mr-2 border-0 btn-outline-2x" color="danger"
-                                    onClick={() => this.setState({id: row.original.id, deleteConfirmation: true})}>
+                                    onClick={() => this.setState({userId: row.original.id, deleteConfirmation: true})}>
                                 <FontAwesomeIcon className={'fa-lg'} icon={faTrash}/>
                             </Button>
                             <UncontrolledTooltip placement={"top"}
@@ -326,14 +420,14 @@ export default class CourseList extends React.Component {
 
                 {this.state.isUpdate &&
                     <ModalUpdate onToggle={() => this.toggleUpdate()} onRefresh={() => this.loadDataRefresh()}
-                                 data={this.state.dataUser}
+                                 dataUser={this.state.dataUser}
                                  handleUpdate={this.handleUpdate}/>
                 }
                 {
                     this.state.deleteConfirmation &&
                     <ModalDelete onToggleDelete={() => this.toggleDelete()} onRefresh={() => this.loadData()}
                                  handleDelete={this.handleDelete}
-                                 id={this.state.id}/>
+                                 userId={this.state.userId}/>
                 }
                 <Fragment>
                     <TransitionGroup>
@@ -373,7 +467,7 @@ export default class CourseList extends React.Component {
                                                                 >
                                                                     <FontAwesomeIcon className={'fa-lg'}
                                                                                      icon={faPlus}/> &nbsp;&nbsp;Register
-                                                                    New Course
+                                                                    New User
 
                                                                 </Button>
                                                             </div>
@@ -382,6 +476,14 @@ export default class CourseList extends React.Component {
                                                 </Row>
                                             </CardHeader>
                                             <CardBody>
+                                                {/* <DataTable data={data}
+                                                        columns={columns}
+                                                        pagination
+                                                        fixedHeader
+                                                        fixedHeaderScrollHeight="400px"
+                                                        responsive={true}
+                                                        progressPending={this.state.pending}
+                                                /> */}
                                                 <ReactTable
                                                     filtered={this.state.filtered}
                                                     data={data}
