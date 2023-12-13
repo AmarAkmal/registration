@@ -169,7 +169,13 @@ def get_userId():
 def get_department():
     result = func.define_status()
     try:
-        department = Department.query.all()
+        role = request.args['user_role']
+
+        department = Department.query
+        if role == 'Super Admin':
+            pass
+        else:
+            department = department.filter(Department.id == request.args['user_department_id'])
         for i in department:
             result['data'].append({
                 'id': i.id,

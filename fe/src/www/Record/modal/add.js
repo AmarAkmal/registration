@@ -128,7 +128,7 @@ export default class ModalAdd extends React.Component {
 
                         <Row style={{padding: "10px 20px 10px 20px"}}>
                             <Col md={2}>
-                                <Label style={{marginTop: "5px", width: "100%"}}>Kod</Label>
+                                <Label style={{marginTop: "5px", width: "100%"}}>Code</Label>
                             </Col>
                             <Col md={10}>
                                 <FormGroup>

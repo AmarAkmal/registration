@@ -221,7 +221,13 @@ def get_username():
 def get_department():
     result = func.define_status()
     try:
-        department = Department.query.all()
+        role = request.args['user_role']
+        print(request.args)
+        department = Department.query
+        if role == 'Super Admin':
+            pass
+        else:
+            department = department.filter(Department.id == request.args['user_department_id'])
         for i in department:
             result['data'].append({
                 'id': i.id,
@@ -240,8 +246,15 @@ def get_department():
 def get_program():
     result = func.define_status()
     try:
-        department = Program.query.all()
-        for i in department:
+        role = request.args['user_role']
+
+        query = Program.query
+        if role == 'Super Admin':
+            pass
+        else:
+            query = query.filter(Program.department_id == request.args['user_department_id'])
+
+        for i in query:
             result['data'].append({
                 'id': i.id,
                 'name': i.name
@@ -278,7 +291,12 @@ def get_course():
 def get_student():
     result = func.define_status()
     try:
-        list_ = Student.query.all()
+        get_exist = Grade.query.all()
+        studentList = []
+        for x in get_exist:
+            studentList.append(x.student_id)
+        print(studentList)
+        list_ = Student.query.filter(Student.id.notin_(studentList))
         for i in list_:
             result['data'].append({
                 'id': i.id,
