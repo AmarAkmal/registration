@@ -113,7 +113,6 @@ export default class ModalUpdate extends React.Component {
             }
         }
 
-        console.log(valid)
 
         return valid
     }

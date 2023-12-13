@@ -133,7 +133,6 @@ export default class StudentCourseList extends React.Component {
     }
 
     confUpdateModal = (val) => {
-        console.log(val)
         this.setState({
             dataDetails: {
                 'id': val['id'],

@@ -253,7 +253,6 @@ def get_program():
             pass
         else:
             query = query.filter(Program.department_id == request.args['user_department_id'])
-
         for i in query:
             result['data'].append({
                 'id': i.id,

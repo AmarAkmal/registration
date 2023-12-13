@@ -109,7 +109,6 @@ export default class ModalUpdate extends React.Component {
 
         }
         if (name == 'userId') {
-            console.log(this.state.listUserId)
             let userIdValid = validate(event.target.value)
             this.setState({
                 invalidUserId: userIdValid ? false : true,
@@ -190,7 +189,6 @@ export default class ModalUpdate extends React.Component {
             }
         }
 
-        console.log(valid)
 
         return valid
     }

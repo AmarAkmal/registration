@@ -44,7 +44,6 @@ export default class ModalDelete extends React.Component {
         params = JSON.stringify(params)
         params = window.btoa(params)
         api.delete_(params).then(res =>{
-            console.log(res.data.message)
             if (res.data.message == 'Failed to delete, Record in use'){
                 this.toastView( res.data.message, 'warning')
             }else {

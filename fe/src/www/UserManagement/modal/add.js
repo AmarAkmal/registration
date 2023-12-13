@@ -97,7 +97,6 @@ export default class ModalAdd extends React.Component {
 
 
         if (name == 'email') {
-            console.log(this.state.listEmail)
             let emailValid = validate(event.target.value)
             this.setState({
                 invalidEmail: emailValid ? false : true,
@@ -108,7 +107,6 @@ export default class ModalAdd extends React.Component {
 
         }
         if (name == 'userId') {
-            console.log(this.state.listUserId)
             let userIdValid = validate(event.target.value)
             this.setState({
                 invalidUserId: userIdValid ? false : true,
