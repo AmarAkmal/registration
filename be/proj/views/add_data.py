@@ -19,9 +19,9 @@ def insert_admin_user():
         db.session.add(add_depart)
 
         up = User()
-        up.user_id = "111"
-        up.name = "Admin 1"
-        up.email = "admin@mail.com"
+        up.user_id = "111"+add_depart.name
+        up.name = "Admin 1 "+add_depart.name
+        up.email = "admin"+add_depart.name+"@mail.com"
         up.password = "123456"
         up.phone = "017777777"
         up.user_type = "Admin"
@@ -29,9 +29,9 @@ def insert_admin_user():
         db.session.add(up)
 
         up = User()
-        up.user_id = "222"
-        up.name = "Super Admin 1"
-        up.email = "superadmin@mail.com"
+        up.user_id = "222"+add_depart.name
+        up.name = "Super Admin 1 "+add_depart.name
+        up.email = "superadmin"+add_depart.name+"@mail.com"
         up.password = "123456"
         up.phone = "017777778"
         up.user_type = "Super Admin"
@@ -39,9 +39,37 @@ def insert_admin_user():
         db.session.add(up)
 
         up = User()
-        up.user_id = "333"
-        up.name = "Normal User 1"
-        up.email = "user@mail.com"
+        up.user_id = "333"+add_depart.name
+        up.name = "Normal User 1 "+add_depart.name
+        up.email = "user"+add_depart.name+"@mail.com"
+        up.password = "123456"
+        up.phone = "017777779"
+        up.user_type = "Normal"
+        up.department_id = add_depart.id
+        db.session.add(up)
+
+
+        #####################
+        add_depart = Department()
+        add_depart.name = "DEF"
+        add_depart.code = "01DEF"
+        db.session.add(add_depart)
+
+        up = User()
+        up.user_id = "111"+add_depart.name
+        up.name = "Admin 1 " + add_depart.name
+        up.email = "admin"+add_depart.name+"@mail.com"
+        up.password = "123456"
+        up.phone = "017777777"
+        up.user_type = "Admin"
+        up.department_id = add_depart.id
+        db.session.add(up)
+
+
+        up = User()
+        up.user_id = "333"+add_depart.name
+        up.name = "Normal User 1 "+ add_depart.name
+        up.email = "user"+add_depart.name+"@mail.com"
         up.password = "123456"
         up.phone = "017777779"
         up.user_type = "Normal"

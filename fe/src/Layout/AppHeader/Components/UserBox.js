@@ -49,12 +49,11 @@ class UserBox extends React.Component {
         ));
 
     componentDidMount() {
-
         this.setState({
             dataUser: {
                 'id': base64_decode(localStorage.getItem("lkmlu5b2gf")),
                 'user_id': base64_decode(localStorage.getItem("mk2lu5b2gf")),
-                'name': base64_decode(localStorage.getItem("aazwo7n331")),
+                'username': base64_decode(localStorage.getItem("aazwo7n331")),
                 'email': base64_decode(localStorage.getItem("dftyo7n331")),
                 'accountType': base64_decode(localStorage.getItem("3leeb6bnmn")),
                 'department': base64_decode(localStorage.getItem("fghwo7n3rh")),

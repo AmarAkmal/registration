@@ -17,7 +17,7 @@ export default {
         formData.append('ref', JSON.stringify(params))
 
         return new Promise((resolve, reject) => {
-            fetch(`${global.ipServer}program/list-department`, {
+            fetch(`${global.ipServer}program/list`, {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -42,7 +42,7 @@ export default {
         formData.append('ref', JSON.stringify(params))
 
         return new Promise((resolve, reject) => {
-            fetch(`${global.ipServer}program/add_department`, {
+            fetch(`${global.ipServer}program/add`, {
                 method: 'POST',
                 body: formData,
                 headers: {

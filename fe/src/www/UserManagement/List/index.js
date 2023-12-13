@@ -47,7 +47,7 @@ export default class UserManagementList extends React.Component {
             deleteConfirmation: false,
             userId: null,
             pending: true,
-            isAdmin: base64_decode(localStorage.getItem('3leeb6bnmn')) === 'Admin' ? true : false,
+            isAdmin: ['Super Admin'].includes(base64_decode(localStorage.getItem('3leeb6bnmn'))),
             searching: false,
             page: 0,
             pageSize: 10,
@@ -128,10 +128,7 @@ export default class UserManagementList extends React.Component {
         this.setState({isUpdate: false});
         this.loadData()
         if (err === null) {
-            this.state.isAdmin && localStorage.getItem('3leeb6bnmn') ?
-                toastView("User updated succesfully", 'success')
-                :
-                toastView("Not Authorized", 'error');
+            toastView("Data updated succesfully", 'success')
         }
     }
 

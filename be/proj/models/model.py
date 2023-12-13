@@ -1,5 +1,6 @@
-import bcrypt
 import uuid
+
+import bcrypt
 
 from proj import db
 
@@ -50,16 +51,18 @@ class Department(db.Model):
     code = db.Column(db.String(50))
     name = db.Column(db.String(200))
     user_department = db.relationship("User", backref="department")
-    user_department = db.relationship("Program", backref="department")
+    program_department = db.relationship("Program", backref="department")
 
     def __init__(self):
         self.id = uuid.uuid4().hex
+
 
 class Program(db.Model):
     id = db.Column(db.String(32), primary_key=True)
     code = db.Column(db.String(50))
     name = db.Column(db.String(200))
     department_id = db.Column(db.String(32), db.ForeignKey('department.id', ondelete="CASCADE", onupdate="CASCADE"))
+    date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
 
     def __init__(self):
         self.id = uuid.uuid4().hex

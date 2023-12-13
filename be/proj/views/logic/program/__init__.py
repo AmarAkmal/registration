@@ -1,4 +1,4 @@
-from proj.views.logic.setting import business_process
+from proj.views.logic.program import business_process
 
 
 def get_list(params) -> dict:
@@ -7,7 +7,7 @@ def get_list(params) -> dict:
     return status
 
 
-def add_new_department(params) -> dict:
+def add_new(params) -> dict:
     status = business_process.add_new(params)
     return status
 

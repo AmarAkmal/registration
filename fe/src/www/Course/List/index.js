@@ -14,7 +14,7 @@ import ModalDelete from "../modal/delete";
 import api from "../api"
 import {Bounce, toast} from "react-toastify";
 import ReactTable from "react-table";
-import "../style.css";
+import "../Style.css";
 import {Redirect} from "react-router-dom";
 import {decode as base64_decode} from 'base-64';
 
@@ -28,32 +28,37 @@ function toastView(msg, typeToast) {
     });
 }
 
-export default class ProgramList extends React.Component {
+export default class CourseList extends React.Component {
     constructor() {
         super();
         this.state = {
             data: [],
             isAdd: false,
             isUpdate: false,
-            dataDetails: {
-
-                'departmentName': "",
-
+            dataUser: {
+                'username': "",
+                'password': "",
+                'staffName': "",
+                'email': "",
+                'accountType': "",
+                'agency': "",
             },
             history: [],
             deleteConfirmation: false,
             userId: null,
             pending: true,
-            isAdmin: ['Super Admin','Admin'].includes(base64_decode(localStorage.getItem('3leeb6bnmn'))),
+            isAdmin: ['Super Admin'].includes(base64_decode(localStorage.getItem('3leeb6bnmn'))),
             searching: false,
             page: 0,
             pageSize: 10,
             totalpagenum: 1,
             filtered: [],
             filterAccount: "",
-            filterAgency: "",
-
-            sorting: [{id: "name", desc: false}]
+            accountTypeDropdown: [
+                {id: 'Normal', value: 'Normal'},
+                {id: 'Admin', value: 'Admin'},
+            ],
+            sorting: [{id: "staff_name", desc: false}]
         };
     }
 
@@ -95,7 +100,7 @@ export default class ProgramList extends React.Component {
         logger_id = JSON.stringify(logger_id)
         logger_id = window.btoa(logger_id)
 
-        api.list_(logger_id).then((response) => {
+        api.list_user_profile(logger_id).then((response) => {
             this.setState({
                 data: response['data'],
                 pending: false,
@@ -112,15 +117,17 @@ export default class ProgramList extends React.Component {
         this.setState({isAdd: false});
         this.loadData()
         if (err === null) {
-            toastView("Data added succesfully", 'success')
+            this.state.isAdmin ?
+                toastView("User added succesfully", 'success')
+                :
+                toastView("Not Authorized", 'error')
         }
     }
 
     handleUpdate = (err = null) => {
-
+        this.setState({isUpdate: false});
+        this.loadData()
         if (err === null) {
-            this.setState({isUpdate: false});
-            this.loadData()
             toastView("Data updated succesfully", 'success')
         }
     }
@@ -129,18 +136,27 @@ export default class ProgramList extends React.Component {
         this.setState({deleteConfirmation: false});
         this.loadData()
         if (err === null) {
-            toastView("Data deleted succesfully", 'success')
+            this.state.isAdmin ?
+                toastView("User deleted succesfully", 'success')
+                :
+                toastView("Not Authorized", 'error')
         }
     }
 
     confUpdateModal = (val) => {
-
         this.setState({
-            dataDetails: {
+            dataUser: {
                 'id': val['id'],
-                'code': val['code'],
-                'name': val["name"],
-
+                'user_id': val['user_id'],
+                'username': val["name"],
+                'phoneNo': val["phone"],
+                'department': val["department_id"],
+                // 'password': "XxXxXxXxX",
+                'staffName': val['staff_name'],
+                'departmentId': val['department_id'],
+                'email': val['email'],
+                'accountType': val['user_type'],
+                'agency': val['agency'],
             }, isUpdate: true
         });
     }
@@ -175,21 +191,8 @@ export default class ProgramList extends React.Component {
                 ),
             },
             {
-                Header: "Faculty",
-                accessor: 'faculty',
-                Cell: (row) => (
-                    <span
-                        style={{
-                            textAlign: 'center',
-                            width: '100%'
-                        }}>{row.value}</span>
-                ),
-                filterable: ['Super Admin'].includes(base64_decode(localStorage.getItem('3leeb6bnmn'))),
-                width:200
-            },
-            {
-                Header: "Code",
-                accessor: 'code',
+                Header: "User Id",
+                accessor: 'user_id',
                 Cell: (row) => (
                     <span
                         style={{
@@ -198,10 +201,9 @@ export default class ProgramList extends React.Component {
                         }}>{row.value}</span>
                 ),
                 filterable: true,
-                width:200
             },
             {
-                Header: "Program",
+                Header: "Staff Name",
                 accessor: 'name',
                 Cell: (row) => (
                     <span
@@ -210,15 +212,89 @@ export default class ProgramList extends React.Component {
                             width: '100%'
                         }}>{row.value}</span>
                 ),
-                filterable:  true,
+                filterable: true,
             },
-
+            {
+                Header: "Email",
+                accessor: 'email',
+                Cell: (row) => (
+                    <span
+                        style={{
+                            textAlign: 'center',
+                            width: '100%'
+                        }}>{row.value}</span>
+                ),
+                filterable: true,
+            },
+            {
+                Header: "Faculty",
+                accessor: 'department',
+                Cell: (row) => (
+                    <span
+                        style={{
+                            textAlign: 'center',
+                            width: '100%'
+                        }}>{row.value}</span>
+                ),
+                filterable: true,
+                // Filter: ({filter, onChange}) =>
+                //     <DropdownList
+                //         name={'agency'}
+                //         // placeholder="Account Type"
+                //         value={this.state.filterAgency}
+                //         filter={false}
+                //         busy={this.state.searching}
+                //         dataKey="id"
+                //         textField="value"
+                //         data={this.state.agencyDropdown.sort()}
+                //         onChange={(e) => {
+                //             this.setState({filterAgency: e.value})
+                //             onChange(e.value)
+                //         }}
+                //         placeholder={'Please select'}
+                //         className={"text-start fw-normal"}
+                //     />
+            },
+            {
+                Header: "Account Type",
+                accessor: 'account_type',
+                Cell: (row) => (
+                    <span
+                        style={{
+                            textAlign: 'center',
+                            width: '100%',
+                        }}>
+                        <Button className={ (['Super Admin','Admin'].includes(row.value)) ? "bg-success border-0" : "bg-secondary border-0"}
+                                disabled>
+                            {row.value}
+                        </Button>
+                    </span>
+                ),
+                filterable: true,
+                Filter: ({filter, onChange}) =>
+                    <DropdownList
+                        name={'accounttype'}
+                        // placeholder="Account Type"
+                        value={this.state.filterAccount}
+                        filter={false}
+                        busy={this.state.searching}
+                        dataKey="id"
+                        textField="value"
+                        data={this.state.accountTypeDropdown.sort()}
+                        onChange={(e) => {
+                            this.setState({filterAccount: e.value})
+                            onChange(e.value)
+                        }}
+                        placeholder={'Please select'}
+                        className={"text-start fw-normal"}
+                    />
+            },
             {
                 Header: "Action",
                 accessor: '',
                 sortable: false,
-                show: this.state.isAdmin ||  this.state.isAdmin,
                 width: 140,
+                show: this.state.isAdmin,
                 Cell: (row) => (
                     <div style={{textAlign: 'center', width: '100%',}}>
                         <span>
@@ -229,10 +305,11 @@ export default class ProgramList extends React.Component {
                             </Button>
                             <UncontrolledTooltip placement={"top"}
                                                  target={"edit-button" + row.index} trigger="hover">
-                                Edit
+                                Edit User
                             </UncontrolledTooltip>
                         </span>
-                        <span>
+                        {base64_decode(localStorage.getItem('3leeb6bnmn')) == "Admin" && base64_decode(localStorage.getItem('lkmlu5b2gf')) != row.original.id &&
+                            <span>
                             <Button outline id={"delete-button-" + row.index}
                                     className="mb-2 mr-2 border-0 btn-outline-2x" color="danger"
                                     onClick={() => this.setState({userId: row.original.id, deleteConfirmation: true})}>
@@ -240,9 +317,9 @@ export default class ProgramList extends React.Component {
                             </Button>
                             <UncontrolledTooltip placement={"top"}
                                                  target={"delete-button-" + row.index} trigger="hover">
-                                Delete
+                                Delete User
                             </UncontrolledTooltip>
-                        </span>
+                        </span>}
 
                     </div>
                 ),
@@ -278,7 +355,7 @@ export default class ProgramList extends React.Component {
 
                 {this.state.isUpdate &&
                     <ModalUpdate onToggle={() => this.toggleUpdate()} onRefresh={() => this.loadDataRefresh()}
-                                 data={this.state.dataDetails}
+                                 dataUser={this.state.dataUser}
                                  handleUpdate={this.handleUpdate}/>
                 }
                 {
@@ -294,8 +371,8 @@ export default class ProgramList extends React.Component {
                             <div>
                                 <PageTitle
                                     heading="User Management"
-                                    breadcrumbTitle="List of Program"
-                                    subheading="Program List"
+                                    breadcrumbTitle="User Management / List of User Management"
+                                    subheading="User Management List"
                                     icon="pe-7s-medal icon-gradient bg-tempting-azure"
                                 />
                                 <Row>
@@ -305,7 +382,7 @@ export default class ProgramList extends React.Component {
                                             <CardHeader className={'mt-3'} style={{display: "unset"}}>
                                                 <Row>
                                                     <Col sm={6} md={6} lg={6}>
-                                                        <CardTitle className='mt-2'>List of Program</CardTitle>
+                                                        <CardTitle className='mt-2'>List of User Management</CardTitle>
                                                     </Col>
                                                     <Col sm={1} md={1}
                                                          lg={(window.innerWidth >= 994 && window.innerWidth <= 1355) ? 2 : 3}
@@ -315,19 +392,21 @@ export default class ProgramList extends React.Component {
                                                     <Col sm={4} md={4}
                                                          lg={(window.innerWidth >= 994 && window.innerWidth <= 1355) ? 3 : 2}
                                                          style={{padding: '0px', paddingRight: '10px'}}>
-                                                        <div style={{width: '100%', textAlign: 'right'}}>
-                                                            <Button outline className="mb-2 mr-2 btn-outline-2x"
-                                                                    style={{width: '100%'}} color="primary"
-                                                                    onClick={() => {
-                                                                        this.setState({isAdd: true});
-                                                                    }}
-                                                            >
-                                                                <FontAwesomeIcon className={'fa-lg'}
-                                                                                 icon={faPlus}/> &nbsp;&nbsp;Register
-                                                                New Program
+                                                        {this.state.isAdmin &&
+                                                            <div style={{width: '100%', textAlign: 'right'}}>
+                                                                <Button outline className="mb-2 mr-2 btn-outline-2x"
+                                                                        style={{width: '100%'}} color="primary"
+                                                                        onClick={() => {
+                                                                            this.setState({isAdd: true});
+                                                                        }}
+                                                                >
+                                                                    <FontAwesomeIcon className={'fa-lg'}
+                                                                                     icon={faPlus}/> &nbsp;&nbsp;Register
+                                                                    New User
 
-                                                            </Button>
-                                                        </div>
+                                                                </Button>
+                                                            </div>
+                                                        }
                                                     </Col>
                                                 </Row>
                                             </CardHeader>

@@ -19,10 +19,7 @@ import LaddaButton, {EXPAND_LEFT} from "react-ladda";
 import api from "../api";
 import {validate} from 'react-email-validator';
 
-import {decode as base64_decode} from 'base-64';
-
-
-export default class ModalUpdate extends React.Component {
+export default class ModalAdd extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -31,36 +28,44 @@ export default class ModalUpdate extends React.Component {
             //     { id: 'BPK', value: 'BPK' },
             //     { id: 'CONTRACTOR', value: 'CONTRACTOR' },
             // ],
+            departmentDropdown: [],
+            accountTypeDropdown: ['Super User','Admin','Normal'],
             // accountTypeDropdown: [
             //     { id: 'Normal', value: 'Normal' },
             //     { id: 'Admin', value: 'Admin' },
             // ],
-            departmentDropdown: [],
-            accountTypeDropdown: ['Super User','Admin','Normal'],
-            existingData: this.props.dataUser,
-            userid: this.props.dataUser['user_id'],
-            username: this.props.dataUser['username'],
-            phoneNo: this.props.dataUser['phoneNo'],
+            username: "",
             password: "",
             confPass: "",
-            email: this.props.dataUser['email'],
-            accountType: this.props.dataUser['accountType'],
-            department: this.props.dataUser['department'],
-            notChanged: true,
-            confSamePass: false,
-            userNameSame: false,
+            phoneNo: "",
+            emailSame: "",
+            email: "",
+            accountType: "",
+            department: "",
+            userId: "",
             invalid: {
                 username: false,
                 password: false,
-                confPass: false,
+                phoneNo: false,
                 email: false,
+                invalidUserId: false,
                 accountType: false,
-                department: false
+                confPass: false,
+                department: false,
+                userId: false
             },
-            updateLoading: false,
+            submitLoading: false,
             invalidEmail: false,
-            listUsername: [],
+            invalidUserName: false,
+            invalidUserId: false,
+            confSamePass: false,
 
+            userIdSame: false,
+            userEmailSame: false,
+            lengthPassValid: false,
+            listUsername: [],
+            listEmail: [],
+            notChanged: true
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -68,7 +73,6 @@ export default class ModalUpdate extends React.Component {
     }
 
     componentDidMount() {
-
 
         api.get_email().then((response) => {
             this.setState({
@@ -93,17 +97,12 @@ export default class ModalUpdate extends React.Component {
 
 
         if (name == 'email') {
-
+            console.log(this.state.listEmail)
             let emailValid = validate(event.target.value)
             this.setState({
                 invalidEmail: emailValid ? false : true,
                 userEmailSame: this.state.listEmail.some((un) => {
-                    if (this.props.dataUser.email.toUpperCase() != event.target.value.toUpperCase()) {
-                        return un.toUpperCase() === event.target.value.toUpperCase()
-                    } else {
-                        return false
-                    }
-
+                    return un.toUpperCase() === event.target.value.toUpperCase()
                 })
             })
 
@@ -119,36 +118,33 @@ export default class ModalUpdate extends React.Component {
             })
 
         }
-        if (name === 'password') {
-            let matchPass = this.state.password === event.target.value
-            this.setState({confSamePass: matchPass ? false : true})
-            // let lengthPass = event.target.value.length < 8
-            // this.setState({lengthPassValid: lengthPass ? true : false})
 
-
-        }
         if (name === 'confPass') {
-
-
             let matchPass = event.target.value === this.state.password
             this.setState({confSamePass: matchPass ? false : true})
-
-
         }
-
-
-        this.setState({
-            [name]: event.target.value,
-            invalid: {...this.state.invalid, [name]: false},
-            notChanged: false,
-            updateLoading: false
-        });
+        if (name === 'password') {
+            let matchPass = this.state.confPass === event.target.value
+            this.setState({confSamePass: matchPass ? false : true})
+            let lengthPass = event.target.value.length < 8
+            this.setState({lengthPassValid: lengthPass ? true : false})
+        }
+        this.setState(
+            {
+                [name]: event.target.value,
+                invalid: {...this.state.invalid, [name]: false},
+                // notChanged: (this.state.username === "" || this.state.password === ""  || this.state.confPass === ""
+                //             || this.state.email === ""  || this.state.phoneNo === "" || (department || accountType))
+            }
+        );
+        // if(event.target.value===""){
+        //     this.setState({notChanged: true})
+        // }
     }
 
-    validateUpdate = () => {
-
+    validateSubmit = () => {
         let valid = true
-        if (!this.state.username || !this.state.phoneNo || !this.state.email || !this.state.accountType || !this.state.department) {
+        if (!this.state.username || !this.state.password || !this.state.phoneNo || !this.state.email || !this.state.accountType || !this.state.department) {
 
             valid = false
         }
@@ -158,24 +154,32 @@ export default class ModalUpdate extends React.Component {
             this.setState({
                 invalid: {
                     username: this.state.username === '' ? true : false,
-                    // password: this.state.password === '' ? true : false,
+                    password: this.state.password === '' ? true : false,
                     phoneNo: this.state.phoneNo === '' ? true : false,
                     email: this.state.email === '' ? true : false,
                     userId: this.state.userId === '' ? true : false,
                     accountType: this.state.accountType === '' ? true : false,
                     department: this.state.department === '' ? true : false,
-                    // confPass: this.state.confPass === '' ? true : false
+                    confPass: this.state.confPass === '' ? true : false
                 }
             });
         }
 
 
+        if (this.state.email) {
+            this.setState({
+
+                userEmailSame: this.state.listEmail.some((un) => {
+                    return un.toUpperCase() === this.state.email.toUpperCase()
+                })
+            })
+
+        }
         if (this.state.password) {
             let lengthPass = this.state.password.length < 8
             this.setState({lengthPassValid: lengthPass ? true : false})
         }
         if (this.state.confPass) {
-
             let matchPass = this.state.confPass === this.state.password
             if (!matchPass) {
                 this.setState({confSamePass: true})
@@ -190,52 +194,57 @@ export default class ModalUpdate extends React.Component {
             }
         }
 
-        console.log(valid)
+        if (this.state.userEmailSame) {
 
+            valid = false
+        }
         return valid
     }
 
-    updateUser() {
+    handleOnChange() {
+        this.setState({notChanged: true})
+    }
 
-        let valid = this.validateUpdate()
+    submit() {
+        let valid = this.validateSubmit()
+
         // let valid = Object.values(this.state.invalid).every((i) => i === true)
-
-
-        if (valid && !this.state.confSamePass) {
-            this.setState({updateLoading: true})
+        if (valid && !this.state.confSamePass && !this.state.invalidEmail && !this.state.lengthPassValid) {
+            this.setState({submitLoading: true})
             let params = {
-
-                'id': this.state.existingData['id'],
-                'user_id': this.state.existingData['user_id'],
-                "user_name": this.state.username ? this.state.username : this.state.existingData['username'],
-                "phoneNo": this.state.phoneNo ? this.state.phoneNo : this.state.existingData['phoneNo'],
+                "userId": this.state.userId,
+                "phoneNo": this.state.phoneNo,
+                "userName": this.state.username,
                 'password': this.state.password,
-                'department_id': this.state.department ? this.state.department : this.state.existingData['department'],
-                'email': this.state.email ? this.state.email : this.state.existingData['email'],
-                'account_type': this.state.accountType ? this.state.accountType : this.state.existingData['accountType'],
+                'department': this.state.department,
+                'email': this.state.email,
+                'is_admin': this.state.accountType,
             }
+
             params = JSON.stringify(params)
             params = window.btoa(params)
-            api.update_user_profile(params).then(() => this.props.handleUpdate()).catch((err) => {
-                this.props.handleUpdate(err)
+            api.add_user_profile(params).then(e => {
+
+                if (e.code == 'OK') {
+                    this.props.handleAdd()
+                } else {
+                    toastFunc(e.message, 'error')
+                }
+
+            }).catch((err) => {
+                this.props.handleAdd(err)
             })
-
-
         } else {
             {
-                (!valid || (!this.state.confSamePass && !this.state.invalidEmail && !this.state.userNameSame )) &&
+                (!valid || (!this.state.confSamePass && !this.state.invalidEmail && !this.state.lengthPassValid)) &&
                 toastFunc("Please Fill in the required field", 'warning')
             }
 
-            // {
-            //     (this.state.lengthPassValid && valid) &&
-            //     toastFunc("Password not valid", 'warning')
-            // }
-
             {
-                (this.state.userNameSame && valid) &&
-                toastFunc("Username already taken.", 'warning')
+                (this.state.lengthPassValid && valid) &&
+                toastFunc("Password must have 8 character minimum", 'warning')
             }
+
 
             {
                 (this.state.invalidEmail && valid) &&
@@ -249,47 +258,46 @@ export default class ModalUpdate extends React.Component {
         }
     }
 
-
     render() {
         return (<>
-            <Modal centered={true} size='lg' isOpen={true} backdrop={true}>
-                <ModalHeader>Update User</ModalHeader>
+
+            <Modal centered={true} isOpen={true} size='lg' backdrop={true}>
+                <ModalHeader>Register New User</ModalHeader>
                 <ModalBody>
                     <Form onSubmit={this.submit}>
+
                         <Row style={{padding: "10px 20px 10px 20px"}}>
                             <Col md={2}>
                                 <Label style={{marginTop: "5px", width: "100%"}}>Name</Label>
                             </Col>
                             <Col md={10}>
                                 <FormGroup>
-                                    <Input invalid={this.state.invalid.username || this.state.userNameSame}
-                                           required={true} type="text" name="username" id="username"
-                                            defaultValue={this.state.username}
+                                    <Input invalid={this.state.invalid.username}
+                                           required={true} type="text" name="username"
+                                           id="username" placeholder="Type here" value={this.state.username}
                                            onChange={this.handleChange}/>
-                                    {this.state.userNameSame ?
-                                        <FormFeedback>Username already taken. Please enter a different
-                                            username</FormFeedback>
-                                        :
-                                        <FormFeedback>Fill in the required field</FormFeedback>
-                                    }
+                                    <FormFeedback>Fill in the required field</FormFeedback>
                                 </FormGroup>
                             </Col>
-                            <Col md={6}>
-                            </Col>
-                        </Row>
 
+
+                        </Row>
                         <Row style={{padding: "10px 20px 10px 20px"}}>
                             <Col md={2}>
-                                <Label for="userid" style={{marginTop: "5px", width: "100%"}}>ID</Label>
+                                <Label for="Phone no." style={{marginTop: "5px", width: "100%"}}>ID</Label>
                             </Col>
                             <Col md={4}>
                                 <FormGroup>
-                                    <Input disabled
+                                    <Input invalid={this.state.invalid.userId || this.state.userIdSame} required={true}
                                            type="text"
                                            name="userId" id="userId"
-                                           placeholder="Type here" defaultValue={this.state.userid}
+                                           placeholder="Type here" value={this.state.userId}
                                            onChange={this.handleChange}/>
-
+                                    {this.state.userIdSame ?
+                                        <FormFeedback>User Id already taken. Please enter a different
+                                            User Id</FormFeedback>
+                                        :
+                                        <FormFeedback>Fill in the required field</FormFeedback>}
                                 </FormGroup>
                             </Col>
                             <Col md={2}>
@@ -299,43 +307,52 @@ export default class ModalUpdate extends React.Component {
                                 <FormGroup>
                                     <Input invalid={this.state.invalid.phoneNo} required={true} type="text"
                                            name="phoneNo" id="phoneNo"
-                                           placeholder="Type here" defaultValue={this.state.phoneNo}
+                                           placeholder="Type here" value={this.state.phoneNo}
                                            onChange={this.handleChange}/>
                                     <FormFeedback>Fill in the required field</FormFeedback>
                                 </FormGroup>
                             </Col>
-
                         </Row>
 
                         <Row style={{padding: "10px 20px 10px 20px"}}>
                             <Col md={2}>
                                 <Label for="email" style={{marginTop: "5px", width: "100%"}}>Email</Label>
                             </Col>
-
                             <Col md={10}>
                                 <FormGroup>
                                     <Input
                                         invalid={this.state.invalid.email || this.state.invalidEmail || this.state.userEmailSame}
-                                        required={true} type="email" name="email" id="email"
-                                        placeholder="Type here" value={this.state.email} onChange={this.handleChange}/>
-                                    {this.state.invalidEmail ?
-                                        <FormFeedback>Enter a valid Email</FormFeedback>
-                                        :
-                                        <FormFeedback>Fill in the required field</FormFeedback>}
+                                        required={true}
+                                        type="email" name="email" id="email"
+                                        placeholder="Type here" value={this.state.email}
+                                        onChange={this.handleChange}/>
+                                    {
+                                        this.state.userEmailSame ?
+                                            <FormFeedback>Email already taken. Please enter a different
+                                                email</FormFeedback>
+                                            :
+                                            this.state.invalidEmail ?
+                                                <FormFeedback>Enter a valid Email</FormFeedback>
+                                                :
+                                                <FormFeedback>Fill in the required field</FormFeedback>}
                                 </FormGroup>
                             </Col>
                         </Row>
+
                         <Row style={{padding: "10px 20px 10px 20px"}}>
                             <Col md={2}>
-                                <Label style={{marginTop: "5px", width: "100%"}}>New Password</Label>
+                                <Label style={{marginTop: "5px", width: "100%"}}>Password</Label>
                             </Col>
                             <Col md={4}>
                                 <FormGroup>
-                                    <Input invalid={this.state.invalid.password } autoComplete="no-password"
-                                           type="password" name="password" id="password"
-                                           placeholder="Type here" value={this.state.password}
+                                    <Input invalid={this.state.invalid.password || this.state.lengthPassValid}
+                                           required={true} type="password" name="password"
+                                           id="password" placeholder="Type here" value={this.state.password}
                                            onChange={this.handleChange} minLength={8}/>
-                                    <FormFeedback>Fill in the required field</FormFeedback>
+                                    {this.state.lengthPassValid ?
+                                        <FormFeedback>Password must have 8 character minimum.</FormFeedback>
+                                        :
+                                        <FormFeedback>Fill in the required field</FormFeedback>}
                                 </FormGroup>
                             </Col>
                             <Col md={2}>
@@ -343,9 +360,9 @@ export default class ModalUpdate extends React.Component {
                             </Col>
                             <Col md={4}>
                                 <FormGroup>
-                                    <Input invalid={ this.state.confSamePass}
-                                           type="password" name="confPass" id="confPass"
-                                           placeholder="Type here" value={this.state.confPass}
+                                    <Input invalid={this.state.invalid.confPass || this.state.confSamePass}
+                                           required={true} type="password" placeholder="Type here"
+                                           name="confPass" id="confPass" value={this.state.confPass}
                                            onChange={this.handleChange}/>
                                     {this.state.confSamePass ?
                                         <FormFeedback>Password does not match</FormFeedback>
@@ -357,13 +374,14 @@ export default class ModalUpdate extends React.Component {
                             </Col>
                         </Row>
 
+
                         <Row style={{padding: "10px 20px 10px 20px"}}>
                             <Col md={2}>
                                 <Label for="department" style={{marginTop: "5px", width: "100%"}}>Faculty</Label>
                             </Col>
                             <Col md={4}>
                                 <FormGroup>
-                                    <Input invalid={this.state.invalid.department} type={'select'} name="department" disabled={this.props.dataUser.isUserBox}
+                                    <Input invalid={this.state.invalid.department} type={'select'} name="department"
                                            value={this.state.department} onChange={this.handleChange}>
                                         <option key={'department'} value={''} disabled>Please select</option>
                                         {
@@ -373,23 +391,7 @@ export default class ModalUpdate extends React.Component {
                                             })
                                         }
                                     </Input>
-                                    {/* <DropdownList
-                                        
-                                        name={'department'}
-                                        placeholder="Select department"
 
-                                        dataKey="id"
-                                        textField="value"
-                                        data={this.state.departmentDropdown
-                                            .sort()}
-                                        onChange={e => {
-                                            this.setState({
-                                                department: e.id
-                                            })
-                                        }}
-
-                                        value={this.state.department}
-                                    /> */}
                                     <FormFeedback>Fill in the required field</FormFeedback>
                                 </FormGroup>
                             </Col>
@@ -398,7 +400,7 @@ export default class ModalUpdate extends React.Component {
                             </Col>
                             <Col md={4}>
                                 <FormGroup>
-                                    <Input invalid={this.state.invalid.accountType} type={'select'} name="accountType" disabled={this.props.dataUser.isUserBox}
+                                    <Input invalid={this.state.invalid.accountType} type={'select'} name="accountType"
                                            value={this.state.accountType} onChange={this.handleChange}>
                                         <option key={'accounttype'} value={''} disabled>Please select</option>
                                         {
@@ -416,19 +418,18 @@ export default class ModalUpdate extends React.Component {
                 </ModalBody>
                 <ModalFooter>
                     <LaddaButton style={{width: '140px'}} className="mr-2 btn btn-shadow btn-primary"
-                                 loading={this.state.updateLoading}
-                                 disabled={this.state.notChanged}
-                                 onClick={() => this.updateUser()} data-style={EXPAND_LEFT}
-                    >Update
+                        // loading={this.state.submitLoading}
+                        //  disabled={this.state.notChanged}
+                                 onClick={() => this.submit()} data-style={EXPAND_LEFT}
+                    >Submit
                     </LaddaButton>
                     {/* <Button style={{ width: '140px' }} color="success"
-                        className='mr-2 btn-icon btn-shadow'
+                        className='mb-2 mr-2 btn-icon btn-shadow btn-outline' outline
                         onClick={() => {
-                            this.updateUser()
+                            this.submit()
                         }}
-                        disabled={this.state.notChanged}
                     ><i
-                        className="lnr-cloud-upload btn-icon-wrapper"> </i>Update
+                        className="lnr-cloud-upload btn-icon-wrapper"> </i>Submit
                     </Button> */}
                     {/* <Button style={{ width: '140px' }} color="danger"
                         className='mb-2 mr-2 btn-icon btn-shadow btn-outline' outline
@@ -448,6 +449,7 @@ export default class ModalUpdate extends React.Component {
                         {/*className="lnr-cross btn-icon-wrapper"> </i>*/}
                         Cancel
                     </Button>
+
                 </ModalFooter>
             </Modal>
         </>)

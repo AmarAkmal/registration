@@ -1,18 +1,22 @@
 from argon2 import PasswordHasher
 
 from proj.models import db
-from proj.models.model import *
+from proj.models.model import Program
 from proj.views import func
-from proj.views.logic.setting import business_rules
+from proj.views.logic.program import business_rules
 
 
 def list_(params) -> dict:
     status = func.define_status()
-    # print(params)
+    print(params)
     try:
         page = int(params['page']) + 1
         pageSize = int(params['pageSize'])
-        query = Department.query
+        query = Program.query
+        if params["user_role"] == 'Super Admin':
+            pass
+        else:
+            query = query.filter_by(department_id=params['department_id'])
 
         if params['filtered']:
             query = business_rules.filterList(params, query)
@@ -41,9 +45,10 @@ def list_(params) -> dict:
 def add_new(params) -> dict:
     status = func.define_status()
     try:
-        up = Department()
+        up = Program()
         up.name = params['name']
         up.code = params['code']
+        up.department_id = params['department_id']
         db.session.add(up)
         status['message'] = "Record added succesfully"
 

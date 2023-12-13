@@ -2,7 +2,7 @@ export default {
     MainNaviExport: (user_role) => {
         let MainNavi = [
             {
-                icon: "pe-7s-note2",
+                icon: "pe-7s-note",
                 label: "Record",
                 to: "#/record",
             }, {
