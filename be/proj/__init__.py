@@ -23,11 +23,14 @@ def intial_app(config_name='development'):
     from proj.views.add_data import bp_add_data
     app.register_blueprint(bp_add_data, url_prefix='/add_data')
 
-    from proj.views.user_management import bp_user_management
-    app.register_blueprint(bp_user_management, url_prefix='/user')
-
     from proj.views.record import bp_record
     app.register_blueprint(bp_record, url_prefix='/record')
+
+    from proj.views.program import bp_program
+    app.register_blueprint(bp_program, url_prefix='/program')
+
+    from proj.views.user_management import bp_user_management
+    app.register_blueprint(bp_user_management, url_prefix='/user')
 
     from proj.views.setting import bp_setting
     app.register_blueprint(bp_setting, url_prefix='/setting')

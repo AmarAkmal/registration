@@ -115,7 +115,7 @@ export default class ModalAdd extends React.Component {
         return (<>
 
             <Modal centered={true} isOpen={true} size='x' backdrop={true}>
-                <ModalHeader>Register Faculty</ModalHeader>
+                <ModalHeader>Register Program</ModalHeader>
                 <ModalBody>
                     <Form onSubmit={this.submit}>
 

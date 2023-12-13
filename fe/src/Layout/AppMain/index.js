@@ -9,8 +9,9 @@ import {encode as base64_encode} from 'base-64';
 const Login = lazy(() => import('../../www/auth'));
 
 
-const UserManagementPages = lazy(() => import('../../www/UserManagement'));
 const RecordPages = lazy(() => import('../../www/Record'));
+const ProgramPages = lazy(() => import('../../www/Program'));
+const UserManagementPages = lazy(() => import('../../www/UserManagement'));
 const SettingPage = lazy(() => import('../../www/Setting'));
 
 const URL = window.location.href.includes("300") || window.location.origin.includes("asus")
@@ -86,19 +87,7 @@ const AppMain = () => {
                 <Route path="/login" component={Login}/>
             </Suspense>
 
-            {/* User Management */}
-            <Suspense fallback={
-                <div className="loader-container">
-                    <div className="loader-container-inner">
-                        <div className="text-center">
-                            <Loader type="ball-clip-rotate-multiple"/>
-                        </div>
-                        <h6 className="mt-5">Please wait while we load all the Components</h6>
-                    </div>
-                </div>
-            }>
-                <PrivateRoute path="/user-management" component={UserManagementPages}/>
-            </Suspense>
+
             {/* Record */}
             <Suspense fallback={
                 <div className="loader-container">
@@ -111,6 +100,33 @@ const AppMain = () => {
                 </div>
             }>
                 <PrivateRoute path="/record" component={RecordPages}/>
+            </Suspense>
+
+            {/* Program */}
+            <Suspense fallback={
+                <div className="loader-container">
+                    <div className="loader-container-inner">
+                        <div className="text-center">
+                            <Loader type="ball-clip-rotate-multiple"/>
+                        </div>
+                        <h6 className="mt-5">Please wait while we load all the Components</h6>
+                    </div>
+                </div>
+            }>
+                <PrivateRoute path="/program" component={ProgramPages}/>
+            </Suspense>
+            {/* User Management */}
+            <Suspense fallback={
+                <div className="loader-container">
+                    <div className="loader-container-inner">
+                        <div className="text-center">
+                            <Loader type="ball-clip-rotate-multiple"/>
+                        </div>
+                        <h6 className="mt-5">Please wait while we load all the Components</h6>
+                    </div>
+                </div>
+            }>
+                <PrivateRoute path="/user-management" component={UserManagementPages}/>
             </Suspense>
             {/* Setting */}
             <Suspense fallback={
@@ -125,8 +141,6 @@ const AppMain = () => {
             }>
                 <PrivateRoute path="/setting" component={SettingPage}/>
             </Suspense>
-
-
 
 
             <Route exact path="/" render={() => (

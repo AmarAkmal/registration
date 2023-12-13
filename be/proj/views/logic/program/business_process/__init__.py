@@ -64,7 +64,7 @@ def update_existing(params) -> dict():
 
         if record:
             up = Department.query.get(params['id'])
-
+            print(params)
             up.name = params['name']
             up.code = params['code']
 

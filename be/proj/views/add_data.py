@@ -15,15 +15,36 @@ def insert_admin_user():
     try:
         add_depart = Department()
         add_depart.name = "ABC"
+        add_depart.code = "01ABC"
         db.session.add(add_depart)
 
         up = User()
         up.user_id = "111"
-        up.name = "Admin"
+        up.name = "Admin 1"
         up.email = "admin@mail.com"
         up.password = "123456"
         up.phone = "017777777"
         up.user_type = "Admin"
+        up.department_id = add_depart.id
+        db.session.add(up)
+
+        up = User()
+        up.user_id = "222"
+        up.name = "Super Admin 1"
+        up.email = "superadmin@mail.com"
+        up.password = "123456"
+        up.phone = "017777778"
+        up.user_type = "Super Admin"
+        up.department_id = add_depart.id
+        db.session.add(up)
+
+        up = User()
+        up.user_id = "333"
+        up.name = "Normal User 1"
+        up.email = "user@mail.com"
+        up.password = "123456"
+        up.phone = "017777779"
+        up.user_type = "Normal"
         up.department_id = add_depart.id
         db.session.add(up)
 

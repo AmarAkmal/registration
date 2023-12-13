@@ -28,9 +28,11 @@ export default class ModalUpdate extends React.Component {
         this.state = {
             existingData: this.props.data,
             name: this.props.data.name,
+            code: this.props.data.code,
             invalid: {
 
                 name: false,
+                code: false,
 
 
             },
@@ -60,7 +62,7 @@ export default class ModalUpdate extends React.Component {
 
         let valid = true
 
-        if ( !this.state.name  ) {
+        if ( !this.state.name  || !this.state.code  ) {
 
             valid = false
         }
@@ -69,10 +71,8 @@ export default class ModalUpdate extends React.Component {
         if (valid === false) {
             this.setState({
                 invalid: {
-
-                    name: this.state.name === '' ? true : false,
-
-
+                    name: this.state.name === '' ,
+                    code: this.state.code === '',
                 }
             });
         }
@@ -95,6 +95,7 @@ export default class ModalUpdate extends React.Component {
             let params = {
 
                 'id': this.state.existingData['id'],
+                "code": this.state.code ? this.state.code : this.state.existingData['code'],
                 "name": this.state.name ? this.state.name : this.state.existingData['name'],
 
 
@@ -117,11 +118,26 @@ export default class ModalUpdate extends React.Component {
 
     render() {
         return (<>
-            <Modal centered={true} size='lg' isOpen={true} backdrop={true}>
-                <ModalHeader>Update Department</ModalHeader>
+            <Modal centered={true} size='x' isOpen={true} backdrop={true}>
+                <ModalHeader>Update Faculty</ModalHeader>
                 <ModalBody>
                     <Form onSubmit={this.submit}>
 
+                        <Row style={{padding: "10px 20px 10px 20px"}}>
+                            <Col md={2}>
+                                <Label style={{marginTop: "5px", width: "100%"}}>Code</Label>
+                            </Col>
+                            <Col md={10}>
+                                <FormGroup>
+                                    <Input invalid={this.state.invalid.code }
+                                           required={true} type="text" name="code" id="code"
+                                            defaultValue={this.state.code}
+                                           onChange={this.handleChange}/>
+                                    <FormFeedback>Fill in the required field</FormFeedback>
+                                </FormGroup>
+                            </Col>
+
+                        </Row>
                         <Row style={{padding: "10px 20px 10px 20px"}}>
                             <Col md={2}>
                                 <Label style={{marginTop: "5px", width: "100%"}}>Name</Label>

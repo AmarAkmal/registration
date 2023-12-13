@@ -112,10 +112,7 @@ export default class RecordList extends React.Component {
         this.setState({isAdd: false});
         this.loadData()
         if (err === null) {
-            this.state.isAdmin ?
-                toastView("User added succesfully", 'success')
-                :
-                toastView("Not Authorized", 'error')
+            toastView("Data added succesfully", 'success')
         }
     }
 
@@ -141,9 +138,8 @@ export default class RecordList extends React.Component {
         this.setState({
             dataDetails: {
                 'id': val['id'],
-                'kod': val['kod'],
+                'code': val['code'],
                 'name': val["name"],
-                'quantity': val["quantity"],
 
             }, isUpdate: true
         });
@@ -179,7 +175,20 @@ export default class RecordList extends React.Component {
                 ),
             },
             {
-                Header: "Department",
+                Header: "Code",
+                accessor: 'code',
+                Cell: (row) => (
+                    <span
+                        style={{
+                            textAlign: 'center',
+                            width: '100%'
+                        }}>{row.value}</span>
+                ),
+                filterable: true,
+                width:200
+            },
+            {
+                Header: "Faculty",
                 accessor: 'name',
                 Cell: (row) => (
                     <span
@@ -271,7 +280,7 @@ export default class RecordList extends React.Component {
                             <div>
                                 <PageTitle
                                     heading="User Management"
-                                    breadcrumbTitle="Setting / List of Department"
+                                    breadcrumbTitle="Setting / List of Faculty"
                                     subheading="User Management List"
                                     icon="pe-7s-medal icon-gradient bg-tempting-azure"
                                 />
@@ -282,7 +291,7 @@ export default class RecordList extends React.Component {
                                             <CardHeader className={'mt-3'} style={{display: "unset"}}>
                                                 <Row>
                                                     <Col sm={6} md={6} lg={6}>
-                                                        <CardTitle className='mt-2'>List of Record</CardTitle>
+                                                        <CardTitle className='mt-2'>List of Faculty</CardTitle>
                                                     </Col>
                                                     <Col sm={1} md={1}
                                                          lg={(window.innerWidth >= 994 && window.innerWidth <= 1355) ? 2 : 3}
@@ -301,7 +310,7 @@ export default class RecordList extends React.Component {
                                                             >
                                                                 <FontAwesomeIcon className={'fa-lg'}
                                                                                  icon={faPlus}/> &nbsp;&nbsp;Register
-                                                                New Department
+                                                                New Faculty
 
                                                             </Button>
                                                         </div>

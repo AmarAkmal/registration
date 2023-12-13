@@ -1,5 +1,7 @@
-from proj import app, db
-import uuid, bcrypt
+import bcrypt
+import uuid
+
+from proj import db
 
 
 class User(db.Model):
@@ -45,8 +47,19 @@ class Record(db.Model):
 
 class Department(db.Model):
     id = db.Column(db.String(32), primary_key=True)
-    name = db.Column(db.String(50))
+    code = db.Column(db.String(50))
+    name = db.Column(db.String(200))
     user_department = db.relationship("User", backref="department")
+    user_department = db.relationship("Program", backref="department")
+
+    def __init__(self):
+        self.id = uuid.uuid4().hex
+
+class Program(db.Model):
+    id = db.Column(db.String(32), primary_key=True)
+    code = db.Column(db.String(50))
+    name = db.Column(db.String(200))
+    department_id = db.Column(db.String(32), db.ForeignKey('department.id', ondelete="CASCADE", onupdate="CASCADE"))
 
     def __init__(self):
         self.id = uuid.uuid4().hex

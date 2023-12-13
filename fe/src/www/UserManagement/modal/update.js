@@ -36,7 +36,7 @@ export default class ModalUpdate extends React.Component {
             //     { id: 'Admin', value: 'Admin' },
             // ],
             departmentDropdown: [],
-            accountTypeDropdown: ['Normal', 'Admin'],
+            accountTypeDropdown: ['Super User','Admin','Normal'],
             existingData: this.props.dataUser,
             userid: this.props.dataUser['user_id'],
             username: this.props.dataUser['username'],
@@ -364,7 +364,7 @@ export default class ModalUpdate extends React.Component {
 
                         <Row style={{padding: "10px 20px 10px 20px"}}>
                             <Col md={2}>
-                                <Label for="department" style={{marginTop: "5px", width: "100%"}}>Department</Label>
+                                <Label for="department" style={{marginTop: "5px", width: "100%"}}>Faculty</Label>
                             </Col>
                             <Col md={4}>
                                 <FormGroup>
