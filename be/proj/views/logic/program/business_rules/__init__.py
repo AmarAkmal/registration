@@ -45,6 +45,7 @@ def determine_admin(query) -> list:
     tmp = []
     for i in query.items:
         tmpV = func.convert(i)
+        tmpV['faculty'] = i.department.name
         tmp.append(tmpV)
 
     return tmp
