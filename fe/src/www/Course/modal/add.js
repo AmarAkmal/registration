@@ -17,6 +17,7 @@ import {
 import {toastFunc} from "../../../index"
 import LaddaButton, {EXPAND_LEFT} from "react-ladda";
 import api from "../api";
+import {decode as base64_decode} from "base-64";
 
 export default class ModalAdd extends React.Component {
     constructor(props) {
@@ -30,7 +31,7 @@ export default class ModalAdd extends React.Component {
             section: "",
             creditHour: "",
             result: "",
-            faculty: "",
+            faculty: base64_decode(localStorage.getItem("fghwo7n3rh")),
             invalid: {
                 code: false,
                 name: false,
