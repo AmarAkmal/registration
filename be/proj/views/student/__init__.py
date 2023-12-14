@@ -91,8 +91,32 @@ def addStudentCourse():
         params = base64.b64decode(params)
         params = params.decode('ascii')
         params = json.loads(params)
-
+        params["department_id"] = request.args['user_department_id']
         up = student.addStudentCourse(params)
+
+        result['data'] = []
+        result['code'] = 'OK'
+        result['message'] = "Everything works perfectly"
+        result = up
+    except:
+        msg = func.error_log()
+        result['code'] = 'Error'
+        result['message'] = msg
+
+    return jsonify(result)
+
+
+@bp_student.route('/addStudentGrade', methods=['POST'])
+def addStudentGrade():
+    result = func.define_status()
+    try:
+        params = request.form['ref']
+        params = params.encode('ascii')
+        params = base64.b64decode(params)
+        params = params.decode('ascii')
+        params = json.loads(params)
+        params["department_id"] = request.args['user_department_id']
+        up = student.addStudentGrade(params)
 
         result['data'] = []
         result['code'] = 'OK'
@@ -130,6 +154,7 @@ def update_():
 
     return jsonify(result)
 
+
 @bp_student.route('/updateStudentCourse', methods=['POST'])
 def updateStudentCourse():
     result = func.define_status()
@@ -143,6 +168,31 @@ def updateStudentCourse():
         staff_name = request.args['user_staff_name']
 
         up = student.updateStudentCourse(params)
+
+        result['data'] = [up]
+        result['code'] = 'OK'
+        result['message'] = "Everything works perfectly"
+    except:
+        msg = func.error_log()
+        result['code'] = 'Error'
+        result['message'] = msg
+
+    return jsonify(result)
+
+
+@bp_student.route('/updateStudentGrade', methods=['POST'])
+def updateStudentGrade():
+    result = func.define_status()
+    try:
+        params = request.form['ref']
+        params = params.encode('ascii')
+        params = base64.b64decode(params)
+        params = params.decode('ascii')
+        params = json.loads(params)
+        user_id = request.args['user_id']
+        staff_name = request.args['user_staff_name']
+
+        up = student.updateStudentGrade(params)
 
         result['data'] = [up]
         result['code'] = 'OK'
@@ -176,6 +226,8 @@ def delete_():
         result['message'] = msg
 
     return jsonify(result)
+
+
 @bp_student.route('/deleteStudentCourse', methods=['POST'])
 def deleteStudentCourse():
     result = func.define_status()
@@ -271,7 +323,6 @@ def get_program():
 def get_course():
     result = func.define_status()
     try:
-        print(request.args)
         list_ = Course.query.filter_by(faculty_id=request.args['user_department_id']).all()
         for i in list_:
             result['data'].append({
@@ -310,6 +361,7 @@ def get_student():
         result['code'] = 'Error'
         result['message'] = msg
     return jsonify(result)
+
 
 @bp_student.route('/get_student_update', methods=['POST'])
 def get_student_update():

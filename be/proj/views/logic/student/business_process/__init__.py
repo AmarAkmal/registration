@@ -105,18 +105,40 @@ def add_new(params) -> dict:
 def addStudentCourse(params) -> dict:
     status = func.define_status()
     try:
-        get_student = Student.query.filter_by(matrix_no=params['matrixNo']).first()
+        get_student = Student.query.filter_by(matrix_no=params['matrixNo'], faculty_id=params['department_id']).first()
         if get_student:
-            up = db.session.query(Grade).filter_by(student_id=get_student.id).first()
+            up = db.session.query(Grade).filter_by(student_id=get_student.id, course_id=params['course']).first()
             check = False
             if not up:
                 check = True
                 up = Grade()
             up.course_id = params['course']
             up.student_id = get_student.id
-            up.grade = params['grade']
             if check:
                 db.session.add(up)
+            status['message'] = "Record added succesfully"
+        else:
+            status['message'] = "Student Not Exist"
+
+    except:
+        db.session.rollback()
+        status['message'] = func.error_log()
+        status['code'] = 'Error'
+    finally:
+        db.session.commit()
+        return status
+
+
+def addStudentGrade(params) -> dict:
+    status = func.define_status()
+    try:
+        get_student = Student.query.filter_by(matrix_no=params['matrixNo'], faculty_id=params['department_id']).first()
+        if get_student:
+            up = db.session.query(Grade).filter_by(student_id=get_student.id, course_id=params['course']).first()
+            print(get_student.id)
+            up.course_id = params['course']
+            up.student_id = get_student.id
+            up.grade = params['grade']
             status['message'] = "Record added succesfully"
         else:
             status['message'] = "Student Not Exist"
@@ -175,6 +197,27 @@ def updateStudentCourse(params) -> dict():
             up = db.session.query(Grade).get(params['id'])
             up.course_id = params['course']
             up.student_id = params['matrixNo']
+            status['message'] = f"Record updated Successfully"
+        else:
+            status['code'] = 'Error'
+            status['message'] = f"Record does not exist"
+
+    except:
+        db.session.rollback()
+        status['message'] = func.error_log()
+        status['code'] = 'Error'
+    finally:
+        db.session.commit()
+        return status
+def updateStudentGrade(params) -> dict():
+    status = func.define_status()
+    try:
+
+        record = business_rules.check_existdeleteStudentCourse(params['id'])
+        if record:
+
+            up = db.session.query(Grade).get(params['id'])
+
             up.grade = params['grade']
             status['message'] = f"Record updated Successfully"
         else:

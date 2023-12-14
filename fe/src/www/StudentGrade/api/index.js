@@ -42,7 +42,7 @@ export default {
         formData.append('ref', JSON.stringify(params))
 
         return new Promise((resolve, reject) => {
-            fetch(`${global.ipServer}student/addStudentCourse`, {
+            fetch(`${global.ipServer}student/addStudentGrade`, {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -88,7 +88,7 @@ export default {
         formData.append('ref', JSON.stringify(params))
 
         return new Promise((resolve, reject) => {
-            fetch(`${global.ipServer}student/updateStudentCourse`, {
+            fetch(`${global.ipServer}student/updateStudentGrade`, {
                 method: 'POST',
                 body: formData,
                 headers: {

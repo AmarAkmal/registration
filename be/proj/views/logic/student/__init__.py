@@ -24,6 +24,10 @@ def addStudentCourse(params) -> dict:
     status = business_process.addStudentCourse(params)
     return status
 
+def addStudentGrade(params) -> dict:
+    status = business_process.addStudentGrade(params)
+    return status
+
 
 def update_(params) -> dict:
     status = business_process.update_existing(params)
@@ -31,6 +35,10 @@ def update_(params) -> dict:
 
 def updateStudentCourse(params) -> dict:
     status = business_process.updateStudentCourse(params)
+    return status
+
+def updateStudentGrade(params) -> dict:
+    status = business_process.updateStudentGrade(params)
     return status
 
 
