@@ -309,3 +309,23 @@ def get_student():
         result['code'] = 'Error'
         result['message'] = msg
     return jsonify(result)
+
+@bp_student.route('/get_student_update', methods=['POST'])
+def get_student_update():
+    result = func.define_status()
+    try:
+
+        list_ = Student.query
+        for i in list_:
+            result['data'].append({
+                'id': i.id,
+                'matrixNo': i.matrix_no,
+                'studentName': i.name
+            })
+        result['code'] = 'OK'
+        result['message'] = "Everything works perfectly"
+    except:
+        msg = func.error_log()
+        result['code'] = 'Error'
+        result['message'] = msg
+    return jsonify(result)
