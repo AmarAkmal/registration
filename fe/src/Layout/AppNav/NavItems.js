@@ -4,16 +4,17 @@ export default {
             {
                 icon: "pe-7s-add-user",
                 label: "Student",
-                content: [
-                    {
-                        label: 'List',
-                        to: '#/student/list',
-                    },
-                    {
-                        label: 'Course & Grade',
-                        to: '#/student/course',
-                    },
-                ],
+                to: '#/student/list',
+                // content: [
+                //     {
+                //         label: 'List',
+                //         to: '#/student/list',
+                //     },
+                //     {
+                //         label: 'Course & Grade',
+                //         to: '#/student/course',
+                //     },
+                // ],
 
             },
             {
@@ -22,24 +23,44 @@ export default {
                 to: "#/program",
             },
             {
-                icon: "pe-7s-note",
-                label: "Record",
-                to: "#/record",
-            },
-
-        ]
-
-        let setting = [
-
-
-
-            {
-                icon: "pe-7s-glasses",
+                icon: "pe-7s-add-user",
                 label: "Course",
-                to: "#/course",
+                content: [
+
+                    {
+                        icon: "pe-7s-glasses",
+                        label: "List Course",
+                        to: "#/course",
+                    },
+                    {
+                        label: 'Student Course',
+                        to: '#/student/list',
+                    },
+                    {
+                        label: 'Student Grade',
+                        to: '#/student/course',
+                    },
+
+
+                ],
+
             },
+
+            // {
+            //     icon: "pe-7s-note",
+            //     label: "Record",
+            //     to: "#/record",
+            // },
+
         ]
+
+
         if (['Super Admin'].includes(user_role)) {
+
+            let setting = [
+
+
+            ]
             setting.push(   {
                 label: 'Faculty',
                 to: '#/setting/department',
@@ -49,15 +70,15 @@ export default {
                 label: "User Management",
                 to: "#/user-management",
             })
-
+            MainNavi.push(
+                {
+                    icon: 'pe-7s-settings',
+                    label: 'Setting',
+                    content: setting
+                }
+            )
         }
-        MainNavi.push(
-            {
-                icon: 'pe-7s-settings',
-                label: 'Setting',
-                content: setting
-            }
-        )
+
 
 
 
