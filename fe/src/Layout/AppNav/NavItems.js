@@ -36,11 +36,11 @@ export default {
                     },
                     {
                         label: 'Student Course',
-                        to: '#/student/list',
+                        to: '#/student/course',
                     },
                     {
                         label: 'Student Grade',
-                        to: '#/student/course',
+                        to: '#/student/grade',
                     },
 
 

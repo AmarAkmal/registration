@@ -159,7 +159,7 @@ export default class ModalUpdate extends React.Component {
 
                         <Row style={{padding: "10px 20px 10px 20px"}}>
                             <Col md={4}>
-                                <Label style={{marginTop: "5px", width: "100%"}}>Student</Label>
+                                <Label style={{marginTop: "5px", width: "100%"}}>Student Name</Label>
                             </Col>
                             <Col md={8}>
                                 <FormGroup>
@@ -179,27 +179,27 @@ export default class ModalUpdate extends React.Component {
 
                         </Row>
 
-                        {/*<Row style={{padding: "10px 20px 10px 20px"}}>*/}
-                        {/*    <Col md={4}>*/}
-                        {/*        <Label style={{marginTop: "5px", width: "100%"}}>Grade</Label>*/}
-                        {/*    </Col>*/}
-                        {/*    <Col md={8}>*/}
-                        {/*        <FormGroup>*/}
-                        {/*            <Input invalid={this.state.invalid.grade} type={'select'} name="grade"*/}
-                        {/*                   value={this.state.grade} onChange={this.handleChange}>*/}
-                        {/*                <option key={'grade'} value={''} disabled>Please select</option>*/}
-                        {/*                {*/}
+                        <Row style={{padding: "10px 20px 10px 20px"}}>
+                            <Col md={4}>
+                                <Label style={{marginTop: "5px", width: "100%"}}>Grade</Label>
+                            </Col>
+                            <Col md={8}>
+                                <FormGroup>
+                                    <Input invalid={this.state.invalid.grade} type={'select'} name="grade"
+                                           value={this.state.grade} onChange={this.handleChange}>
+                                        <option key={'grade'} value={''} disabled>Please select</option>
+                                        {
 
-                        {/*                    ['A','A-','B','B-','C+','C','C-','D','D-','E',].map((v, i) => {*/}
-                        {/*                        return <option key={v} value={v}>{v}</option>*/}
-                        {/*                    })*/}
-                        {/*                }*/}
-                        {/*            </Input>*/}
-                        {/*            <FormFeedback>Fill in the required field</FormFeedback>*/}
-                        {/*        </FormGroup>*/}
-                        {/*    </Col>*/}
+                                            ['A','A-','B','B-','C+','C','C-','D','D-','E',].map((v, i) => {
+                                                return <option key={v} value={v}>{v}</option>
+                                            })
+                                        }
+                                    </Input>
+                                    <FormFeedback>Fill in the required field</FormFeedback>
+                                </FormGroup>
+                            </Col>
 
-                        {/*</Row>*/}
+                        </Row>
                     </Form>
                 </ModalBody>
                 <ModalFooter>

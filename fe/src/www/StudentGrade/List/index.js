@@ -236,6 +236,18 @@ export default class StudentCourseList extends React.Component {
                 ),
                 filterable: true,
             },
+            {
+                Header: "Grade",
+                accessor: 'grade',
+                Cell: (row) => (
+                    <span
+                        style={{
+                            textAlign: 'center',
+                            width: '100%'
+                        }}>{row.value}</span>
+                ),
+                filterable: true,
+            },
 
             {
                 Header: "Action",
@@ -317,9 +329,9 @@ export default class StudentCourseList extends React.Component {
                                        timeout={1500} enter={false} exit={false}>
                             <div>
                                 <PageTitle
-                                    heading="Student Course"
-                                    breadcrumbTitle="Student / List of Student Course"
-                                    subheading="Student List"
+                                    heading="Student Grade"
+                                    breadcrumbTitle="Student / List of Student Grade"
+                                    subheading="Student Grade List"
                                     icon="pe-7s-medal icon-gradient bg-tempting-azure"
                                 />
                                 <Row>
@@ -329,7 +341,7 @@ export default class StudentCourseList extends React.Component {
                                             <CardHeader className={'mt-3'} style={{display: "unset"}}>
                                                 <Row>
                                                     <Col sm={6} md={6} lg={6}>
-                                                        <CardTitle className='mt-2'>List of Student Course</CardTitle>
+                                                        <CardTitle className='mt-2'>List of Student Grade</CardTitle>
                                                     </Col>
                                                     <Col sm={1} md={1}
                                                          lg={(window.innerWidth >= 994 && window.innerWidth <= 1355) ? 2 : 3}
@@ -339,21 +351,21 @@ export default class StudentCourseList extends React.Component {
                                                     <Col sm={4} md={4}
                                                          lg={(window.innerWidth >= 994 && window.innerWidth <= 1355) ? 3 : 2}
                                                          style={{padding: '0px', paddingRight: '10px'}}>
-                                                        {this.state.isAdmin &&
-                                                            <div style={{width: '100%', textAlign: 'right'}}>
-                                                                <Button outline className="mb-2 mr-2 btn-outline-2x"
-                                                                        style={{width: '100%'}} color="primary"
-                                                                        onClick={() => {
-                                                                            this.setState({isAdd: true});
-                                                                        }}
-                                                                >
-                                                                    <FontAwesomeIcon className={'fa-lg'}
-                                                                                     icon={faPlus}/> &nbsp;&nbsp;Register
-                                                                    Course of Student
+                                                        {/*{this.state.isAdmin &&*/}
+                                                        {/*    <div style={{width: '100%', textAlign: 'right'}}>*/}
+                                                        {/*        <Button outline className="mb-2 mr-2 btn-outline-2x"*/}
+                                                        {/*                style={{width: '100%'}} color="primary"*/}
+                                                        {/*                onClick={() => {*/}
+                                                        {/*                    this.setState({isAdd: true});*/}
+                                                        {/*                }}*/}
+                                                        {/*        >*/}
+                                                        {/*            <FontAwesomeIcon className={'fa-lg'}*/}
+                                                        {/*                             icon={faPlus}/> &nbsp;&nbsp;Register*/}
+                                                        {/*            Grade of Student*/}
 
-                                                                </Button>
-                                                            </div>
-                                                        }
+                                                        {/*        </Button>*/}
+                                                        {/*    </div>*/}
+                                                        {/*}*/}
                                                     </Col>
                                                 </Row>
                                             </CardHeader>

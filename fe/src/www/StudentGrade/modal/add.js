@@ -17,64 +17,59 @@ import {
 import {toastFunc} from "../../../index"
 import LaddaButton, {EXPAND_LEFT} from "react-ladda";
 import api from "../api";
-import {validate} from 'react-email-validator';
 
-import {decode as base64_decode} from 'base-64';
-
-
-export default class ModalUpdate extends React.Component {
+export default class ModalAdd extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             courseDropdown :[],
             matrixNoDropdown :[],
-            existingData: this.props.data,
+            course: '',
+            matrixNo: '',
+            studentName: '',
+            grade: '',
 
-            course: this.props.data.course,
-            matrixNo: this.props.data.matrixNo,
-            studentName:this.props.data.studentName,
-            grade:this.props.data.grade,
             invalid: {
-
                 course: false,
                 matrixNo: false,
 
-            },
-            updateLoading: false,
 
+            },
+            submitLoading: false,
+            notChanged: true
         }
 
         this.handleChange = this.handleChange.bind(this);
 
     }
-
     componentDidMount() {
         api.get_course().then((response) => {
             this.setState({
                 courseDropdown: response['data']
             })
         })
-        api.get_student_update().then((response) => {
+        api.get_student().then((response) => {
             this.setState({
                 matrixNoDropdown: response['data']
             })
         })
     }
 
+
     handleChange(event) {
         const target = event.target;
         const name = target.name;
+        this.setState(
+            {
+                [name]: event.target.value,
+                invalid: {...this.state.invalid, [name]: false},
 
-        this.setState({
-            [name]: event.target.value,
-            invalid: {...this.state.invalid, [name]: false},
-            notChanged: false,
-            updateLoading: false
-        });
+            }
+        );
+
     }
 
-    validateUpdate = () => {
-
+    validateSubmit = () => {
         let valid = true
         if (!this.state.course || !this.state.matrixNo) {
             valid = false
@@ -93,44 +88,51 @@ export default class ModalUpdate extends React.Component {
         return valid
     }
 
-    updateUser() {
+    handleOnChange() {
+        this.setState({notChanged: true})
+    }
 
-        let valid = this.validateUpdate()
+    submit() {
+        let valid = this.validateSubmit()
+
         // let valid = Object.values(this.state.invalid).every((i) => i === true)
-
-
-        if (valid  ) {
-            this.setState({updateLoading: true})
+        if (valid) {
+            this.setState({submitLoading: true})
             let params = {
-
-                'id': this.state.existingData['id'],
-
-                "course": this.state.course? this.state.course : this.state.existingData['course'],
-                "matrixNo": this.state.matrixNo? this.state.matrixNo : this.state.existingData['matrixNo'],
-                "grade": this.state.grade? this.state.grade : this.state.existingData['grade'],
-
+                "course": this.state.course,
+                "matrixNo": this.state.matrixNo,
+                "grade": this.state.grade,
 
             }
+
             params = JSON.stringify(params)
             params = window.btoa(params)
-            api.update_(params).then(() => this.props.handleUpdate()).catch((err) => {
-                this.props.handleUpdate(err)
-            })
+            api.add(params).then(e => {
 
+                if (e.code == 'OK') {
+                    this.props.handleAdd()
+                } else {
+                    toastFunc(e.message, 'error')
+                }
+
+            }).catch((err) => {
+                this.props.handleAdd(err)
+            })
         } else {
             {
                 (!valid) &&
                 toastFunc("Please Fill in the required field", 'warning')
             }
 
+
         }
     }
 
-
     render() {
         return (<>
-            <Modal centered={true} size='x' isOpen={true} backdrop={true}>
-                <ModalHeader>Update Program</ModalHeader>
+
+            <Modal centered={true} isOpen={true} size='l' backdrop={true}>
+                <ModalHeader>Register Course of Student</ModalHeader>
                 <ModalBody>
                     <Form onSubmit={this.submit}>
 
@@ -159,17 +161,17 @@ export default class ModalUpdate extends React.Component {
 
                         <Row style={{padding: "10px 20px 10px 20px"}}>
                             <Col md={4}>
-                                <Label style={{marginTop: "5px", width: "100%"}}>Student</Label>
+                                <Label style={{marginTop: "5px", width: "100%"}}>Student Name</Label>
                             </Col>
                             <Col md={8}>
                                 <FormGroup>
-                                    <Input invalid={this.state.invalid.matrixNo} type={'select'} name="matrixNo" disabled
+                                    <Input invalid={this.state.invalid.matrixNo} type={'select'} name="matrixNo"
                                            value={this.state.matrixNo} onChange={this.handleChange}>
                                         <option key={'matrixNo'} value={''} disabled>Please select</option>
                                         {
 
                                             this.state.matrixNoDropdown.map((v, i) => {
-                                                return <option key={v.id} value={v.id}>{v.matrixNo} - {v.studentName}</option>
+                                                return <option key={v.id} value={v.id}> {v.studentName}-{v.matrixNo} </option>
                                             })
                                         }
                                     </Input>
@@ -179,35 +181,36 @@ export default class ModalUpdate extends React.Component {
 
                         </Row>
 
-                        {/*<Row style={{padding: "10px 20px 10px 20px"}}>*/}
-                        {/*    <Col md={4}>*/}
-                        {/*        <Label style={{marginTop: "5px", width: "100%"}}>Grade</Label>*/}
-                        {/*    </Col>*/}
-                        {/*    <Col md={8}>*/}
-                        {/*        <FormGroup>*/}
-                        {/*            <Input invalid={this.state.invalid.grade} type={'select'} name="grade"*/}
-                        {/*                   value={this.state.grade} onChange={this.handleChange}>*/}
-                        {/*                <option key={'grade'} value={''} disabled>Please select</option>*/}
-                        {/*                {*/}
+                        <Row style={{padding: "10px 20px 10px 20px"}}>
+                            <Col md={4}>
+                                <Label style={{marginTop: "5px", width: "100%"}}>Grade</Label>
+                            </Col>
+                            <Col md={8}>
+                                <FormGroup>
+                                    <Input invalid={this.state.invalid.grade} type={'select'} name="grade"
+                                           value={this.state.grade} onChange={this.handleChange}>
+                                        <option key={'grade'} value={''} disabled>Please select</option>
+                                        {
 
-                        {/*                    ['A','A-','B','B-','C+','C','C-','D','D-','E',].map((v, i) => {*/}
-                        {/*                        return <option key={v} value={v}>{v}</option>*/}
-                        {/*                    })*/}
-                        {/*                }*/}
-                        {/*            </Input>*/}
-                        {/*            <FormFeedback>Fill in the required field</FormFeedback>*/}
-                        {/*        </FormGroup>*/}
-                        {/*    </Col>*/}
+                                            ['A','A-','B','B-','C+','C','C-','D','D-','E',].map((v, i) => {
+                                                return <option key={v} value={v}>{v}</option>
+                                            })
+                                        }
+                                    </Input>
+                                    <FormFeedback>Fill in the required field</FormFeedback>
+                                </FormGroup>
+                            </Col>
 
-                        {/*</Row>*/}
+                        </Row>
+
                     </Form>
                 </ModalBody>
                 <ModalFooter>
                     <LaddaButton style={{width: '140px'}} className="mr-2 btn btn-shadow btn-primary"
-                                 loading={this.state.updateLoading}
-                                 disabled={this.state.notChanged}
-                                 onClick={() => this.updateUser()} data-style={EXPAND_LEFT}
-                    >Update
+                        // loading={this.state.submitLoading}
+                        //  disabled={this.state.notChanged}
+                                 onClick={() => this.submit()} data-style={EXPAND_LEFT}
+                    >Submit
                     </LaddaButton>
 
                     <Button style={{width: '140px'}}
@@ -216,10 +219,10 @@ export default class ModalUpdate extends React.Component {
                                 this.props.onToggle();
                             }}
                     >
-                        {/*<i*/}
-                        {/*className="lnr-cross btn-icon-wrapper"> </i>*/}
+
                         Cancel
                     </Button>
+
                 </ModalFooter>
             </Modal>
         </>)
