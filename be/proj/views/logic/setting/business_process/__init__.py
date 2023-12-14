@@ -88,10 +88,9 @@ def delete_(params) -> dict():
 
     try:
         record = business_rules.check_exist(params['id'])
-        print(record)
         if record:
             get = Department.query.get(params['id'])
-            if get and get.user_department:
+            if get and get.user_faculty:
                 status['message'] = f"Failed to delete, Record in use"
             else:
                 db.session.query(Department).filter_by(id=params['id']).delete()
