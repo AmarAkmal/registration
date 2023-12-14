@@ -6,7 +6,7 @@ export default {
                 label: "Student",
                 content: [
                     {
-                        label: 'Register & List Student',
+                        label: 'Register & Student List',
                         to: '#/student/list',
                     },
                 ],
@@ -15,11 +15,11 @@ export default {
 
             {
                 icon: "pe-7s-note2",
-                label: "Program",
+                label: "Programme",
                 content: [
                     {
                         icon: "pe-7s-glasses",
-                        label: "Register & List Program",
+                        label: "Register & Programme List",
                         to: "#/program",
                     },
                     ]
@@ -31,7 +31,7 @@ export default {
 
                     {
                         icon: "pe-7s-glasses",
-                        label: "List Course",
+                        label: "Course List",
                         to: "#/course",
                     },
                     {
