@@ -43,7 +43,7 @@ export default class StudentCourseList extends React.Component {
             deleteConfirmation: false,
             userId: null,
             pending: true,
-            isAdmin: ['Super Admin', 'Admin'].includes(base64_decode(localStorage.getItem('3leeb6bnmn'))),
+            isAdmin: [ 'Admin'].includes(base64_decode(localStorage.getItem('3leeb6bnmn'))),
             searching: false,
             page: 0,
             pageSize: 10,
@@ -253,7 +253,7 @@ export default class StudentCourseList extends React.Component {
                 Header: "Action",
                 accessor: '',
                 sortable: false,
-                show: this.state.isAdmin || this.state.isAdmin,
+                show: this.state.isAdmin ,
                 width: 140,
                 Cell: (row) => (
                     <div style={{textAlign: 'center', width: '100%',}}>
