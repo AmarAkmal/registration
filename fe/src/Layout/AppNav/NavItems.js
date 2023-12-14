@@ -4,23 +4,25 @@ export default {
             {
                 icon: "pe-7s-add-user",
                 label: "Student",
-                to: '#/student/list',
-                // content: [
-                //     {
-                //         label: 'List',
-                //         to: '#/student/list',
-                //     },
-                //     {
-                //         label: 'Course & Grade',
-                //         to: '#/student/course',
-                //     },
-                // ],
+                content: [
+                    {
+                        label: 'Register & List Student',
+                        to: '#/student/list',
+                    },
+                ],
 
             },
+
             {
                 icon: "pe-7s-note2",
                 label: "Program",
-                to: "#/program",
+                content: [
+                    {
+                        icon: "pe-7s-glasses",
+                        label: "Register & List Program",
+                        to: "#/program",
+                    },
+                    ]
             },
             {
                 icon: "pe-7s-add-user",
