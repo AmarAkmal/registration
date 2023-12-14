@@ -35,8 +35,8 @@ export default class ModalAdd extends React.Component {
             entrySessionYear: "",
             faculty: "",
             program: "",
-            status: "",
-            yearOfGrade: "",
+            status: "Dalam Pengajian",
+            yearOfGrade: "N/A",
 
             invalid: {
                 name: false,
@@ -66,7 +66,7 @@ export default class ModalAdd extends React.Component {
                 programDropdown: response['data']
             })
         })
-        let yearList = []
+        let yearList = ["N/A"]
         for (let year = 2018; year <= 2050; year++) {
             yearList.push(year)
 

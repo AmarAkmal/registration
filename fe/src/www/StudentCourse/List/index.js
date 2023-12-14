@@ -421,16 +421,17 @@ export default class StudentCourseList extends React.Component {
                                                                              icon={faPlus}/> &nbsp;&nbsp;Show List
 
                                                         </Button>
-                                                        <Button outline className=" btn-outline-2x" disabled={!this.state.course}
-                                                                color="primary"
-                                                                onClick={() => {
-                                                                    this.setState({isAdd: true});
-                                                                }}
+                                                        {this.state.isAdmin && <Button outline className=" btn-outline-2x" disabled={!this.state.course}
+                                                                                       color="primary"
+                                                                                       onClick={() => {
+                                                                                           this.setState({isAdd: true});
+                                                                                       }}
                                                         >
                                                             <FontAwesomeIcon className={'fa-lg'}
-                                                                             icon={faPlus}/> &nbsp;&nbsp;Register Student
+                                                                             icon={faPlus}/> &nbsp;&nbsp;Register
 
-                                                        </Button>
+                                                        </Button>}
+
                                                     </Col>
 
                                                 </Row>
