@@ -233,7 +233,7 @@ export default class ModalAdd extends React.Component {
                                         <option key={'result'} value={''} disabled>Please select</option>
                                         {
 
-                                            ['Gred', 'Lulus', 'Gagal', 'Lulus Gagal'].map((v, i) => {
+                                            ['Gred', 'Lulus Gagal'].map((v, i) => {
                                                 return <option key={v} value={v}>{v}</option>
                                             })
                                         }

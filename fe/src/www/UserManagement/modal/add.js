@@ -272,7 +272,7 @@ export default class ModalAdd extends React.Component {
                                 <FormGroup>
                                     <Input invalid={this.state.invalid.username}
                                            required={true} type="text" name="username"
-                                           id="username" placeholder="Type here" value={this.state.username}
+                                           id="username"  value={this.state.username}
                                            onChange={this.handleChange}/>
                                     <FormFeedback>Fill in the required field</FormFeedback>
                                 </FormGroup>
