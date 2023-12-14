@@ -130,32 +130,32 @@ export default class ModalUpdate extends React.Component {
     render() {
         return (<>
             <Modal centered={true} size='x' isOpen={true} backdrop={true}>
-                <ModalHeader>Update Program</ModalHeader>
+                <ModalHeader>Update Student of Grade</ModalHeader>
                 <ModalBody>
                     <Form onSubmit={this.submit}>
 
-                        <Row style={{padding: "10px 20px 10px 20px"}}>
-                            <Col md={4}>
-                                <Label style={{marginTop: "5px", width: "100%"}}>Register Course</Label>
-                            </Col>
-                            <Col md={8}>
-                                <FormGroup>
+                        {/*<Row style={{padding: "10px 20px 10px 20px"}}>*/}
+                        {/*    <Col md={4}>*/}
+                        {/*        <Label style={{marginTop: "5px", width: "100%"}}>Register Course</Label>*/}
+                        {/*    </Col>*/}
+                        {/*    <Col md={8}>*/}
+                        {/*        <FormGroup>*/}
 
-                                    <Input invalid={this.state.invalid.course} type={'select'} name="course"
-                                           value={this.state.course} onChange={this.handleChange}>
-                                        <option key={'section'} value={''} disabled>Please select</option>
-                                        {
+                        {/*            <Input invalid={this.state.invalid.course} type={'select'} name="course" disabled*/}
+                        {/*                   value={this.state.course} onChange={this.handleChange}>*/}
+                        {/*                <option key={'section'} value={''} disabled>Please select</option>*/}
+                        {/*                {*/}
 
-                                            this.state.courseDropdown.map((v, i) => {
-                                                return <option key={v.id} value={v.id}>{v.name}</option>
-                                            })
-                                        }
-                                    </Input>
+                        {/*                    this.state.courseDropdown.map((v, i) => {*/}
+                        {/*                        return <option key={v.id} value={v.id}>{v.name}</option>*/}
+                        {/*                    })*/}
+                        {/*                }*/}
+                        {/*            </Input>*/}
 
-                                    <FormFeedback>Fill in the required field</FormFeedback>
-                                </FormGroup>
-                            </Col>
-                        </Row>
+                        {/*            <FormFeedback>Fill in the required field</FormFeedback>*/}
+                        {/*        </FormGroup>*/}
+                        {/*    </Col>*/}
+                        {/*</Row>*/}
 
                         <Row style={{padding: "10px 20px 10px 20px"}}>
                             <Col md={4}>

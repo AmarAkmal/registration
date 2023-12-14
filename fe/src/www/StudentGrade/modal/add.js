@@ -24,7 +24,7 @@ export default class ModalAdd extends React.Component {
         this.state = {
             courseDropdown :[],
             matrixNoDropdown :[],
-            course: '',
+            course: this.props.course,
             matrixNo: '',
             studentName: '',
             grade: '',
@@ -48,11 +48,7 @@ export default class ModalAdd extends React.Component {
                 courseDropdown: response['data']
             })
         })
-        api.get_student().then((response) => {
-            this.setState({
-                matrixNoDropdown: response['data']
-            })
-        })
+
     }
 
 
@@ -71,7 +67,7 @@ export default class ModalAdd extends React.Component {
 
     validateSubmit = () => {
         let valid = true
-        if (!this.state.course || !this.state.matrixNo) {
+        if (!this.state.course || !this.state.matrixNo|| !this.state.grade) {
             valid = false
         }
 
@@ -80,6 +76,7 @@ export default class ModalAdd extends React.Component {
                 invalid: {
                     course: this.state.course === '' ,
                     matrixNo: this.state.matrixNo === '',
+                    grade: this.state.grade === '',
 
                 }
             });
@@ -108,8 +105,10 @@ export default class ModalAdd extends React.Component {
             params = JSON.stringify(params)
             params = window.btoa(params)
             api.add(params).then(e => {
-
-                if (e.code == 'OK') {
+                if (e.message == 'Student Not Exist') {
+                    toastFunc(e.message, 'warning')
+                }
+                else if (e.code == 'OK') {
                     this.props.handleAdd()
                 } else {
                     toastFunc(e.message, 'error')
@@ -132,49 +131,43 @@ export default class ModalAdd extends React.Component {
         return (<>
 
             <Modal centered={true} isOpen={true} size='l' backdrop={true}>
-                <ModalHeader>Register Course of Student</ModalHeader>
+                <ModalHeader>Register Grade of Student</ModalHeader>
                 <ModalBody>
                     <Form onSubmit={this.submit}>
 
+                        {/*<Row style={{padding: "10px 20px 10px 20px"}}>*/}
+                        {/*    <Col md={4}>*/}
+                        {/*        <Label style={{marginTop: "5px", width: "100%"}}>Course</Label>*/}
+                        {/*    </Col>*/}
+                        {/*    <Col md={8}>*/}
+                        {/*        <FormGroup>*/}
+
+                        {/*            <Input invalid={this.state.invalid.course} type={'select'} name="course"*/}
+                        {/*                   value={this.state.course} onChange={this.handleChange}>*/}
+                        {/*                <option key={'section'} value={''} disabled>Please select</option>*/}
+                        {/*                {*/}
+
+                        {/*                    this.state.courseDropdown.map((v, i) => {*/}
+                        {/*                        return <option key={v.id} value={v.id}>{v.name}</option>*/}
+                        {/*                    })*/}
+                        {/*                }*/}
+                        {/*            </Input>*/}
+
+                        {/*            <FormFeedback>Fill in the required field</FormFeedback>*/}
+                        {/*        </FormGroup>*/}
+                        {/*    </Col>*/}
+                        {/*</Row>*/}
+
                         <Row style={{padding: "10px 20px 10px 20px"}}>
                             <Col md={4}>
-                                <Label style={{marginTop: "5px", width: "100%"}}>Register Course</Label>
+                                <Label style={{marginTop: "5px", width: "100%"}}>Matrix No</Label>
                             </Col>
                             <Col md={8}>
                                 <FormGroup>
-
-                                    <Input invalid={this.state.invalid.course} type={'select'} name="course"
-                                           value={this.state.course} onChange={this.handleChange}>
-                                        <option key={'section'} value={''} disabled>Please select</option>
-                                        {
-
-                                            this.state.courseDropdown.map((v, i) => {
-                                                return <option key={v.id} value={v.id}>{v.name}</option>
-                                            })
-                                        }
-                                    </Input>
-
-                                    <FormFeedback>Fill in the required field</FormFeedback>
-                                </FormGroup>
-                            </Col>
-                        </Row>
-
-                        <Row style={{padding: "10px 20px 10px 20px"}}>
-                            <Col md={4}>
-                                <Label style={{marginTop: "5px", width: "100%"}}>Student Name</Label>
-                            </Col>
-                            <Col md={8}>
-                                <FormGroup>
-                                    <Input invalid={this.state.invalid.matrixNo} type={'select'} name="matrixNo"
-                                           value={this.state.matrixNo} onChange={this.handleChange}>
-                                        <option key={'matrixNo'} value={''} disabled>Please select</option>
-                                        {
-
-                                            this.state.matrixNoDropdown.map((v, i) => {
-                                                return <option key={v.id} value={v.id}> {v.studentName}-{v.matrixNo} </option>
-                                            })
-                                        }
-                                    </Input>
+                                    <Input invalid={this.state.invalid.matrixNo}
+                                           required={true} type="text" name="matrixNo"
+                                           id="matrixNo" placeholder="Type here" value={this.state.matrixNo}
+                                           onChange={this.handleChange}/>
                                     <FormFeedback>Fill in the required field</FormFeedback>
                                 </FormGroup>
                             </Col>

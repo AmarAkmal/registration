@@ -47,10 +47,11 @@ def list_get_list_student_course(params) -> dict:
         pageSize = int(params['pageSize'])
         query = Grade.query
         query = query.join(Student, Grade.student_id == Student.id)
+        query = query.filter(Grade.course_id == params['course'])
         if params["user_role"] == 'Super Admin':
             pass
         else:
-            query = query.filter(Student.faculty_id==params['department_id'])
+            query = query.filter(Student.faculty_id == params['department_id'])
 
         if params['filtered']:
             query = business_rules.filterListStudentCourse(params, query)
@@ -80,7 +81,6 @@ def add_new(params) -> dict:
     status = func.define_status()
     try:
         up = Student()
-
         up.ic_no = params['icNo']
         up.matrix_no = params['matrixNo']
         up.name = params['name']
@@ -90,7 +90,7 @@ def add_new(params) -> dict:
         up.status = params['status']
         up.faculty_id = params['faculty_id']
         up.program_id = params['program_id']
-        db.session.add(up)
+        # db.session.add(up)
         status['message'] = "Record added succesfully"
 
     except:
@@ -104,15 +104,21 @@ def add_new(params) -> dict:
 
 def addStudentCourse(params) -> dict:
     status = func.define_status()
-    print(params,11111111)
     try:
-        up = Grade()
-        up.course_id = params['course']
-        up.student_id = params['matrixNo']
-        up.grade = params['grade']
 
-        db.session.add(up)
-        status['message'] = "Record added succesfully"
+        get_student = Student.query.filter_by(matrix_no=params['matrixNo']).first()
+        if get_student:
+            up = db.session.query(Grade).filter_by(student_id=get_student.id).first()
+            if not up:
+                up = Grade()
+            up.course_id = params['course']
+            up.student_id = get_student.id
+            up.grade = params['grade']
+            if not up:
+                db.session.add(up)
+            status['message'] = "Record added succesfully"
+        else:
+            status['message'] = "Student Not Exist"
 
     except:
         db.session.rollback()
@@ -154,6 +160,8 @@ def update_existing(params) -> dict():
     finally:
         db.session.commit()
         return status
+
+
 def updateStudentCourse(params) -> dict():
     status = func.define_status()
     print(params, "SS")
@@ -205,6 +213,7 @@ def delete_(params) -> dict():
 
         db.session.commit()
         return status
+
 
 def deleteStudentCourse(params) -> dict():
     status = func.define_status()

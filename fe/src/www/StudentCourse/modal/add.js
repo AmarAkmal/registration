@@ -24,7 +24,7 @@ export default class ModalAdd extends React.Component {
         this.state = {
             courseDropdown :[],
             matrixNoDropdown :[],
-            course: '',
+            course: this.props.course,
             matrixNo: '',
             studentName: '',
             grade: '',
@@ -108,8 +108,10 @@ export default class ModalAdd extends React.Component {
             params = JSON.stringify(params)
             params = window.btoa(params)
             api.add(params).then(e => {
-
-                if (e.code == 'OK') {
+                if (e.message == 'Student Not Exist') {
+                    toastFunc(e.message, 'warning')
+                }
+                else if (e.code == 'OK') {
                     this.props.handleAdd()
                 } else {
                     toastFunc(e.message, 'error')
@@ -143,7 +145,7 @@ export default class ModalAdd extends React.Component {
                             <Col md={8}>
                                 <FormGroup>
 
-                                    <Input invalid={this.state.invalid.course} type={'select'} name="course"
+                                    <Input invalid={this.state.invalid.course} type={'select'} name="course" disabled={true}
                                            value={this.state.course} onChange={this.handleChange}>
                                         <option key={'section'} value={''} disabled>Please select</option>
                                         {
@@ -161,20 +163,14 @@ export default class ModalAdd extends React.Component {
 
                         <Row style={{padding: "10px 20px 10px 20px"}}>
                             <Col md={4}>
-                                <Label style={{marginTop: "5px", width: "100%"}}>Student Name</Label>
+                                <Label style={{marginTop: "5px", width: "100%"}}>Matrix No</Label>
                             </Col>
                             <Col md={8}>
                                 <FormGroup>
-                                    <Input invalid={this.state.invalid.matrixNo} type={'select'} name="matrixNo"
-                                           value={this.state.matrixNo} onChange={this.handleChange}>
-                                        <option key={'matrixNo'} value={''} disabled>Please select</option>
-                                        {
-
-                                            this.state.matrixNoDropdown.map((v, i) => {
-                                                return <option key={v.id} value={v.id}> {v.studentName}-{v.matrixNo} </option>
-                                            })
-                                        }
-                                    </Input>
+                                    <Input invalid={this.state.invalid.matrixNo}
+                                           required={true} type="text" name="matrixNo"
+                                           id="matrixNo" placeholder="Type here" value={this.state.matrixNo}
+                                           onChange={this.handleChange}/>
                                     <FormFeedback>Fill in the required field</FormFeedback>
                                 </FormGroup>
                             </Col>

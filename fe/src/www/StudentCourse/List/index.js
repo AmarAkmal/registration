@@ -1,7 +1,18 @@
 import React, {Fragment} from "react";
 import {CSSTransition, TransitionGroup} from 'react-transition-group';
 
-import {Button, Card, CardBody, CardHeader, CardTitle, Col, Row, UncontrolledTooltip} from "reactstrap";
+import {
+    Button,
+    Card,
+    CardBody,
+    CardHeader,
+    CardTitle,
+    Col, FormFeedback,
+    FormGroup, Input,
+    Label,
+    Row,
+    UncontrolledTooltip
+} from "reactstrap";
 
 import PageTitle from "../../../Layout/AppMain/PageTitle";
 
@@ -34,6 +45,8 @@ export default class StudentCourseList extends React.Component {
             data: [],
             isAdd: false,
             isUpdate: false,
+            courseDropdown :[],
+            course :"",
             dataDetails: {
 
                 'departmentName': "",
@@ -42,7 +55,7 @@ export default class StudentCourseList extends React.Component {
             history: [],
             deleteConfirmation: false,
             userId: null,
-            pending: true,
+            pending: false,
             isAdmin: [ 'Admin'].includes(base64_decode(localStorage.getItem('3leeb6bnmn'))),
             searching: false,
             page: 0,
@@ -57,7 +70,12 @@ export default class StudentCourseList extends React.Component {
     }
 
     componentDidMount = () => {
-        this.loadData()
+        api.get_course().then((response) => {
+            this.setState({
+                courseDropdown: response['data']
+            })
+        })
+        // this.loadData()
         this.addFilterPlaceholder()
     }
 
@@ -89,7 +107,8 @@ export default class StudentCourseList extends React.Component {
             'page': this.state.page,
             'pageSize': this.state.pageSize,
             'filtered': this.state.filtered,
-            'sorted': this.state.sorting
+            'sorted': this.state.sorting,
+            'course': this.state.course
         }
         logger_id = JSON.stringify(logger_id)
         logger_id = window.btoa(logger_id)
@@ -150,7 +169,18 @@ export default class StudentCourseList extends React.Component {
             filter.placeholder = "Type here";
         }
     }
+    handleChange=(event)=> {
+        const target = event.target;
+        const name = target.name;
+        this.setState(
+            {
+                [name]: event.target.value,
+                invalid: {...this.state.invalid, [name]: false},
 
+            }
+        );
+
+    }
     render() {
         const {data} = this.state;
 
@@ -196,7 +226,6 @@ export default class StudentCourseList extends React.Component {
                             width: '100%'
                         }}>{row.value}</span>
                 ),
-                filterable: true,
                 width: 200
             },
             {
@@ -297,7 +326,7 @@ export default class StudentCourseList extends React.Component {
 
                 {this.state.isAdd &&
                     <ModalAdd onToggle={() => this.toggleAdd()} onRefresh={() => this.loadDataRefresh()}
-                              handleAdd={this.handelAdd}/>
+                              handleAdd={this.handelAdd} course={this.state.course}/>
                 }
 
                 {this.state.isUpdate &&
@@ -336,36 +365,75 @@ export default class StudentCourseList extends React.Component {
                                                          style={{marginRight: "7.5%"}}>
                                                     </Col>
 
-                                                    <Col sm={4} md={4}
-                                                         lg={(window.innerWidth >= 994 && window.innerWidth <= 1355) ? 3 : 2}
-                                                         style={{padding: '0px', paddingRight: '10px'}}>
-                                                        {this.state.isAdmin &&
-                                                            <div style={{width: '100%', textAlign: 'right'}}>
-                                                                <Button outline className="mb-2 mr-2 btn-outline-2x"
-                                                                        style={{width: '100%'}} color="primary"
-                                                                        onClick={() => {
-                                                                            this.setState({isAdd: true});
-                                                                        }}
-                                                                >
-                                                                    <FontAwesomeIcon className={'fa-lg'}
-                                                                                     icon={faPlus}/> &nbsp;&nbsp;Register
-                                                                    Course of Student
+                                                    {/*<Col sm={4} md={4}*/}
+                                                    {/*     lg={(window.innerWidth >= 994 && window.innerWidth <= 1355) ? 3 : 2}*/}
+                                                    {/*     style={{padding: '0px', paddingRight: '10px'}}>*/}
+                                                    {/*    {this.state.isAdmin &&*/}
+                                                    {/*        <div style={{width: '100%', textAlign: 'right'}}>*/}
+                                                    {/*            <Button outline className="mb-2 mr-2 btn-outline-2x"*/}
+                                                    {/*                    style={{width: '100%'}} color="primary"*/}
+                                                    {/*                    onClick={() => {*/}
+                                                    {/*                        this.setState({isAdd: true});*/}
+                                                    {/*                    }}*/}
+                                                    {/*            >*/}
+                                                    {/*                <FontAwesomeIcon className={'fa-lg'}*/}
+                                                    {/*                                 icon={faPlus}/> &nbsp;&nbsp;Show List*/}
+                                                    {/*                Course of Student*/}
 
-                                                                </Button>
-                                                            </div>
-                                                        }
-                                                    </Col>
+                                                    {/*            </Button>*/}
+                                                    {/*        </div>*/}
+                                                    {/*    }*/}
+                                                    {/*</Col>*/}
                                                 </Row>
                                             </CardHeader>
+
+
                                             <CardBody>
-                                                {/* <DataTable data={data}
-                                                        columns={columns}
-                                                        pagination
-                                                        fixedHeader
-                                                        fixedHeaderScrollHeight="400px"
-                                                        responsive={true}
-                                                        progressPending={this.state.pending}
-                                                /> */}
+                                                <Row  >
+                                                    <Col md={1}>
+                                                        <Label   className=" mt-3 " style={{marginTop: "7px", width: "100%"}}>Course</Label>
+                                                    </Col>
+                                                    <Col md={2}>
+                                                        <FormGroup >
+
+                                                            <Input type={'select'} name="course"  className=" m-2 "
+                                                                   value={this.state.course}  onChange={this.handleChange}>
+                                                                <option key={'section'} value={''} disabled>Please select</option>
+                                                                {
+
+                                                                    this.state.courseDropdown.map((v, i) => {
+                                                                        return <option key={v.id} value={v.id}>{v.name}</option>
+                                                                    })
+                                                                }
+                                                            </Input>
+
+                                                            <FormFeedback>Fill in the required field</FormFeedback>
+                                                        </FormGroup>
+                                                    </Col>
+                                                    <Col md={5}>
+                                                        <Button outline className=" m-2  btn-outline-2x"
+                                                                color="primary"
+                                                                onClick={() => {
+                                                                    this.loadData();
+                                                                }}
+                                                        >
+                                                            <FontAwesomeIcon className={'fa-lg'}
+                                                                             icon={faPlus}/> &nbsp;&nbsp;Show List
+
+                                                        </Button>
+                                                        <Button outline className=" btn-outline-2x" disabled={!this.state.course}
+                                                                color="primary"
+                                                                onClick={() => {
+                                                                    this.setState({isAdd: true});
+                                                                }}
+                                                        >
+                                                            <FontAwesomeIcon className={'fa-lg'}
+                                                                             icon={faPlus}/> &nbsp;&nbsp;Register Student
+
+                                                        </Button>
+                                                    </Col>
+
+                                                </Row>
                                                 <ReactTable
                                                     filtered={this.state.filtered}
                                                     data={data}
@@ -409,6 +477,7 @@ export default class StudentCourseList extends React.Component {
                                                     className="-striped -highlight"
                                                 />
                                             </CardBody>
+
                                         </Card>
                                     </Col>
                                 </Row>

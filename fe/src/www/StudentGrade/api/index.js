@@ -124,6 +124,25 @@ export default {
         })
 
     },
+    get_student : () => {
+
+        return new Promise((resolve, reject) => {
+            fetch(`${global.ipServer}student/get_student`, {
+                method: 'POST',
+                headers: {
+                    'x-access-token': localStorage.getItem("n29pa87zfm"),
+                }
+            })
+                .then((response) => {
+                    return resolve(response.json())
+                })
+                .catch((err) => {
+                    reject(err);
+                    console.log(err);
+                })
+        })
+
+    },
     get_student_update : () => {
 
         return new Promise((resolve, reject) => {
