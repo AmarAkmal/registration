@@ -46,7 +46,7 @@ export default class StudentList extends React.Component {
             deleteConfirmation: false,
             userId: null,
             pending: true,
-            isAdmin: ['Super Admin','Admin'].includes(base64_decode(localStorage.getItem('3leeb6bnmn'))),
+            isAdmin: ['Admin'].includes(base64_decode(localStorage.getItem('3leeb6bnmn'))),
             searching: false,
             page: 0,
             pageSize: 10,

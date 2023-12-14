@@ -44,7 +44,7 @@ export default class ProgramList extends React.Component {
             deleteConfirmation: false,
             userId: null,
             pending: true,
-            isAdmin: ['Super Admin','Admin'].includes(base64_decode(localStorage.getItem('3leeb6bnmn'))),
+            isAdmin: ['Admin'].includes(base64_decode(localStorage.getItem('3leeb6bnmn'))),
             searching: false,
             page: 0,
             pageSize: 10,
@@ -217,7 +217,7 @@ export default class ProgramList extends React.Component {
                 Header: "Action",
                 accessor: '',
                 sortable: false,
-                show: this.state.isAdmin ||  this.state.isAdmin,
+                show: this.state.isAdmin ,
                 width: 140,
                 Cell: (row) => (
                     <div style={{textAlign: 'center', width: '100%',}}>
@@ -311,24 +311,26 @@ export default class ProgramList extends React.Component {
                                                          lg={(window.innerWidth >= 994 && window.innerWidth <= 1355) ? 2 : 3}
                                                          style={{marginRight: "7.5%"}}>
                                                     </Col>
+                                                    {this.state.isAdmin &&
+                                                        <Col sm={4} md={4}
+                                                             lg={(window.innerWidth >= 994 && window.innerWidth <= 1355) ? 3 : 2}
+                                                             style={{padding: '0px', paddingRight: '10px'}}>
+                                                            <div style={{width: '100%', textAlign: 'right'}}>
+                                                                <Button outline className="mb-2 mr-2 btn-outline-2x"
+                                                                        style={{width: '100%'}} color="primary"
+                                                                        onClick={() => {
+                                                                            this.setState({isAdd: true});
+                                                                        }}
+                                                                >
+                                                                    <FontAwesomeIcon className={'fa-lg'}
+                                                                                     icon={faPlus}/> &nbsp;&nbsp;Register
+                                                                    New Program
 
-                                                    <Col sm={4} md={4}
-                                                         lg={(window.innerWidth >= 994 && window.innerWidth <= 1355) ? 3 : 2}
-                                                         style={{padding: '0px', paddingRight: '10px'}}>
-                                                        <div style={{width: '100%', textAlign: 'right'}}>
-                                                            <Button outline className="mb-2 mr-2 btn-outline-2x"
-                                                                    style={{width: '100%'}} color="primary"
-                                                                    onClick={() => {
-                                                                        this.setState({isAdd: true});
-                                                                    }}
-                                                            >
-                                                                <FontAwesomeIcon className={'fa-lg'}
-                                                                                 icon={faPlus}/> &nbsp;&nbsp;Register
-                                                                New Program
+                                                                </Button>
+                                                            </div>
+                                                        </Col>
+                                                    }
 
-                                                            </Button>
-                                                        </div>
-                                                    </Col>
                                                 </Row>
                                             </CardHeader>
                                             <CardBody>
