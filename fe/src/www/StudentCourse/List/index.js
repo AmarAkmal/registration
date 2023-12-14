@@ -187,6 +187,19 @@ export default class StudentCourseList extends React.Component {
                 width: 200
             },
             {
+                Header: "Course Name",
+                accessor: 'courseName',
+                Cell: (row) => (
+                    <span
+                        style={{
+                            textAlign: 'center',
+                            width: '100%'
+                        }}>{row.value}</span>
+                ),
+                filterable: true,
+                width: 200
+            },
+            {
                 Header: "Matrix No.",
                 accessor: 'matrixNo',
                 Cell: (row) => (
