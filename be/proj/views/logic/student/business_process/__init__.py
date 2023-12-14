@@ -90,7 +90,7 @@ def add_new(params) -> dict:
         up.status = params['status']
         up.faculty_id = params['faculty_id']
         up.program_id = params['program_id']
-        # db.session.add(up)
+        db.session.add(up)
         status['message'] = "Record added succesfully"
 
     except:
@@ -109,12 +109,14 @@ def addStudentCourse(params) -> dict:
         get_student = Student.query.filter_by(matrix_no=params['matrixNo']).first()
         if get_student:
             up = db.session.query(Grade).filter_by(student_id=get_student.id).first()
+            check = False
             if not up:
+                check = True
                 up = Grade()
             up.course_id = params['course']
             up.student_id = get_student.id
             up.grade = params['grade']
-            if not up:
+            if check:
                 db.session.add(up)
             status['message'] = "Record added succesfully"
         else:
