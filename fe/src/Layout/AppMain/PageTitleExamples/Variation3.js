@@ -17,7 +17,7 @@ export default class TitleComponent3 extends Component {
       <Fragment>
         <Breadcrumb>
           <BreadcrumbItem>
-            <a href="#/record" >
+            <a href="#/student/list" >
               <FontAwesomeIcon icon={faHouseChimney} style={{ color: '#545cd8' }}/>
             </a>
           </BreadcrumbItem>

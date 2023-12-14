@@ -37,7 +37,7 @@ export const setAuth = {
                 localStorage.setItem('3leeb6bnmn', base64_encode(data.user_role));
                 localStorage.setItem('3lwevwermn', base64_encode(data.user_phone));
                 localStorage.setItem('n29pa87zfm', data.token);
-                h.push('/record');
+                h.push('/student/list');
 
             }
 
