@@ -128,7 +128,7 @@ class UserBox extends React.Component {
                                 <div id="profile-header"
                                      className="widget-heading">{base64_decode(localStorage.getItem('aazwo7n331'))}</div>
                                 <div id="profile-text"
-                                     className="widget-subheading">Dept: {base64_decode(localStorage.getItem('opex0hidhs'))} |
+                                     className="widget-subheading">Faculty: {base64_decode(localStorage.getItem('opex0hidhs'))} |
                                     Role: {base64_decode(localStorage.getItem('3leeb6bnmn'))}</div>
                             </div>
                         </div>
