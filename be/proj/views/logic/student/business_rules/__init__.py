@@ -121,6 +121,7 @@ def determine_student_course(query) -> list:
         tmpV['studentName'] = i.student.name
         tmpV['programName'] = i.student.program.name
         tmpV['course'] = i.course.code
+        tmpV['courseName'] = i.course.name
         # tmpV['faculty_id'] = i.department.id
         # tmpV['program'] = i.program.name
         # tmpV['program_id'] = i.program.id
