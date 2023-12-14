@@ -105,7 +105,6 @@ def add_new(params) -> dict:
 def addStudentCourse(params) -> dict:
     status = func.define_status()
     try:
-
         get_student = Student.query.filter_by(matrix_no=params['matrixNo']).first()
         if get_student:
             up = db.session.query(Grade).filter_by(student_id=get_student.id).first()

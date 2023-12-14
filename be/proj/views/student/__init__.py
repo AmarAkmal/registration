@@ -271,7 +271,8 @@ def get_program():
 def get_course():
     result = func.define_status()
     try:
-        list_ = Course.query.all()
+        print(request.args)
+        list_ = Course.query.filter_by(faculty_id=request.args['user_department_id']).all()
         for i in list_:
             result['data'].append({
                 'id': i.id,
