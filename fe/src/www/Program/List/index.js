@@ -294,7 +294,7 @@ export default class ProgramList extends React.Component {
                             <div>
                                 <PageTitle
                                     heading="User Management"
-                                    breadcrumbTitle="Setting / List of Program"
+                                    breadcrumbTitle="List of Program"
                                     subheading="Program List"
                                     icon="pe-7s-medal icon-gradient bg-tempting-azure"
                                 />
