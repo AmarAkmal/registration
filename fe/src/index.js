@@ -18,7 +18,7 @@ const rootElement = document.getElementById("root");
 
 
 if (window.location.hostname !== "localhost") {
-    global.ipServer = window.location.origin + ":8080/";
+    global.ipServer =  window.location.protocol + "//" + window.location.hostname  + ":8080/";
 } else {
     global.ipServer = `http://${window.location.hostname}:8080/`;
 }
